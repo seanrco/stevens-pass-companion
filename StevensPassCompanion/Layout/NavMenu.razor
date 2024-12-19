@@ -1,0 +1,35 @@
+﻿<MudNavMenu Bordered="true" Color="Color.Transparent" Class="mud-width-full">
+    @*         <MudText Typo="Typo.overline" Class="px-4">Stevens Pass Conpanion</MudText>
+    <MudText Typo="Typo.subtitle1" Class="px-4 mud-text-secondary">For the community bu the community!</MudText> *@
+    <MudDivider Class="my-2" />
+    <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/" Match="NavLinkMatch.All">
+        <MudText Typo="Typo.body1">Home</MudText>
+    </MudNavLink>
+    <MudNavLink Icon="@Icons.Custom.Brands.Twitter" Href="/tweets" Match="NavLinkMatch.All">
+        <MudText Typo="Typo.body1">Stevens Pass Updates</MudText>
+    </MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.AcUnit" Href="/noaa" Match="NavLinkMatch.Prefix">
+        <MudText Typo="Typo.body1">NOAA Forecast</MudText>
+    </MudNavLink>
+    <MudNavGroup Title="WSDOT Report" Expanded="false" Icon="@Icons.Material.Filled.DirectionsCarFilled">
+        <MudNavLink Href="/wsdot-stevens-pass" Match="NavLinkMatch.Prefix">
+            <MudText Typo="Typo.body1">Stevens Pass US2 Report</MudText>
+        </MudNavLink>
+        <MudNavLink Href="/wsdot-blewett-pass" Match="NavLinkMatch.Prefix">
+            <MudText Typo="Typo.body1">Blewett Pass Report</MudText>
+        </MudNavLink>
+        <MudNavLink Href="/wsdot-snoqualmie-pass" Match="NavLinkMatch.Prefix">
+            <MudText Typo="Typo.body1">Snoqualmie Pass I-90 Report</MudText>
+        </MudNavLink>
+    </MudNavGroup>
+    @*     <MudNavLink Icon="@Icons.Filled.Info" Href="/resources" Match="NavLinkMatch.Prefix">Resources</MudNavLink> *@
+    <MudDivider Style="color: black; min-height: 2px" />
+    @*     <MudNavLink Href="/donate" Match="NavLinkMatch.Prefix" Style="font-weight: bold">Donate!</MudNavLink>
+    <MudNavLink Href="/release-notes" Match="NavLinkMatch.Prefix">Release Notes</MudNavLink> *@
+    @*         <MudNavLink Icon="@Icons.Filled.Settings" Href="/settings" Match="NavLinkMatch.Prefix">
+    <MudText Typo="Typo.body1">Settings</MudText>
+    </MudNavLink> *@
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">
+        <MudText Typo="Typo.body1">About</MudText>
+    </MudNavLink>
+</MudNavMenu>

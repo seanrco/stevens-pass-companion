@@ -1,0 +1,47 @@
+﻿@inherits ErrorBoundary
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else if (ErrorContent is not null)
+{
+    @ErrorContent(CurrentException)
+}
+else
+{
+    @ChildContent
+
+    @foreach (var exception in receivedExceptions)
+    {
+        <MudGrid>
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Error" Elevation="1">
+                    <MudText Typo="Typo.body1">
+                        @exception.Message
+                    </MudText>
+                </MudAlert>
+            </MudItem>
+        </MudGrid>
+    }
+
+    Recover();
+}
+
+@code {
+
+    List<Exception> receivedExceptions = new();
+
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        receivedExceptions.Add(exception);
+        return base.OnErrorAsync(exception);
+    }
+
+    public new void Recover()
+    {
+        receivedExceptions.Clear();
+        base.Recover();
+    }
+
+}

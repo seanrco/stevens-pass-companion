@@ -1,0 +1,32 @@
+﻿@page "/"
+
+@using StevensPassCompanion.Shared.Home
+
+<PageTitle>Stevens Pass Companion - Home</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12"><!-- Spacer --></MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h4">@noaaHeader</MudText>
+    </MudItem>
+    <NOAAReportDashbaord></NOAAReportDashbaord>
+    <MudSpacer />
+    <MudItem xs="12">
+        <MudText Typo="Typo.h4">@wsdotHeader</MudText>
+    </MudItem>
+    <WSDOTReportDashboard Value="StevensPass"></WSDOTReportDashboard>
+    <MudSpacer />
+    <WSDOTReportDashboard Value="BlewettPass"></WSDOTReportDashboard>
+    <MudSpacer />
+    <WSDOTReportDashboard Value="SnoqualmiePass"></WSDOTReportDashboard>
+    <MudSpacer />
+</MudGrid>
+
+
+@code {
+
+    private string twitterHeader = "Twitter Dashboard";
+    private string noaaHeader = "NOAA Dashbaord";
+    private string wsdotHeader = "WSDOT Dashbaord";
+
+}

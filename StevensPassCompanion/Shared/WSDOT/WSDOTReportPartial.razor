@@ -1,0 +1,222 @@
+﻿@using System.Diagnostics
+@implements IDisposable
+
+@inject WSDOTService _WSDOTService
+
+@{
+    // WSDOT Report Partial
+    // Note: This partial is shared across all the WSDOT pages.
+}
+
+@if (wsdotReport == null)
+{
+    // START Skeleton (Loading) UI
+
+    <MudItem xs="12">
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudCard>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12">
+        <MudCard>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12">
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+    </MudItem>
+}
+else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
+{
+    // START WSDOT Report UI
+
+    // Last Updated Date
+    <MudItem xs="12">
+        <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated</MudText>
+    </MudItem>
+
+    // Pass Status
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6">Status</MudText>
+    </MudItem>
+
+    // Eastboand Restrictions Status
+    if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+    {
+        <MudItem xs="12">
+            <MudAlert Severity="Severity.Error" Elevation="@elevation">
+                <MudText Typo="Typo.body1">
+                    <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
+                </MudText>
+             </MudAlert>
+        </MudItem>
+    }
+    else
+    {
+        <MudItem xs="12">
+            <MudAlert Severity="Severity.Success" Elevation="@elevation">
+                <MudText Typo="Typo.body1">
+                    <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
+                </MudText>
+            </MudAlert>
+        </MudItem>
+    }
+
+    // Westboand Restrictions Status
+    if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+    {
+        <MudItem xs="12">
+            <MudAlert Severity="Severity.Error" Elevation="@elevation">
+                <MudText Typo="Typo.body1">
+                    <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
+                </MudText>
+            </MudAlert>
+        </MudItem>
+    }
+    else
+    {
+        <MudItem xs="12">
+            <MudAlert Severity="Severity.Success" Elevation="@elevation">
+                <MudText Typo="Typo.body1">
+                    <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
+                </MudText>
+            </MudAlert>
+        </MudItem>
+    }
+
+    // Road Conditions
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6">Conditions</MudText>
+        @if (!string.IsNullOrWhiteSpace(wsdotReport.RoadCondition))
+        {
+            <MudText Typo="Typo.body1">@wsdotReport.RoadCondition</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.body1">n/a</MudText>
+        }
+    </MudItem>
+
+    // Weather Conditions
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6">Weather</MudText>
+        @if (!string.IsNullOrWhiteSpace(wsdotReport.WeatherCondition))
+        {
+            <MudText Typo="Typo.body1">@wsdotReport.WeatherCondition</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.body1">n/a</MudText>
+        }
+    </MudItem>
+
+    // Temperture
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6">Temperature</MudText>
+        @if (wsdotReport.TemperatureInFahrenheit != null && wsdotReport.TemperatureInFahrenheit > 0)
+        {
+            <MudText Typo="Typo.body1">@wsdotReport.TemperatureInFahrenheit °F</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.body1">n/a</MudText>
+        }  
+    </MudItem>
+
+    // Elevation
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6">Elevation</MudText>
+        @if (wsdotReport.ElevationInFeet != null && wsdotReport.ElevationInFeet > 0)
+        {
+            <MudText Typo="Typo.body1">@wsdotReport.ElevationInFeet ft</MudText>
+        }
+        else
+        {
+            <MudText Typo="Typo.body1">n/a</MudText>
+        }
+    </MudItem>
+}
+else
+{
+    // START Error (UI) Alert
+
+    <MudItem xs="12">
+        <MudAlert Severity="Severity.Warning" Elevation="@elevation">
+            <MudText Typo="Typo.body1">
+                @wsdotApiAlertText
+            </MudText>
+        </MudAlert>
+    </MudItem>
+}
+
+@code {
+
+    [Parameter]
+    public string Value { get; set; }
+
+    private int elevation = 1;
+
+    private string wsdotApiAlertText = "Looks like there was an issue with the WDOT API. " + 
+        "Please try reloading the page ." +
+        "If still not working please reference the WSDOT site for the current report using link above.";
+
+    Timer timer;
+    private WSDOTReport wsdotReport;
+    private string wsdotReportApiUrl = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                wsdotReportApiUrl = "https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&PassConditionID=10";
+            }
+            else if (Value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                wsdotReportApiUrl = "https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&PassConditionID=1";
+            }
+            else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                wsdotReportApiUrl = "https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&PassConditionID=11";
+            }
+
+            timer = new System.Threading.Timer(async _ =>  // async void
+            {
+                wsdotReport = null;
+                wsdotReport = await _WSDOTService.GetReportAsync(wsdotReportApiUrl);
+                // we need StateHasChanged() because this is an async void handler
+                // we need to Invoke it because we could be on the wrong Thread
+                await InvokeAsync(StateHasChanged);
+            }, null, 0, 600000);
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("WSDOTReport - Error - " + ex.Message + ex.StackTrace);
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    wsdotReport = await _WSDOTService.GetReportAsync(wsdotReportApiUrl);
+    //}
+
+}
