@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Net.Http;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Newtonsoft.Json;
 using StevensPassCompanion.Models.NOAA;
 
@@ -27,6 +29,8 @@ public class NOAAService
         try
         {
             httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
+
+            httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
 
             HttpResponseMessage response = await httpClient.GetAsync(NOAA_SP_API_URL);
 
