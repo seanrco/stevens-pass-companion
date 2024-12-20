@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StevensPassCompanion", "StevensPassCompanion\StevensPassCompanion.csproj", "{AA30751D-EC71-4716-A8D7-C0ABEDC0A2FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AA30751D-EC71-4716-A8D7-C0ABEDC0A2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA30751D-EC71-4716-A8D7-C0ABEDC0A2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA30751D-EC71-4716-A8D7-C0ABEDC0A2FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
