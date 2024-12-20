@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Newtonsoft.Json;
@@ -10,10 +11,11 @@ public class NOAAService
 {
     public readonly string NOAA_SP_API_URL = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
 
-    HttpClient httpClient;
-    public NOAAService()
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public NOAAService(IHttpClientFactory httpClientFactory)
     {
-        this.httpClient = new HttpClient();
+        _httpClientFactory = httpClientFactory;
     }
 
     /// <summary>
@@ -28,11 +30,11 @@ public class NOAAService
 
         try
         {
+            HttpClient? httpClient = _httpClientFactory.CreateClient();
+
             httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
 
-            httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
-
-            HttpResponseMessage response = await httpClient.GetAsync(NOAA_SP_API_URL);
+            HttpResponseMessage? response = await httpClient.GetAsync(NOAA_SP_API_URL);
 
             if (response.IsSuccessStatusCode)
             {
