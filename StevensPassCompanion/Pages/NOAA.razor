@@ -87,8 +87,8 @@
                                     </MudAvatar>
                                 </CardHeaderAvatar>
                                 <CardHeaderContent>
-                                    <MudText Typo="Typo.subtitle1"><b>@name</b></MudText>
-                                    <MudText Typo="Typo.subtitle2">@shortForecast</MudText>
+                                    <MudText Typo="Typo.h6"><b>@name</b></MudText>
+                                    <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                     <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                                 </CardHeaderContent>
                             </MudCardHeader>
@@ -115,7 +115,6 @@
 
 @code {
 
-
     private int elevation = 1;
 
     private readonly string header = "NOAA Stevens Pass Forecast";
@@ -134,7 +133,7 @@
         new BreadcrumbItem("NOAA Forecast", href: null, disabled: true),
     };
 
-    private NOAAStevensPassForecast noaaStevensPassForecast;
+    private NOAAStevensPassForecast? noaaStevensPassForecast;
 
     Timer timer;
 
@@ -157,16 +156,9 @@
         }
     }
 
-
-
     public void Dispose()
     {
         timer?.Dispose();
     }
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-    // }
 
 }

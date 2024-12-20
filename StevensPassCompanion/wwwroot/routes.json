@@ -1,0 +1,11 @@
+﻿// This file is needed to resolve Azure Static App 404s when routing to pages
+
+{
+  "routes": [
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ]
+}

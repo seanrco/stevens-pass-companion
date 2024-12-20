@@ -1,4 +1,5 @@
 ﻿@using System.Diagnostics
+
 @implements IDisposable
 
 @inject WSDOTService _WSDOTService
@@ -30,72 +31,82 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
     string mountainPassName = wsdotReport?.MountainPassName ?? string.Empty;
     DateTime? dateUpdated = wsdotReport?.DateUpdated ?? null;
 
-    <MudItem xs="12">
-        @if (!string.IsNullOrWhiteSpace(mountainPassName))
+        <MudItem xs="12" sm="6" md="6">
+            @if (!string.IsNullOrWhiteSpace(mountainPassName))
+            {
+                <MudText Typo="Typo.h5">@mountainPassName</MudText>
+            }
+            @if (dateUpdated != null)
+            {
+                <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
+            }
+        </MudItem>
+        if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
         {
-            <MudText Typo="Typo.h5">@mountainPassName</MudText>
-        }
-        @if (dateUpdated != null)
-        {
-            <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
-        }
-    </MudItem>
-    if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
-    {
-        <MudItem xs="12">
+        <MudItem xs="12" sm="6" md="6">
             <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation">
                 <MudText Typo="Typo.body1">
                     <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
                 </MudText>
             </MudAlert>
         </MudItem>
-    }
-    else
-    {
-        <MudItem xs="12">
+        }
+        else
+        {
+        <MudItem xs="12" sm="6" md="6">
             <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation">
                 <MudText Typo="Typo.body1">
                     <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
                 </MudText>
             </MudAlert>
         </MudItem>
-    }
-    if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
-    {
-        <MudItem xs="12">
+        }
+        if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+        {
+        <MudItem xs="12" sm="6" md="6">
             <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation">
                 <MudText Typo="Typo.body1">
                     <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
                 </MudText>
             </MudAlert>
         </MudItem>
-    }
-    else
-    {
-        <MudItem xs="12">
+        }
+        else
+        {
+        <MudItem xs="12" sm="6" md="6">
             <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation">
                 <MudText Typo="Typo.body1">
                     <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
                 </MudText>
             </MudAlert>
         </MudItem>
-    }
-    <MudItem xs="12">
-        <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
-    </MudItem>
+        }
+        <MudItem xs="12" sm="6" md="6">
+            <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
+        </MudItem>
+
+
+
 }
 else
 {
-    <MudItem xs="12">
-        <MudAlert Severity="Severity.Warning" Elevation="@elevation">
-            <MudText Typo="Typo.body1">
-                @wsdotApiAlertText
-            </MudText>
-        </MudAlert>
+    <MudItem xs="12" sm="12" md="4">
+        <MudCard style="height:100%">
+            <MudCardContent>
+                <MudAlert Severity="Severity.Warning" Elevation="@elevation">
+                    <MudText Typo="Typo.body1">
+                        @wsdotApiAlertText
+                    </MudText>
+                </MudAlert>
+                <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
+            </MudCardContent>
+        </MudCard>
     </MudItem>
-    <MudItem xs="12">
-        <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
-    </MudItem>
+
+@*         <MudItem xs="12" sm="6" md="6">
+            <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
+        </MudItem> *@
+
 }
 
 @code {
@@ -151,10 +162,5 @@ else
     {
         timer?.Dispose();
     }
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    wsdotReport = await _WSDOTService.GetStevensPassReportAsync();
-    //}
 
 }
