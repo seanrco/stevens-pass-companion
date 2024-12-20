@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net.Http;
-using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StevensPassCompanion.Models.NOAA;
+using System.Diagnostics;
 
 namespace StevensPassCompanion.Services;
 
@@ -18,15 +15,9 @@ public class NOAAService
         _httpClientFactory = httpClientFactory;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    public async Task<NOAAStevensPassForecast> GetForecastAsync()
+    public async Task<NOAAStevensPassForecast?> GetForecastAsync()
     {
         // TODO CAll https://api.weather.gov/ to check for ok status before calling forecast endpoint
-
-        NOAAStevensPassForecast forecast = new NOAAStevensPassForecast();
 
         try
         {
@@ -38,14 +29,11 @@ public class NOAAService
 
             if (response.IsSuccessStatusCode)
             {
-
-                // TODO - Can we get the json from initial response w/o making a second call below?
-
                 string jsonData = await httpClient.GetStringAsync(NOAA_SP_API_URL);
 
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {
-                    return forecast = JsonConvert.DeserializeObject<NOAAStevensPassForecast>(jsonData);
+                    return JsonConvert.DeserializeObject<NOAAStevensPassForecast>(jsonData);
                 }
             }
         }
@@ -54,9 +42,7 @@ public class NOAAService
             Debug.WriteLine("NOAAService.GetForecastAsync - Error - " + ex.Message + ex.StackTrace);
         }
 
-        forecast.IsSuccessStatusCode = false;
-
-        return forecast;
+        return null;
     }
 
 }
