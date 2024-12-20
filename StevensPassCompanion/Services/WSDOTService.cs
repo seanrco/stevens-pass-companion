@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net.Http;
 using Newtonsoft.Json;
 using StevensPassCompanion.Models.WSDOT;
 
@@ -7,10 +8,11 @@ namespace StevensPassCompanion.Services;
 public class WSDOTService
 {
 
-    HttpClient httpClient;
-    public WSDOTService()
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public WSDOTService(IHttpClientFactory httpClientFactory)
     {
-        this.httpClient = new HttpClient();
+        _httpClientFactory = httpClientFactory;
     }
 
     /// <summary>
@@ -24,6 +26,8 @@ public class WSDOTService
 
         try
         {
+            HttpClient? httpClient = _httpClientFactory.CreateClient();
+
             HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
@@ -59,6 +63,8 @@ public class WSDOTService
 
         try
         {
+            HttpClient? httpClient = _httpClientFactory.CreateClient();
+
             HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
