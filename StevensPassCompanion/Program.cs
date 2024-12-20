@@ -16,7 +16,7 @@ namespace StevensPassCompanion
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddMudServices();
-
+            builder.Services.AddHttpClient();
             builder.Services.AddSingleton<WSDOTService>();
             builder.Services.AddSingleton<NOAAService>();
 
