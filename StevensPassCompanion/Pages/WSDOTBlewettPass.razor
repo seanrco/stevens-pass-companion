@@ -1,0 +1,48 @@
+﻿@page "/wsdot-blewett-pass"
+
+<PageTitle>Stevens Pass Companion - WSDOT Blewett Pass Report</PageTitle>
+
+<MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h4">@header</MudText>
+    </MudItem>
+</MudGrid>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudFab StartIcon="@Icons.Material.Filled.Outbound"
+                    Label="@wsdotText"
+                    Size="Size.Small"
+                    Href="@wsdotUrl"
+                Target="_blank" />
+        </MudItem>
+        <WSDOTReportPartial Value="BlewettPass"></WSDOTReportPartial>
+        <WSDOTCamerasPartial Value="BlewettPass"></WSDOTCamerasPartial>
+    </MudGrid>
+
+@code {
+
+    private static string header = "WSDOT Blewett Pass Report";
+    private static string wsdotUrl = "https://wsdot.com/travel/real-time/mountainpasses/blewett";
+    private static string wsdotText = "wsdot.com";
+
+    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem(header, href: null, disabled: true),
+    };
+
+    private async void BrowserOpen()
+    {
+        try
+        {
+            // Uri uri = new Uri(wsdotUrl);
+            // await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("WSDOTBlewettPass - Error - " + ex.Message + ex.StackTrace);
+        }
+    }
+
+}

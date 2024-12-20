@@ -1,16 +1,17 @@
 ﻿@page "/about"
 
+<PageTitle>Stevens Pass Companion - About</PageTitle>
 
 <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
 <MudGrid>
     <MudItem xs="12">
         <MudText Typo="Typo.h4">About</MudText>
     </MudItem>
-    <MudItem xs="12">
-        @* <MudText Typo="Typo.h5">@name</MudText> *@
+@*     <MudItem xs="12">
+        <MudText Typo="Typo.h5">@name</MudText>
         <MudText Typo="Typo.h5">Stevens Pass Companion</MudText>
         <MudText Typo="Typo.h5">Version: </MudText>
-    </MudItem>
+    </MudItem> *@
     <!-- Donate Section -->
     <MudItem xs="12">
         <MudText Typo="Typo.h6">Donate</MudText>
@@ -67,9 +68,9 @@
 
 @code {
 
-    string name =  string.Empty;
-    string package = string.Empty;
-    string version = string.Empty;
+    // string name =  string.Empty;
+    // string package = string.Empty;
+    // string version = string.Empty;
 
     private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
     {

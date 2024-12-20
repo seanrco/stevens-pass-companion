@@ -30,28 +30,29 @@ else if (noaaStevensPassForecast != null && noaaStevensPassForecast.IsSuccessSta
 {
     <MudItem xs="12">
         <MudText Typo="Typo.h5">Stevens Pass Forecast</MudText>
-        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @noaaStevensPassForecast.properties.updated</MudText>
+        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @noaaStevensPassForecast.properties.updateTime</MudText>
     </MudItem>
 
     Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
 
     if (periods != null && periods.Length > 0)
     {
-        Period current = periods.First();
+        Period[] current = periods.Take(2).ToArray();
 
-        if (current != null)
+        if (current != null && current.Length > 0)
         {
-            string name = current.name ?? string.Empty;
-            int temperature = current.temperature;
-            string windDirection = current?.windDirection ?? string.Empty;
-            string windSpeed = current?.windSpeed ?? string.Empty;
-            string icon = current.icon ?? string.Empty;
-            string shortForecast = current.shortForecast ?? string.Empty;
-            string detailedForecast = current.detailedForecast ?? string.Empty;
+            foreach(Period c in current)
+            {
+                string name = c?.name ?? string.Empty;
+                int temperature = c?.temperature ?? default;
+                string windDirection = c?.windDirection ?? string.Empty;
+                string windSpeed = c?.windSpeed ?? string.Empty;
+                string icon = c?.icon ?? string.Empty;
+                string shortForecast = c?.shortForecast ?? string.Empty;
+                string detailedForecast = c?.detailedForecast ?? string.Empty;
 
-            <MudItem xs="12">
-                <MudItem xs="12">
-                    <MudCard>
+                <MudItem xs="12" sm="6" md="6">
+                    <MudCard style="height:100%">
                         <MudCardHeader>
                             <CardHeaderAvatar>
                                 <MudAvatar Color="Color.Secondary" Size="Size.Large">
@@ -69,7 +70,7 @@ else if (noaaStevensPassForecast != null && noaaStevensPassForecast.IsSuccessSta
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
-            </MudItem>
+            }
         }
     }
     <MudItem xs="12">
