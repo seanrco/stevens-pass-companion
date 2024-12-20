@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Api": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7244"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "containerRunArguments": "--init",
+      "httpPort": 33698,
+      "useSSL": false
+    }
+  }
+}
