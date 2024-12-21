@@ -2,56 +2,49 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
-namespace Api
+namespace Api;
+
+public class NOAA
 {
-    public class NOAA
+
+    private readonly HttpClient _httpClient;
+    private readonly ILogger<NOAA> _logger;
+
+    public NOAA(ILogger<NOAA> logger, 
+        HttpClient httpClient)
     {
+        _logger = logger;
+        _httpClient = httpClient;
+    }
 
-        public readonly string NOAA_SP_API_URL = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
-
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        private readonly ILogger<NOAA> _logger;
-
-        public NOAA(ILogger<NOAA> logger, 
-            IHttpClientFactory httpClientFactory)
+    [Function("NOAA")]
+    public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
+        Route = "NOAA/GetReport")] HttpRequest req)
+    {
+        try
         {
-            _logger = logger;
-            _httpClientFactory = httpClientFactory;
-        }
+            string url = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
 
-        [Function("NOAA")]
-        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
-            Route = "NOAA/GetReport")] HttpRequest req)
-        {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
 
-            try
+            HttpResponseMessage? response = await _httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
             {
-                HttpClient? httpClient = _httpClientFactory.CreateClient();
+                string jsonData = await _httpClient.GetStringAsync(url);
 
-                httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
-
-                HttpResponseMessage? response = await httpClient.GetAsync(NOAA_SP_API_URL);
-
-                if (response.IsSuccessStatusCode)
+                if (!string.IsNullOrWhiteSpace(jsonData))
                 {
-                    string jsonData = await httpClient.GetStringAsync(NOAA_SP_API_URL);
-
-                    if (!string.IsNullOrWhiteSpace(jsonData))
-                    {
-                        return new OkObjectResult(jsonData);
-                    }
+                    return new OkObjectResult(jsonData);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("NOAAService.GetForecastAsync - Error - " + ex.Message + ex.StackTrace);
-            }
-
-            return new OkObjectResult("N/A");
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
+
+        return new OkObjectResult("Error calling api.");
     }
 }
