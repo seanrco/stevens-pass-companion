@@ -6,7 +6,7 @@ namespace StevensPassCompanion.Services;
 
 public class NOAAService
 {
-    public readonly string NOAA_SP_API_URL = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
+    public readonly string NOAA_SP_API_URL = "/api/NOAA/GetReport";
 
     private readonly IHttpClientFactory _httpClientFactory;
 
