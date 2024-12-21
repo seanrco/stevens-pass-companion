@@ -19,24 +19,8 @@ namespace StevensPassCompanion
             builder.Services.AddHttpClient();
             builder.Services.AddSingleton<WSDOTService>();
             builder.Services.AddSingleton<NOAAService>();
-            
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(name: "_myAllowSpecificOrigins",
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("https://localhost",
-                                                          "https://localhost:7109/");
-                                      builder.AllowAnyMethod();
-
-                                      builder.AllowAnyHeader();
-
-                                      builder.AllowCredentials();
-                                  });
-            });
-
-
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["BaseAddress"] ?? builder.HostEnvironment.BaseAddress) });
 
             await builder.Build().RunAsync();
         }

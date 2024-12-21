@@ -2,7 +2,7 @@
 
 public class WSDOTReport
 {
-    public DateTime DateUpdated { get; set; }
+    public string DateUpdated { get; set; }
     public int? ElevationInFeet { get; set; }
     public float? Latitude { get; set; }
     public float? Longitude { get; set; }

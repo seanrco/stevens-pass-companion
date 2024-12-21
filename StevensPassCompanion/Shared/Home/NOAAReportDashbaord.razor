@@ -1,8 +1,10 @@
 ﻿@using System.Diagnostics
 
-@implements IDisposable
-
+@* @implements IDisposable
+ *@
 @inject NOAAService _NOAAService
+
+@inject HttpClient _httpClient;
 
 @if(noaaStevensPassForecast == null)
 {
@@ -95,22 +97,26 @@ else
     private static string noaaApiAlertText = "Looks like there is an issue with the NOAA API. " + 
         "Please try checking the full forecast using the link below.";
 
-    Timer timer;
+    // Timer timer;
     private int elevation = 1;
-    private NOAAStevensPassForecast noaaStevensPassForecast;
+    private NOAAStevensPassForecast? noaaStevensPassForecast;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            timer = new System.Threading.Timer(async _ =>  // async void
-            {
-                noaaStevensPassForecast = null;
-                noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-                // we need StateHasChanged() because this is an async void handler
-                // we need to Invoke it because we could be on the wrong Thread
-                await InvokeAsync(StateHasChanged);
-            }, null, 0, 600000);
+            noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+
+            // timer = new System.Threading.Timer(async _ =>  // async void
+            // {
+            //     noaaStevensPassForecast = null;
+            //     //noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+            //     noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+
+            //     // we need StateHasChanged() because this is an async void handler
+            //     // we need to Invoke it because we could be on the wrong Thread
+            //     await InvokeAsync(StateHasChanged);
+            // }, null, 0, 600000);
         }
         catch (Exception ex)
         {
@@ -118,9 +124,9 @@ else
         }
     }
 
-    public void Dispose()
-    {
-        timer?.Dispose();
-    }
+    // public void Dispose()
+    // {
+    //     timer?.Dispose();
+    // }
 
 }

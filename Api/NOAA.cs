@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Api
@@ -16,14 +15,16 @@ namespace Api
 
         private readonly ILogger<NOAA> _logger;
 
-        public NOAA(ILogger<NOAA> logger, IHttpClientFactory httpClientFactory)
+        public NOAA(ILogger<NOAA> logger, 
+            IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
 
-        [Function("NOAA/GetForecast")]
-        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+        [Function("NOAA")]
+        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
+            Route = "NOAA/GetReport")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 

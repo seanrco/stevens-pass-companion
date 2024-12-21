@@ -1,8 +1,10 @@
 ﻿@using System.Diagnostics
 
-@implements IDisposable
+@* @implements IDisposable *@
 
 @inject WSDOTService _WSDOTService
+
+@inject HttpClient _httpClient;
 
 @if (wsdotReport == null)
 {
@@ -29,64 +31,63 @@
 else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
 {
     string mountainPassName = wsdotReport?.MountainPassName ?? string.Empty;
-    DateTime? dateUpdated = wsdotReport?.DateUpdated ?? null;
+    string dateUpdated = wsdotReport?.DateUpdated ?? null;
 
-        <MudItem xs="12" sm="6" md="6">
-            @if (!string.IsNullOrWhiteSpace(mountainPassName))
-            {
-                <MudText Typo="Typo.h5">@mountainPassName</MudText>
-            }
-            @if (dateUpdated != null)
-            {
-                <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
-            }
-        </MudItem>
-        if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
-        {
-        <MudItem xs="12" sm="6" md="6">
-            <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-        }
-        else
-        {
-        <MudItem xs="12" sm="6" md="6">
-            <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-        }
-        if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
-        {
-        <MudItem xs="12" sm="6" md="6">
-            <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-        }
-        else
-        {
-        <MudItem xs="12" sm="6" md="6">
-            <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-        }
-        <MudItem xs="12" sm="6" md="6">
-            <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
-        </MudItem>
-
-
-
+    <MudItem xs="12" sm="12" md="4">
+        <MudCard style="height:100%">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    @if (!string.IsNullOrWhiteSpace(mountainPassName))
+                    {
+                        <MudText Typo="Typo.h5">@mountainPassName</MudText>
+                    }
+                    @if (dateUpdated != null)
+                    {
+                        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
+                    }
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                @if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                }
+                else
+                {
+                    <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                }
+            </MudCardContent>
+            <MudCardContent>
+                @if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                }
+                else
+                {
+                    <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                }
+            </MudCardContent>
+            <MudCardContent>
+                <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
 }
 else
 {
@@ -117,40 +118,45 @@ else
     private string wsdotApiAlertText = "Looks like there was an issue with the WSDOT API. " + 
         "Please try checking the full report using the link below.";
 
-    Timer timer;
+    // Timer timer;
     private int elevation = 1;
-    private WSDOTReport wsdotReport;
+    private WSDOTReport? wsdotReport;
 
-    private string apiUrl = string.Empty;
+    private string id = string.Empty;
     private string pageUrl = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
             if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
             {
-                apiUrl = "https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&PassConditionID=10";
+                id = "10";
                 pageUrl = "/wsdot-stevens-pass";
             }
             else if (Value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
             {
-                apiUrl = "https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&PassConditionID=1";
+                id = "1";
                 pageUrl = "/wsdot-blewett-pass";
             }
             else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
             {
-                apiUrl = "https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&PassConditionID=11";
+                id = "11";
                 pageUrl = "/wsdot-snoqualmie-pass";
             }
 
-            timer = new System.Threading.Timer(async _ =>  // async void
-            {
-                wsdotReport = await _WSDOTService.GetReportAsync(apiUrl);
-                // we need StateHasChanged() because this is an async void handler
-                // we need to Invoke it because we could be on the wrong Thread
-                await InvokeAsync(StateHasChanged);
-            }, null, 0, 600000);
+            wsdotReport = await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
+
+            // timer = new System.Threading.Timer(async _ =>  // async void
+            // {
+            //     wsdotReport = null;
+            //     //wsdotReport = await _WSDOTService.GetReportAsync(apiUrl);
+
+            //     wsdotReport = await _httpClient.GetFromJsonAsync<WSDOTReport?>("/api/WSDOT/GetMountainPassCondition/10");
+            //     // we need StateHasChanged() because this is an async void handler
+            //     // we need to Invoke it because we could be on the wrong Thread
+            //     await InvokeAsync(StateHasChanged);
+            // }, null, 0, 600000);
         }
         catch (Exception ex)
         {
@@ -158,9 +164,9 @@ else
         }
     }
 
-    public void Dispose()
-    {
-        timer?.Dispose();
-    }
+    // public void Dispose()
+    // {
+    //     timer?.Dispose();
+    // }
 
 }

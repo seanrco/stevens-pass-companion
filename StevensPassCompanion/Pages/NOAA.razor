@@ -4,6 +4,8 @@
 
 @inject NOAAService _NOAAService
 
+@inject HttpClient _httpClient;
+
 <PageTitle>Stevens Pass Companion - NOAA</PageTitle>
 
 <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
@@ -144,7 +146,10 @@
             timer = new System.Threading.Timer(async _ =>  // async void
             {
                 noaaStevensPassForecast = null;
-                noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+                //noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+
+                noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+
                 // we need StateHasChanged() because this is an async void handler
                 // we need to Invoke it because we could be on the wrong Thread
                 await InvokeAsync(StateHasChanged);
