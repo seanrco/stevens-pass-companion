@@ -142,6 +142,7 @@
         try
         {
             noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+            await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {

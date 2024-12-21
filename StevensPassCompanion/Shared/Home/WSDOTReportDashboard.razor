@@ -146,6 +146,7 @@ else
             }
 
             wsdotReport = await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
+            await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {
