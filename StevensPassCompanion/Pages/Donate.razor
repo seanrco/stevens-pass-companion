@@ -2,42 +2,43 @@
 
 <PageTitle>Stevens Pass Companion - Donate</PageTitle>
 
-<MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-<MudGrid>
-    <MudItem xs="12">
-        <MudText Typo="Typo.h4">Donate</MudText>
-    </MudItem>
-    <MudItem xs="12">
-        <MudText Typo="Typo.body1">Stevens Pass Companion is built in our spare time and donations are appreciated!</MudText>
-    </MudItem>
-    <MudItem xs="12">
-        <MudFab StartIcon="@Icons.Material.Filled.Payment"
-                Label="Venmo &commat;StevensPassCompanion"
-                OnClick="@(e => BrowserOpen("Venmo"))"
-                Value="Venmo" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudFab StartIcon="@Icons.Material.Filled.Payment"
-                Label="Paypal &commat;StevensPassCompanion"
-                OnClick="@(e => BrowserOpen("Paypal"))"
-                Value="Venmo" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudText Typo="Typo.h6">All donations will help:</MudText>
-    </MudItem>
-    <MudItem xs="12">
-        <MudList Clickable="false" Dense="true" DisableGutters="true" T="string">
-            <MudListItem Text="Cover development costs" Icon="@Icons.Material.Filled.Check" />
-            <MudListItem Text="Implement new features" Icon="@Icons.Material.Filled.Check" />
-            <MudListItem Text="Fix issues" Icon="@Icons.Material.Filled.Check" />
-            <MudListItem Text="Continuous deployment" Icon="@Icons.Material.Filled.Check" />
-        </MudList>
-    </MudItem>
-    <MudItem xs="12">
-        <MudText Typo="Typo.body1">Thank you for your support! SPKA!</MudText>
-    </MudItem>
-</MudGrid>
-
+<MudContainer Class="mb-12">
+    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Donate</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.body1">Stevens Pass Companion is built in our spare time and donations are appreciated!</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudFab StartIcon="@Icons.Material.Filled.Payment"
+                    Label="Venmo &commat;StevensPassCompanion"
+                    OnClick="@(e => BrowserOpen("Venmo"))"
+                    Value="Venmo" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudFab StartIcon="@Icons.Material.Filled.Payment"
+                    Label="Paypal &commat;StevensPassCompanion"
+                    OnClick="@(e => BrowserOpen("Paypal"))"
+                    Value="Venmo" />
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h6">All donations will help:</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudList Clickable="false" Dense="true" DisableGutters="true" T="string">
+                <MudListItem Text="Cover development costs" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Implement new features" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Fix issues" Icon="@Icons.Material.Filled.Check" />
+                <MudListItem Text="Continuous deployment" Icon="@Icons.Material.Filled.Check" />
+            </MudList>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.body1">Thank you for your support! SPKA!</MudText>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
 

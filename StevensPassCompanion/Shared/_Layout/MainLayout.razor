@@ -6,30 +6,28 @@
 
 <MudLayout>
     <MudAppBar Class="blue darken-4">
-        @* <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-3">Stevens Pass Companion</MudText>
         <MudSpacer />
     </MudAppBar>
-@*     <MudDrawer @bind-Open="@_drawerOpen">
+    <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu/>
-    </MudDrawer> *@
+    </MudDrawer>
     <MudMainContent>
-        <MudContainer Class="mb-8">
-                @Body
-            <MudScrollToTop>
-                <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ArrowCircleUp" Style="color: white; background: gray" />
-            </MudScrollToTop>
-        </MudContainer>
+        @Body
+        <MudScrollToTop>
+            <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.ArrowCircleUp" Style="color: white; background: gray" />
+        </MudScrollToTop>
     </MudMainContent>
 </MudLayout>
 
 @code {
 
-    // bool _drawerOpen = false;
+    bool _drawerOpen = false;
 
-    // void DrawerToggle()
-    // {
-    //     _drawerOpen = !_drawerOpen;
-    // }
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
 
 }

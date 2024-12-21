@@ -2,23 +2,25 @@
 
 <PageTitle>Stevens Pass Companion - WSDOT Snoqualmie Pass Report</PageTitle>
 
-<MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-<MudGrid>
-    <MudItem xs="12">
-        <MudText Typo="Typo.h4">@header</MudText>
-    </MudItem>
-</MudGrid>
+<MudContainer Class="mb-12">
+    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">@header</MudText>
+        </MudItem>
+    </MudGrid>
     <MudGrid>
         <MudItem xs="12">
             <MudFab StartIcon="@Icons.Material.Filled.Outbound"
                     Label="@wsdotText"
                     Size="Size.Small"
-                Href="@wsdotUrl" 
-                Target="_blank" />
+                    Href="@wsdotUrl"
+                    Target="_blank" />
         </MudItem>
         <WSDOTReportPartial Value="SnoqualmiePass"></WSDOTReportPartial>
         <WSDOTCamerasPartial Value="SnoqualmiePass"></WSDOTCamerasPartial>
     </MudGrid>
+</MudContainer>
 
 
 @code {
