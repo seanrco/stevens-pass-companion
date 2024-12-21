@@ -133,11 +133,11 @@
         new BreadcrumbItem("NOAA Forecast", href: null, disabled: true),
     };
 
-    private NOAAStevensPassForecast? noaaStevensPassForecast = null;
+    private NOAAStevensPassForecast noaaStevensPassForecast;
 
     protected override async Task OnInitializedAsync()
     {
-        noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+        noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
         StateHasChanged();
         await InvokeAsync(StateHasChanged);
     }
