@@ -57,7 +57,7 @@
     else if (noaaStevensPassForecast.IsSuccessStatusCode)
     {
         string elevation = UnitUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value ?? null);
-        DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
+        string updated = noaaStevensPassForecast?.properties?.updateTime ?? string.Empty;
 
         <MudItem xs="12">
             <MudText Typo="Typo.body1" Align="Align.Left">Elevation: ~ @elevation ft</MudText>
