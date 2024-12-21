@@ -6,7 +6,7 @@
 
 @inject HttpClient _httpClient;
 
-<PageTitle>Stevens Pass Companion - NOAA</PageTitle>
+<PageTitle>Stevens Pass Companion - NOAA !!!!!</PageTitle>
 
 <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
 
@@ -19,10 +19,10 @@
 <MudGrid>
     <MudItem xs="12">
         <MudFab StartIcon="@Icons.Material.Filled.Outbound"
-                Label="@noaaReportButtonText"
-                Size="Size.Small"
-                Href="@noaaReportUrl"
-                Target="_blank" />
+        Label="@noaaReportButtonText"
+        Size="Size.Small"
+        Href="@noaaReportUrl"
+        Target="_blank" />
     </MudItem>
     @if (noaaStevensPassForecast == null)
     {
@@ -40,8 +40,8 @@
                     <MudCardHeader>
                         <CardHeaderAvatar>
                             <MudSkeleton SkeletonType="SkeletonType.Circle"
-                                         Animation="MudBlazor.Animation.Wave"
-                                         Height="40px" Width="40px" />
+                            Animation="MudBlazor.Animation.Wave"
+                            Height="40px" Width="40px" />
                         </CardHeaderAvatar>
                         <CardHeaderContent>
                             <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
@@ -143,7 +143,9 @@
         {
             noaaStevensPassForecast = null;
             noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-            await InvokeAsync(StateHasChanged);
+            StateHasChanged();
+
+            Console.WriteLine(noaaStevensPassForecast?.ToString() ?? "No json data!");
         }
         catch (Exception ex)
         {
