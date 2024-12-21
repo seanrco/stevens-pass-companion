@@ -162,7 +162,7 @@
         {
             timer = new System.Threading.Timer(async _ =>  // async void
             {
-                noaaStevensPassForecast = null;
+                // noaaStevensPassForecast = null;
                 //noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
                 noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
                 // we need StateHasChanged() because this is an async void handler
