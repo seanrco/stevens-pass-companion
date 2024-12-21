@@ -1,6 +1,6 @@
 ﻿@page "/noaa"
 
-@implements IDisposable
+@* @implements IDisposable *@
 
 @inject NOAAService _NOAAService
 
@@ -137,33 +137,44 @@
 
     private NOAAStevensPassForecast? noaaStevensPassForecast;
 
-    Timer timer;
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            timer = new System.Threading.Timer(async _ =>  // async void
-            {
-                noaaStevensPassForecast = null;
-                //noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-
-                noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-
-                // we need StateHasChanged() because this is an async void handler
-                // we need to Invoke it because we could be on the wrong Thread
-                await InvokeAsync(StateHasChanged);
-            }, null, 0, 600000);
+            noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("NOAA.OnInitialized - Error - " + ex.Message + ex.StackTrace);
+            Debug.WriteLine("NOAAReportDashboard - Error - " + ex.Message + ex.StackTrace);
         }
     }
 
-    public void Dispose()
-    {
-        timer?.Dispose();
-    }
+
+    // Timer timer;
+
+    // protected override void OnInitialized()
+    // {
+    //     try
+    //     {
+    //         timer = new System.Threading.Timer(async _ =>  // async void
+    //         {
+    //             noaaStevensPassForecast = null;
+    //             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+
+    //             // we need StateHasChanged() because this is an async void handler
+    //             // we need to Invoke it because we could be on the wrong Thread
+    //             await InvokeAsync(StateHasChanged);
+    //         }, null, 0, 600000);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Debug.WriteLine("NOAA.OnInitialized - Error - " + ex.Message + ex.StackTrace);
+    //     }
+    // }
+
+    // public void Dispose()
+    // {
+    //     timer?.Dispose();
+    // }
 
 }
