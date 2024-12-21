@@ -17,11 +17,11 @@ public class Geometry
 
 public class Properties
 {
-    public DateTime updated { get; set; }
+    public string updated { get; set; }
     public string units { get; set; }
     public string forecastGenerator { get; set; }
-    public DateTime generatedAt { get; set; }
-    public DateTime updateTime { get; set; }
+    public string generatedAt { get; set; }
+    public string updateTime { get; set; }
     public string validTimes { get; set; }
     public Elevation elevation { get; set; }
     public Period[] periods { get; set; }
@@ -37,8 +37,8 @@ public class Period
 {
     public int number { get; set; }
     public string name { get; set; }
-    public DateTime startTime { get; set; }
-    public DateTime endTime { get; set; }
+    public string startTime { get; set; }
+    public string endTime { get; set; }
     public bool isDaytime { get; set; }
     public int temperature { get; set; }
     public string temperatureUnit { get; set; }
