@@ -52,7 +52,7 @@
         }
 
     }
-    else if (noaaStevensPassForecast.IsSuccessStatusCode)
+    else if (noaaStevensPassForecast != null)
     {
         string elevation = UnitUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value ?? null);
         DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;

@@ -1,12 +1,17 @@
-﻿namespace StevensPassCompanion.Models.NOAA;
+﻿using Newtonsoft.Json;
+
+namespace StevensPassCompanion.Models.NOAA;
 
 public class NOAAStevensPassForecast
 {
+    [JsonProperty("context")]
     public object[] context { get; set; }
+    [JsonProperty("type")]
     public string type { get; set; }
+    [JsonProperty("geometry")]
     public Geometry geometry { get; set; }
+    [JsonProperty("properties")]
     public Properties properties { get; set; }
-    public bool IsSuccessStatusCode { get; set; } = true;
 }
 
 public class Geometry
