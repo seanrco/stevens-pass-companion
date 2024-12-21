@@ -2,14 +2,15 @@
 
 <PageTitle>Stevens Pass Companion - Release Notes</PageTitle>
 
-<MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-<MudGrid>
-    <MudItem xs="12">
-        <MudText Typo="Typo.h4">Release Notes</MudText>
-    </MudItem>
-    <MudItem xs="12">
-        <MudTimeline TimelineAlign="TimelineAlign.Start">
-            @*<MudTimelineItem Elevation="25">
+<MudContainer Class="mb-12">
+    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Release Notes</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudTimeline TimelineAlign="TimelineAlign.Start">
+                @*<MudTimelineItem Elevation="25">
                 <ItemOpposite>
                     <MudText Color="Color.Dark" Typo="Typo.h6">Version 1.#</MudText>
                 </ItemOpposite>
@@ -19,21 +20,21 @@
                     </MudPaper>
                 </ItemContent>
             </MudTimelineItem> *@
-            <MudTimelineItem Color="Color.Dark" Elevation="25" TimelineAlign="TimelineAlign.End">
-                <ItemOpposite>
-                    <MudText Color="Color.Dark" Typo="Typo.h6">Version 1.0</MudText>
-                </ItemOpposite>
-                <ItemContent>
-                    <MudPaper Elevation="0" Class="mt-n1">
-                        <MudText Color="Color.Dark" Typo="Typo.h6" GutterBottom="true">SPKA</MudText>
-                        <MudText Typo="Typo.body1">First release of the app was launched.</MudText>
-                    </MudPaper>
-                </ItemContent>
-            </MudTimelineItem>
-        </MudTimeline>
-    </MudItem>
-</MudGrid>
-
+                <MudTimelineItem Color="Color.Dark" Elevation="25" TimelineAlign="TimelineAlign.End">
+                    <ItemOpposite>
+                        <MudText Color="Color.Dark" Typo="Typo.h6">Version 1.0</MudText>
+                    </ItemOpposite>
+                    <ItemContent>
+                        <MudPaper Elevation="0" Class="mt-n1">
+                            <MudText Color="Color.Dark" Typo="Typo.h6" GutterBottom="true">SPKA</MudText>
+                            <MudText Typo="Typo.body1">First release of the app was launched.</MudText>
+                        </MudPaper>
+                    </ItemContent>
+                </MudTimelineItem>
+            </MudTimeline>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
 

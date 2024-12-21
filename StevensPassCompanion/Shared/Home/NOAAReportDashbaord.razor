@@ -9,12 +9,26 @@
 @if(noaaStevensPassForecast == null)
 {
     <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" Width="40%" />
     </MudItem>
     <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" Width="40%" />
     </MudItem>
-    <MudItem xs="12">
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderAvatar>
+                    <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="MudBlazor.Animation.Wave" Height="40px" Width="40px" />
+                </CardHeaderAvatar>
+                <CardHeaderContent>
+                    <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
+                    <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="60%" />
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="150px" />
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="6">
         <MudCard>
             <MudCardHeader>
                 <CardHeaderAvatar>
@@ -29,7 +43,7 @@
         </MudCard>
     </MudItem>
 }
-else if (noaaStevensPassForecast != null && noaaStevensPassForecast.IsSuccessStatusCode)
+else if (noaaStevensPassForecast != null)
 {
     <MudItem xs="12">
         <MudText Typo="Typo.h5">Stevens Pass Forecast</MudText>
@@ -105,7 +119,9 @@ else
     {
         try
         {
+            noaaStevensPassForecast = null;
             noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+            await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {

@@ -8,24 +8,14 @@
 
 @if (wsdotReport == null)
 {
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
-    </MudItem>
-    <MudItem xs="12">
+    <MudItem xs="12" sm="12" md="4">
         <MudCard>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
             <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
-        </MudCard>
-    </MudItem>
-    <MudItem xs="12">
-        <MudCard>
             <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100px" Height="25px" />
         </MudCard>
-    </MudItem>
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100px" Height="25px" />
     </MudItem>
 }
 else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
@@ -145,7 +135,9 @@ else
                 pageUrl = "/wsdot-snoqualmie-pass";
             }
 
+            wsdotReport = null;
             wsdotReport = await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
+            await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {

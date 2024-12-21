@@ -1,119 +1,118 @@
 ﻿@page "/noaa"
 
-@* @implements IDisposable *@
-
 @inject NOAAService _NOAAService
 
 @inject HttpClient _httpClient;
 
 <PageTitle>Stevens Pass Companion - NOAA</PageTitle>
 
-<MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-
-<MudGrid>
-    <MudItem xs="12">
-        <MudText Typo="Typo.h4">@header</MudText>
-    </MudItem>
-</MudGrid>
-
-<MudGrid>
-    <MudItem xs="12">
-        <MudFab StartIcon="@Icons.Material.Filled.Outbound"
-                Label="@noaaReportButtonText"
-                Size="Size.Small"
-                Href="@noaaReportUrl"
-                Target="_blank" />
-    </MudItem>
-    @if (noaaStevensPassForecast == null)
-    {
+<MudContainer Class="mb-12">
+    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+    <MudGrid>
         <MudItem xs="12">
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            <MudText Typo="Typo.h4">@header</MudText>
         </MudItem>
+    </MudGrid>
+    <MudGrid>
         <MudItem xs="12">
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            <MudFab StartIcon="@Icons.Material.Filled.Outbound"
+                    Label="@noaaReportButtonText"
+                    Size="Size.Small"
+                    Href="@noaaReportUrl"
+                    Target="_blank" />
         </MudItem>
-
-        for (int i = 0; i < 14; i++)
+        @if (noaaStevensPassForecast == null)
         {
             <MudItem xs="12">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderAvatar>
-                            <MudSkeleton SkeletonType="SkeletonType.Circle"
-                                         Animation="MudBlazor.Animation.Wave"
-                                         Height="40px" Width="40px" />
-                        </CardHeaderAvatar>
-                        <CardHeaderContent>
-                            <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
-                            <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="60%" />
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="150px" />
-                </MudCard>
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
             </MudItem>
-        }
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
 
-    }
-    else if (noaaStevensPassForecast.IsSuccessStatusCode)
-    {
-        string elevation = UnitUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value ?? null);
-        DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
-
-        <MudItem xs="12">
-            <MudText Typo="Typo.body1" Align="Align.Left">Elevation: ~ @elevation ft</MudText>
-            <MudText Typo="Typo.body1" Align="Align.Left">Updated: @updated</MudText>
-        </MudItem>
-
-        Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
-
-        if (periods != null && periods.Length > 0)
-        {
-            foreach (Period period in periods)
+            for (int i = 0; i < 14; i++)
             {
-                if (period != null)
+                <MudItem xs="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudSkeleton SkeletonType="SkeletonType.Circle"
+                                             Animation="MudBlazor.Animation.Wave"
+                                             Height="40px" Width="40px" />
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
+                                <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="60%" />
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="150px" />
+                    </MudCard>
+                </MudItem>
+            }
+
+        }
+        else if (noaaStevensPassForecast != null)
+        {
+            string elevation = UnitUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value ?? null);
+            DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.body1" Align="Align.Left">Elevation: ~ @elevation ft</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Left">Updated: @updated</MudText>
+            </MudItem>
+
+            Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
+
+            if (periods != null && periods.Length > 0)
+            {
+                foreach (Period period in periods)
                 {
-                    string name = period?.name ?? string.Empty;
-                    int? temperature = period?.temperature;
-                    string windDirection = period?.windDirection ?? string.Empty;
-                    string windSpeed = period?.windSpeed ?? string.Empty;
-                    string icon = period?.icon ?? string.Empty;
-                    string shortForecast = period?.shortForecast ?? string.Empty;
-                    string detailedForecast = period?.detailedForecast ?? string.Empty;
+                    if (period != null)
+                    {
+                        string name = period?.name ?? string.Empty;
+                        int? temperature = period?.temperature;
+                        string windDirection = period?.windDirection ?? string.Empty;
+                        string windSpeed = period?.windSpeed ?? string.Empty;
+                        string icon = period?.icon ?? string.Empty;
+                        string shortForecast = period?.shortForecast ?? string.Empty;
+                        string detailedForecast = period?.detailedForecast ?? string.Empty;
 
-                    <MudItem xs="12">
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderAvatar>
-                                    <MudAvatar Color="Color.Secondary" Size="Size.Large">
-                                        <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
-                                    </MudAvatar>
-                                </CardHeaderAvatar>
-                                <CardHeaderContent>
-                                    <MudText Typo="Typo.h6"><b>@name</b></MudText>
-                                    <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
-                                    <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
-                                </CardHeaderContent>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                <MudText Typo="Typo.body1">@detailedForecast</MudText>
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
+                        <MudItem xs="12">
+                            <MudCard>
+                                <MudCardHeader>
+                                    <CardHeaderAvatar>
+                                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                                            <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
+                                        </MudAvatar>
+                                    </CardHeaderAvatar>
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.h6"><b>@name</b></MudText>
+                                        <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
+                                        <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
+                                    </CardHeaderContent>
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body1">@detailedForecast</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
 
+                    }
                 }
             }
-        }
 
-    }
-    else
-    {
-        <MudItem xs="12">
-            <MudAlert Severity="Severity.Warning" Elevation="@elevation">
-                <MudText Typo="Typo.body1">@noaaApiAlertText</MudText>
-            </MudAlert>
-        </MudItem>
-    }
-</MudGrid>
+        }
+        else
+        {
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Warning" Elevation="@elevation">
+                    <MudText Typo="Typo.body1">@noaaApiAlertText</MudText>
+                </MudAlert>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
 
 @code {
 
@@ -135,46 +134,13 @@
         new BreadcrumbItem("NOAA Forecast", href: null, disabled: true),
     };
 
-    private NOAAStevensPassForecast? noaaStevensPassForecast;
+    private NOAAStevensPassForecast noaaStevensPassForecast;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine("NOAAReportDashboard - Error - " + ex.Message + ex.StackTrace);
-        }
+        noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
+        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
-
-
-    // Timer timer;
-
-    // protected override void OnInitialized()
-    // {
-    //     try
-    //     {
-    //         timer = new System.Threading.Timer(async _ =>  // async void
-    //         {
-    //             noaaStevensPassForecast = null;
-    //             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-
-    //             // we need StateHasChanged() because this is an async void handler
-    //             // we need to Invoke it because we could be on the wrong Thread
-    //             await InvokeAsync(StateHasChanged);
-    //         }, null, 0, 600000);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine("NOAA.OnInitialized - Error - " + ex.Message + ex.StackTrace);
-    //     }
-    // }
-
-    // public void Dispose()
-    // {
-    //     timer?.Dispose();
-    // }
 
 }
