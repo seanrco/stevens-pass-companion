@@ -1,3 +1,11 @@
-﻿body {
+﻿#app-loader {
     background-image: url("../app-background.jpg") !important;
+    background-color: lightgray !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    margin: 0px !important;
+}
+
+#app-loader-title {
+    text-align: center !important;
 }
