@@ -63,6 +63,8 @@ else if (noaaStevensPassForecast != null)
             foreach(Period c in current)
             {
                 string name = c?.name ?? string.Empty;
+                DateTime? startTime = c?.startTime ?? default;
+                DateTime? endTime = c?.endTime ?? default;
                 int temperature = c?.temperature ?? default;
                 string windDirection = c?.windDirection ?? string.Empty;
                 string windSpeed = c?.windSpeed ?? string.Empty;
@@ -87,6 +89,9 @@ else if (noaaStevensPassForecast != null)
                         <MudCardContent>
                             <MudText Typo="Typo.body1">@detailedForecast</MudText>
                         </MudCardContent>
+                        <MudCardActions>
+                            <MudText Typo="Typo.caption">@startTime to @endTime</MudText>
+                        </MudCardActions>
                     </MudCard>
                 </MudItem>
             }

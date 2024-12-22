@@ -6,21 +6,32 @@
 
 <PageTitle>Stevens Pass Companion - NOAA</PageTitle>
 
-<MudContainer Class="mb-12">
+<MudContainer Class="mt-8 mb-4">
     <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+</MudContainer>
+
+<MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
             <MudText Typo="Typo.h4">@header</MudText>
         </MudItem>
     </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
             <MudFab StartIcon="@Icons.Material.Filled.Outbound"
-                    Label="@noaaReportButtonText"
-                    Size="Size.Small"
-                    Href="@noaaReportUrl"
-                    Target="_blank" />
+            Label="@noaaReportButtonText"
+            Size="Size.Small"
+            Href="@noaaReportUrl"
+            Target="_blank" />
         </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid>
         @if (noaaStevensPassForecast == null)
         {
             <MudItem xs="12">
@@ -37,8 +48,8 @@
                         <MudCardHeader>
                             <CardHeaderAvatar>
                                 <MudSkeleton SkeletonType="SkeletonType.Circle"
-                                             Animation="MudBlazor.Animation.Wave"
-                                             Height="40px" Width="40px" />
+                                Animation="MudBlazor.Animation.Wave"
+                                Height="40px" Width="40px" />
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
@@ -70,6 +81,8 @@
                     if (period != null)
                     {
                         string name = period?.name ?? string.Empty;
+                        DateTime? startTime = period?.startTime ?? default;
+                        DateTime? endTime = period?.endTime ?? default;
                         int? temperature = period?.temperature;
                         string windDirection = period?.windDirection ?? string.Empty;
                         string windSpeed = period?.windSpeed ?? string.Empty;
@@ -94,6 +107,9 @@
                                 <MudCardContent>
                                     <MudText Typo="Typo.body1">@detailedForecast</MudText>
                                 </MudCardContent>
+                                <MudCardActions>
+                                    <MudText Typo="Typo.caption">@startTime to @endTime</MudText>
+                                </MudCardActions>
                             </MudCard>
                         </MudItem>
 
