@@ -10,11 +10,17 @@
 {
     <MudItem xs="12" sm="12" md="4">
         <MudCard>
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100px" Height="25px" />
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="200px" Height="25px" />
+                    <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="200px" Height="25px" />
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudSkeleton Animation="MudBlazor.Animation.Wave" Height="100px" />
+                <MudSkeleton Animation="MudBlazor.Animation.Wave" Height="100px" />
+                <MudSkeleton Width="100px" Height="25px" />
+            </MudCardContent>
         </MudCard>
     </MudItem>
 }
