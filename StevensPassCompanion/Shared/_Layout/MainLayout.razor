@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -8,16 +10,16 @@
 <MudLayout>
     <MudAppBar>
         <MudIconButton Icon="@Icons.Material.Filled.Menu" 
-                        Color="Color.Inherit" 
-                        Edge="Edge.Start" 
-                        OnClick="@((e) => DrawerToggle())" />
+        Color="Color.Inherit" 
+        Edge="Edge.Start" 
+        OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-3">Stevens Pass Companion</MudText>
         <MudSpacer />
-        <MudToggleIconButton @bind-Toggled="_isDarkMode"
-                             Icon="@Icons.Material.Outlined.DarkMode"
-                             Color="@Color.Default"
-                             ToggledIcon="@Icons.Material.Outlined.LightMode"
-                             ToggledColor="@Color.Default" />
+        <MudToggleIconButton @bind-Toggled="_isDarkMode" @bind-Toggled:after="ThemeToggled"
+        Icon="@Icons.Material.Outlined.DarkMode"
+        Color="@Color.Default"
+        ToggledIcon="@Icons.Material.Outlined.LightMode"
+        ToggledColor="@Color.Default" />
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu/>
@@ -44,11 +46,34 @@
         }
     };
 
+    public async Task ThemeToggled()
+    {
+        if (_isDarkMode)
+        {
+            await localStorage.SetItemAsync("IsDarkModeLocalStorage", true);
+        }
+        else
+        {
+            await localStorage.SetItemAsync("IsDarkModeLocalStorage", false);
+        }
+    }
+
     bool _drawerOpen = false;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        bool isDarkModeLocalStorage = await localStorage.GetItemAsync<bool>("IsDarkModeLocalStorage");
+
+        if (isDarkModeLocalStorage)
+        {
+            _isDarkMode = true;
+        }
+    }
+
 
 }
