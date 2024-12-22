@@ -2,53 +2,95 @@
 
 <PageTitle>Stevens Pass Companion - About</PageTitle>
 
-<MudContainer Class="mb-12">
+
+<MudContainer Class="mt-8 mb-4">
     <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+</MudContainer>
+
+<MudContainer Class="mb-12">
     <MudGrid>
         <MudItem xs="12">
             <MudText Typo="Typo.h4">About</MudText>
         </MudItem>
-        @*     <MudItem xs="12">
-        <MudText Typo="Typo.h5">@name</MudText>
-        <MudText Typo="Typo.h5">Stevens Pass Companion</MudText>
-        <MudText Typo="Typo.h5">Version: </MudText>
-    </MudItem> *@
-        <!-- Donate Section -->
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6">Donate</MudText>
-        </MudItem>
         <MudItem xs="12">
             <MudText Typo="Typo.body1">Stevens Pass Companion is built in our spare time and donations are appreciated! All dontations will help cover development costs. Thank you for the support!</MudText>
         </MudItem>
-        <MudItem xs="12">
-            <MudFab StartIcon="@Icons.Material.Filled.Payment"
-                    Label="Donate"
-                    Href="/Donate" />
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid Class="mb-12">
+        <!-- Donate Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Payment" Title="Donate" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Donate</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">All dontations will help cover development costs. Thank you for the support!</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Donate"
+                               Href="/Donate">Read More</MudButton>
+                </MudCardActions>
+            </MudCard>
         </MudItem>
         <!-- Contact Section -->
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6">Contact</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudText Typo="Typo.body1">Need to report an issue, have a feature idea, or just have a question?</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudFab StartIcon="@Icons.Material.Filled.ContactMail"
-                    Label="Contact Us"
-                    Href="/Contact" />
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.ContactMail" Title="Contact" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Contact</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Need to report an issue, have a feature idea, or just have a question?</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Contact Us"
+                               Href="/Contact">Read More</MudButton>
+                </MudCardActions>
+            </MudCard>
         </MudItem>
         <!-- Release Notes Section -->
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6">Release Notes</MudText>
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Note" Title="Release Notes" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Release Notes</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Check out the release notes to see what is new.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Release Notes"
+                               Href="/ReleaseNotes">Read More</MudButton>
+                </MudCardActions>
+            </MudCard>
         </MudItem>
-        <MudItem xs="12">
-            <MudText Typo="Typo.body1">Check out the release notes to see what is new.</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudFab StartIcon="@Icons.Material.Filled.Note"
-                    Label="Release Notes"
-                    Href="/ReleaseNotes" />
-        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid>
         <!-- Disclaimer Section -->
         <MudItem xs="12">
             <MudText Typo="Typo.h6">Disclaimer</MudText>
@@ -67,10 +109,6 @@
 </MudContainer>
 
 @code {
-
-    // string name =  string.Empty;
-    // string package = string.Empty;
-    // string version = string.Empty;
 
     private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
     {
