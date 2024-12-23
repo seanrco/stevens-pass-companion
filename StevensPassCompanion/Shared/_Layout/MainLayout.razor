@@ -13,7 +13,16 @@
         Color="Color.Inherit" 
         Edge="Edge.Start" 
         OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Stevens Pass Companion</MudText>
+
+
+        <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+            <MudText Typo="Typo.h5" Class="ml-3">Stevens Pass Companion</MudText>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+            <MudText Typo="Typo.h5" Class="ml-3">SPC</MudText>
+        </MudHidden>
+
+
         <MudSpacer />
         <MudToggleIconButton @bind-Toggled="_isDarkMode" @bind-Toggled:after="ThemeToggled"
         Icon="@Icons.Material.Outlined.DarkMode"
@@ -40,7 +49,8 @@
     { 
         PaletteLight = new PaletteLight()
         {
-            AppbarBackground = Colors.Blue.Darken4
+                AppbarBackground = Colors.Gray.Lighten3,
+                AppbarText = Colors.Gray.Darken4
         },
         PaletteDark = new PaletteDark(){
         }

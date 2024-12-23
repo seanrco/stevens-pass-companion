@@ -1,0 +1,100 @@
+﻿@using System.Diagnostics
+
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+@inject HttpClient _httpClient;
+
+@if (noaaStevensPassForecast != null)
+{
+    Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
+
+    if (periods != null && periods.Length > 0)
+    {
+        Period[] powDays = periods
+            .Where(p => p.shortForecast.Equals("Heavy Snow", StringComparison.CurrentCultureIgnoreCase))
+            .Take(1)
+            .ToArray();
+
+        if (powDays != null && powDays.Length > 0)
+        {
+            foreach (Period powDay in powDays)
+            {
+                string name = powDay?.name ?? string.Empty;
+                DateTime? startTime = powDay?.startTime ?? default;
+                DateTime? endTime = powDay?.endTime ?? default;
+                int temperature = powDay?.temperature ?? default;
+                string windDirection = powDay?.windDirection ?? string.Empty;
+                string windSpeed = powDay?.windSpeed ?? string.Empty;
+                string icon = powDay?.icon ?? string.Empty;
+                string shortForecast = powDay?.shortForecast ?? string.Empty;
+                string detailedForecast = powDay?.detailedForecast ?? string.Empty;
+
+                <MudDrawer @bind-Open="@_open" Anchor="Anchor.Bottom" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="false">
+                    <MudDrawerHeader>
+                        <MudText Typo="Typo.h4">POW Alert!</MudText>
+                        <MudButton Variant="Variant.Text" OnClick="@(() => CloseDrawer())">Close</MudButton>
+                        <MudButton Variant="Variant.Text" OnClick="@(() => HideDrawer(startTime))">Close</MudButton>
+                    </MudDrawerHeader>
+                    <MudCard style="height:100%">
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                                    <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
+                                </MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6"><b>@name</b></MudText>
+                                <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
+                                <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText Typo="Typo.body1">@detailedForecast</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText>
+                        </MudCardActions>
+                    </MudCard>
+                </MudDrawer>
+            }
+        }
+    }
+}
+
+@code {
+
+    private int elevation = 1;
+
+    private NOAAStevensPassForecast? noaaStevensPassForecast;
+
+    private DateTime? _hideDrawer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            noaaStevensPassForecast = null;
+            noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+            _hideDrawer = await localStorage.GetItemAsync<DateTime?>("HideDrawer");
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("NOAAReportDashboard - Error - " + ex.Message + ex.StackTrace);
+        }
+    }
+
+    private bool _open = true;
+
+    private void CloseDrawer()
+    {
+        _open = false;
+    }
+
+    public async Task HideDrawer(DateTime? startTime)
+    {
+        _open = false;
+        await localStorage.SetItemAsync("HideDrawer", startTime);
+    }
+
+}
