@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 
 namespace StevensPassCompanion.Utilities;
 
@@ -42,5 +43,39 @@ public static class DateTimeUtilities
 
         return dateString;
     }
+
+    /// <summary>
+    /// Formats DateTime to specified format.
+    /// </summary>
+    /// <remarks>
+    /// Only specified the default format is MM/dd/yyyy hh:mm tt.
+    /// </remarks>
+    /// <param name="dateTime">DateTime?</param>
+    /// <param name="format">string</param>
+    /// <returns>string</returns>
+    public static string FormatDateTime(this DateTime? dateTime, string format = "MM/dd/yyyy hh:mm tt")
+    {
+        string dateTimeStr = string.Empty;
+
+        try
+        {
+            if (dateTime != null && dateTime.HasValue)
+            {
+                dateTimeStr = dateTime.Value.ToString(format);
+            }
+            else
+            {
+                Console.WriteLine("DateTime was null or invalid. Unable to format.");
+            }
+        }
+        catch (Exception ex) 
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+        }
+
+        return dateTimeStr;
+    }
+
+
 
 }
