@@ -96,11 +96,6 @@ else
             </MudCardContent>
         </MudCard>
     </MudItem>
-
-    @*         <MudItem xs="12" sm="6" md="6">
-            <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
-        </MudItem> *@
-
 }
 
 @code {
@@ -110,7 +105,6 @@ else
 
     private string wsdotApiAlertText = "Looks like there was an issue with the WSDOT API. " + 
         "Please try checking the full report using the link below.";
-
 
     private int elevation = 1;
     private WSDOTReport? wsdotReport;
@@ -124,21 +118,18 @@ else
         {
             if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
             {
-                id = "10";
                 pageUrl = "/wsdot-stevens-pass";
             }
             else if (Value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
             {
-                id = "1";
                 pageUrl = "/wsdot-blewett-pass";
             }
             else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
             {
-                id = "11";
                 pageUrl = "/wsdot-snoqualmie-pass";
             }
 
-            wsdotReport = await _WSDOTService.GetReportAsync(id);
+            wsdotReport = await _WSDOTService.GetReportAsync(Value);
 
         }
         catch (Exception ex)

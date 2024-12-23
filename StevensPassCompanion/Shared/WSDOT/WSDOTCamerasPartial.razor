@@ -1,5 +1,5 @@
 ﻿@using System.Diagnostics
-@implements IDisposable
+@* @implements IDisposable *@
 
 @inject ILogger<WSDOTCamerasPartial> _logger
 @inject WSDOTService _WSDOTService
@@ -56,43 +56,55 @@ else
     private List<WSDOTCamera> wsdotCameras;
     private string wsdotCamerasApiUrl = string.Empty;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
-            {
-                wsdotCamerasApiUrl = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&StateRoute=US%202&&StartingMilepost=61&EndingMilepost=85";
-            }
-            else if (Value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
-            {
-                wsdotCamerasApiUrl = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&StateRoute=US%2097&&StartingMilepost=164&EndingMilepost=164";
-            }
-            else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
-            {
-                wsdotCamerasApiUrl = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&StateRoute=I-90&&StartingMilepost=45&EndingMilepost=97";
-            }
-
-            timer = new System.Threading.Timer(async _ =>  // async void
-            {
-                wsdotCameras = null;
-                wsdotCameras = await _WSDOTService.GetCamerasAsync(wsdotCamerasApiUrl);
-                // we need StateHasChanged() because this is an async void handler
-                // we need to Invoke it because we could be on the wrong Thread
-                await InvokeAsync(StateHasChanged);
-            }, null, 0, 600000);
-
+            wsdotCameras = await _WSDOTService.GetCamerasAsync(Value);
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("WSDOTCameras - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
         }
     }
 
-    public void Dispose()
-    {
-        timer?.Dispose();
-    }
+    // protected override void OnInitialized()
+    // {
+    //     try
+    //     {
+    //         if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
+    //         {
+    //             wsdotCamerasApiUrl = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&StateRoute=US%202&&StartingMilepost=61&EndingMilepost=85";
+    //         }
+    //         else if (Value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
+    //         {
+    //             wsdotCamerasApiUrl = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&StateRoute=US%2097&&StartingMilepost=164&EndingMilepost=164";
+    //         }
+    //         else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
+    //         {
+    //             wsdotCamerasApiUrl = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode=0359523e-015e-4244-9e73-cd932eb44542&StateRoute=I-90&&StartingMilepost=45&EndingMilepost=97";
+    //         }
+
+    //         timer = new System.Threading.Timer(async _ =>  // async void
+    //         {
+    //             wsdotCameras = null;
+    //             wsdotCameras = await _WSDOTService.GetCamerasAsync(wsdotCamerasApiUrl);
+    //             // we need StateHasChanged() because this is an async void handler
+    //             // we need to Invoke it because we could be on the wrong Thread
+    //             await InvokeAsync(StateHasChanged);
+    //         }, null, 0, 600000);
+
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Debug.WriteLine("WSDOTCameras - Error - " + ex.Message + ex.StackTrace);
+    //     }
+    // }
+
+    // public void Dispose()
+    // {
+    //     timer?.Dispose();
+    // }
 
     //protected override async Task OnInitializedAsync()
     //{

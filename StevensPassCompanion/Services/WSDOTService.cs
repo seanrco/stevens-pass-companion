@@ -16,13 +16,24 @@ public class WSDOTService
         _httpClient = httpClientFactory;
     }
 
-    public async Task<WSDOTReport?> GetReportAsync(string id)
+    public async Task<WSDOTReport?> GetReportAsync(string value)
     {
-        WSDOTReport report = new WSDOTReport();
-
         try
         {
-            //return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
+            string id = string.Empty;
+
+            if (value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                id = "10";
+            }
+            else if (value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                id = "1";
+            }
+            else if (value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                id = "11";
+            }
 
             return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
         }
@@ -32,42 +43,45 @@ public class WSDOTService
             _logger.LogError(ex.Message + ex.StackTrace);
         }
 
-        //try
-        //{
-        //    HttpClient? httpClient = _httpClientFactory.CreateClient();
-
-        //    HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        // TODO - Can we get the json from initial response w/o making a second call below?
-
-        //        string jsonData = await httpClient.GetStringAsync(apiUrl);
-
-        //        if (!string.IsNullOrWhiteSpace(jsonData))
-        //        {
-        //            return report = JsonConvert.DeserializeObject<WSDOTReport>(jsonData);
-        //        }
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Debug.WriteLine("WSDOTService.GetReportAsync - Error - " + ex.Message + ex.StackTrace);
-        //}
-
-        report.IsSuccessStatusCode = false;
-
-        return report;
+        return null;
     }
 
-    /// <summary>
-    /// Get Cameras Async
-    /// </summary>
-    /// <param name="apiUrl">string</param>
-    /// <returns>List of type WSDOTCamera obj</returns>
-    public async Task<List<WSDOTCamera>> GetCamerasAsync(string apiUrl)
+    public async Task<List<WSDOTCamera>?> GetCamerasAsync(string value)
     {
-        List<WSDOTCamera> cameras = new List<WSDOTCamera>();
+        try
+        {
+            string stateRoute = string.Empty;
+            string startingMilepost = string.Empty;
+            string endingMilepost = string.Empty;
+
+            if (value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                stateRoute = "US%202&";
+                startingMilepost = "61";
+                endingMilepost = "85";
+            }
+            else if (value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                stateRoute = "US%2097&";
+                startingMilepost = "164";
+                endingMilepost = "164";
+            }
+            else if (value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                stateRoute = "I-90&";
+                startingMilepost = "45";
+                endingMilepost = "97";
+            }
+
+            return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
+
+        return null;
 
         //try
         //{
@@ -95,7 +109,7 @@ public class WSDOTService
         // TODO - How can we signl was not successful?
         //cameras.IsSuccessStatusCode = false;
 
-        return cameras;
+        //return cameras;
     }
 
 
