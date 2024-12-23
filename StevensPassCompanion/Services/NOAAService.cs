@@ -1,48 +1,35 @@
-﻿using Newtonsoft.Json;
-using StevensPassCompanion.Models.NOAA;
-using System.Diagnostics;
+﻿using StevensPassCompanion.Models.NOAA;
+using System.Net.Http.Json;
 
 namespace StevensPassCompanion.Services;
 
 public class NOAAService
 {
-    public readonly string NOAA_SP_API_URL = "/api/NOAA/GetReport";
 
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<NOAAService> _logger;
+    private readonly HttpClient _httpClient;
 
-    public NOAAService(IHttpClientFactory httpClientFactory)
+    public NOAAService(ILogger<NOAAService> logger, 
+        HttpClient httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
+        _logger = logger;
+        _httpClient = httpClientFactory;
     }
 
     public async Task<NOAAStevensPassForecast?> GetForecastAsync()
     {
-        // TODO CAll https://api.weather.gov/ to check for ok status before calling forecast endpoint
-
         try
         {
-            HttpClient? httpClient = _httpClientFactory.CreateClient();
-
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
-
-            HttpResponseMessage? response = await httpClient.GetAsync(NOAA_SP_API_URL);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string jsonData = await httpClient.GetStringAsync(NOAA_SP_API_URL);
-
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    return JsonConvert.DeserializeObject<NOAAStevensPassForecast>(jsonData);
-                }
-            }
+            return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("NOAAService.GetForecastAsync - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
         }
 
         return null;
     }
+
 
 }

@@ -1,10 +1,9 @@
 ﻿@using System.Diagnostics
 
-@* @implements IDisposable
- *@
+@inject ILogger<NOAAReportDashbaord> _logger
 @inject NOAAService _NOAAService
 
-@inject HttpClient _httpClient;
+@* @inject HttpClient _httpClient; *@
 
 @if(noaaStevensPassForecast == null)
 {
@@ -126,9 +125,11 @@ else
     {
         try
         {
-            noaaStevensPassForecast = null;
-            noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-            await InvokeAsync(StateHasChanged);
+            noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+
+            // noaaStevensPassForecast = null;
+            // noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+            // await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {

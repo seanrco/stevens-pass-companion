@@ -1,5 +1,7 @@
 ﻿@page "/donate"
 
+@inject ILogger<Donate> _logger
+
 <PageTitle>Stevens Pass Companion - Donate</PageTitle>
 
 <MudContainer Class="mt-8 mb-4">
@@ -16,15 +18,15 @@
         </MudItem>
         <MudItem xs="12">
             <MudFab StartIcon="@Icons.Material.Filled.Payment"
-                    Label="Venmo &commat;StevensPassCompanion"
-                    OnClick="@(e => BrowserOpen("Venmo"))"
-                    Value="Venmo" />
+            Label="Venmo &commat;StevensPassCompanion"
+            Href="@_venmolUrl"
+            Value="Venmo" />
         </MudItem>
         <MudItem xs="12">
             <MudFab StartIcon="@Icons.Material.Filled.Payment"
-                    Label="Paypal &commat;StevensPassCompanion"
-                    OnClick="@(e => BrowserOpen("Paypal"))"
-                    Value="Venmo" />
+            Label="Paypal &commat;StevensPassCompanion"
+                    Href="@_payPalUrl"
+            Value="PayPal" />
         </MudItem>
         <MudItem xs="12">
             <MudText Typo="Typo.h6">All donations will help:</MudText>
@@ -52,37 +54,7 @@
         new BreadcrumbItem("Donate", href: null, disabled: true),
     };
 
-    private async void BrowserOpen(string donateType)
-    {
-        try
-        {
-            string url = string.Empty;
-
-            if(donateType.Equals("Venmo"))
-            {
-                url = "https://www.venmo.com/u/StevensPassCompanion";
-            }
-            else if (donateType.Equals("Paypal"))
-            {
-                url = "https://www.paypal.me/StevensPassCompanion";
-            }
-
-            if(!String.IsNullOrEmpty(url))
-            {
-                Uri uri = new Uri(url);
-  
-            }
-            else
-            {
-                // TODO Add UI Message For User
-            }
-
-        }
-        catch (Exception ex)
-        {
-            // TODO Add logging
-            // An unexpected error occurred. No browser may be installed on the device.
-        }
-    }
+    private string _venmolUrl = "https://www.venmo.com/u/StevensPassCompanion";
+    private string _payPalUrl = "https://www.paypal.me/StevensPassCompanion";
 
 }

@@ -1,5 +1,7 @@
 ﻿@page "/wsdot-blewett-pass"
 
+@inject ILogger<WSDOTBlewettPass> _logger
+
 <PageTitle>Stevens Pass Companion - WSDOT Blewett Pass Report</PageTitle>
 
 <MudContainer Class="mb-12">
@@ -33,18 +35,5 @@
         new BreadcrumbItem("Home", href: "/"),
         new BreadcrumbItem(header, href: null, disabled: true),
     };
-
-    private async void BrowserOpen()
-    {
-        try
-        {
-            // Uri uri = new Uri(wsdotUrl);
-            // await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine("WSDOTBlewettPass - Error - " + ex.Message + ex.StackTrace);
-        }
-    }
 
 }

@@ -1,8 +1,11 @@
 ﻿@using System.Diagnostics
 
+@inject ILogger<NOAAPowReportDashbaord> _logger
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-@inject HttpClient _httpClient;
+@inject NOAAService _NOAAService
+
+@* @inject HttpClient _httpClient; *@
 
 @if (noaaStevensPassForecast != null)
 {
@@ -73,10 +76,11 @@
     {
         try
         {
-            noaaStevensPassForecast = null;
-            noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-            _hideDrawer = await localStorage.GetItemAsync<DateTime?>("HideDrawer");
-            await InvokeAsync(StateHasChanged);
+            noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+            // noaaStevensPassForecast = null;
+            // noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
+            // _hideDrawer = await localStorage.GetItemAsync<DateTime?>("HideDrawer");
+            // await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {

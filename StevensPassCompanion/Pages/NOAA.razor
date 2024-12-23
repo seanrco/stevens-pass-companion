@@ -1,8 +1,7 @@
 ﻿@page "/noaa"
 
+@inject ILogger<NOAA> _logger
 @inject NOAAService _NOAAService
-
-@inject HttpClient _httpClient;
 
 <PageTitle>Stevens Pass Companion - NOAA</PageTitle>
 
@@ -150,13 +149,19 @@
         new BreadcrumbItem("NOAA Forecast", href: null, disabled: true),
     };
 
-    private NOAAStevensPassForecast noaaStevensPassForecast;
+    private NOAAStevensPassForecast? noaaStevensPassForecast;
 
     protected override async Task OnInitializedAsync()
     {
-        noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
-        StateHasChanged();
-        await InvokeAsync(StateHasChanged);
+        try
+        {
+            noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+        }
+        catch(Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
     }
 
 }
