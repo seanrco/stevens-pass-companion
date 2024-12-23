@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
+    <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    </PropertyGroup>
 
-  <ItemGroup>
+    <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.11" PrivateAssets="all" />
@@ -16,15 +16,16 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Net.Http.Json" Version="9.0.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
-  </ItemGroup>
+    </ItemGroup>
 
-  <ItemGroup>
+    <ItemGroup>
     <Folder Include="wwwroot\images\" />
-  </ItemGroup>
+    </ItemGroup>
 
-	<PropertyGroup>
-		<NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
-	</PropertyGroup>
+	<!-- Dev Note - Setting is required to resolve https://github.com/MudBlazor/MudBlazor/discussions/10514 -->
+    <PropertyGroup>
+	    <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
+    </PropertyGroup>
 
 
 </Project>

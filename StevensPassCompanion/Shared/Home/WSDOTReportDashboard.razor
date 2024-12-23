@@ -1,10 +1,7 @@
 ﻿@using System.Diagnostics
 
-@* @implements IDisposable *@
-
+@inject ILogger<WSDOTReportDashboard> _logger
 @inject WSDOTService _WSDOTService
-
-@inject HttpClient _httpClient;
 
 @if (wsdotReport == null)
 {
@@ -100,7 +97,7 @@ else
         </MudCard>
     </MudItem>
 
-@*         <MudItem xs="12" sm="6" md="6">
+    @*         <MudItem xs="12" sm="6" md="6">
             <MudFab Label="See Full Report" Size="Size.Small" Href="@pageUrl" />
         </MudItem> *@
 
@@ -141,56 +138,13 @@ else
                 pageUrl = "/wsdot-snoqualmie-pass";
             }
 
-            wsdotReport = null;
-            wsdotReport = await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
-            await InvokeAsync(StateHasChanged);
+            wsdotReport = await _WSDOTService.GetReportAsync(id);
+
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("WSDOTReportDashboard - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
         }
     }
-
-    // Timer timer;
-
-    // protected override void OnInitialized()
-    // {
-    //     try
-    //     {
-    //         if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
-    //         {
-    //             id = "10";
-    //             pageUrl = "/wsdot-stevens-pass";
-    //         }
-    //         else if (Value.Equals("BlewettPass", StringComparison.InvariantCultureIgnoreCase))
-    //         {
-    //             id = "1";
-    //             pageUrl = "/wsdot-blewett-pass";
-    //         }
-    //         else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
-    //         {
-    //             id = "11";
-    //             pageUrl = "/wsdot-snoqualmie-pass";
-    //         }
-
-    //         timer = new System.Threading.Timer(async _ =>  // async void
-    //         {
-    //             wsdotReport = null;
-    //             wsdotReport = await _WSDOTService.GetReportAsync(apiUrl);
-    //             // we need StateHasChanged() because this is an async void handler
-    //             // we need to Invoke it because we could be on the wrong Thread
-    //             await InvokeAsync(StateHasChanged);
-    //         }, null, 0, 600000);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine("WSDOTReportDashboard - Error - " + ex.Message + ex.StackTrace);
-    //     }
-    // }
-
-    // public void Dispose()
-    // {
-    //     timer?.Dispose();
-    // }
 
 }

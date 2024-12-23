@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net.Http;
-using Newtonsoft.Json;
+﻿using System.Net.Http.Json;
 using StevensPassCompanion.Models.WSDOT;
 
 namespace StevensPassCompanion.Services;
@@ -8,44 +6,54 @@ namespace StevensPassCompanion.Services;
 public class WSDOTService
 {
 
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<WSDOTService> _logger;
+    private readonly HttpClient _httpClient;
 
-    public WSDOTService(IHttpClientFactory httpClientFactory)
+    public WSDOTService(ILogger<WSDOTService> logger,
+    HttpClient httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
+        _logger = logger;
+        _httpClient = httpClientFactory;
     }
 
-    /// <summary>
-    /// Get Report Async
-    /// </summary>
-    /// <param name="apiUrl">string</param>
-    /// <returns>WSDOTReport object</returns>
-    public async Task<WSDOTReport> GetReportAsync(string apiUrl)
+    public async Task<WSDOTReport?> GetReportAsync(string id)
     {
         WSDOTReport report = new WSDOTReport();
 
         try
         {
-            HttpClient? httpClient = _httpClientFactory.CreateClient();
+            //return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
 
-            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-            if (response.IsSuccessStatusCode)
-            {
-                // TODO - Can we get the json from initial response w/o making a second call below?
-
-                string jsonData = await httpClient.GetStringAsync(apiUrl);
-
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    return report = JsonConvert.DeserializeObject<WSDOTReport>(jsonData);
-                }
-            }
+            return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("WSDOTService.GetReportAsync - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
         }
+
+        //try
+        //{
+        //    HttpClient? httpClient = _httpClientFactory.CreateClient();
+
+        //    HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        // TODO - Can we get the json from initial response w/o making a second call below?
+
+        //        string jsonData = await httpClient.GetStringAsync(apiUrl);
+
+        //        if (!string.IsNullOrWhiteSpace(jsonData))
+        //        {
+        //            return report = JsonConvert.DeserializeObject<WSDOTReport>(jsonData);
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    Debug.WriteLine("WSDOTService.GetReportAsync - Error - " + ex.Message + ex.StackTrace);
+        //}
 
         report.IsSuccessStatusCode = false;
 
@@ -61,28 +69,28 @@ public class WSDOTService
     {
         List<WSDOTCamera> cameras = new List<WSDOTCamera>();
 
-        try
-        {
-            HttpClient? httpClient = _httpClientFactory.CreateClient();
+        //try
+        //{
+        //    HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+        //    HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-            if (response.IsSuccessStatusCode)
-            {
-                // TODO - Can we get the json from initial response w/o making a second call below?
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        // TODO - Can we get the json from initial response w/o making a second call below?
 
-                string jsonData = await httpClient.GetStringAsync(apiUrl);
+        //        string jsonData = await httpClient.GetStringAsync(apiUrl);
 
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    return cameras = JsonConvert.DeserializeObject<List<WSDOTCamera>>(jsonData);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine("WSDOTService.GetCamerasAsync - Error - " + ex.Message + ex.StackTrace);
-        }
+        //        if (!string.IsNullOrWhiteSpace(jsonData))
+        //        {
+        //            return cameras = JsonConvert.DeserializeObject<List<WSDOTCamera>>(jsonData);
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    Debug.WriteLine("WSDOTService.GetCamerasAsync - Error - " + ex.Message + ex.StackTrace);
+        //}
 
         // TODO - How can we signl was not successful?
         //cameras.IsSuccessStatusCode = false;
