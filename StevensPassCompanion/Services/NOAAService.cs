@@ -20,7 +20,12 @@ public class NOAAService
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
+            var result = await _httpClient.GetAsync("/api/NOAA/GetReport");
+
+            if (result.IsSuccessStatusCode) 
+            {
+                return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
+            }
         }
         catch (Exception ex)
         {

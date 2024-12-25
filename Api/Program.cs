@@ -1,6 +1,9 @@
+using Api.Repository;
+using Api.Repository.Interfaces;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
@@ -12,5 +15,8 @@ builder.ConfigureFunctionsWebApplication();
 //     .ConfigureFunctionsApplicationInsights();
 
 builder.Services.AddHttpClient();
+
+builder.Services.AddSingleton<INOAARepository, NOAARepository>();
+builder.Services.AddSingleton<IWSDOTRepository, WSDOTRepository>();
 
 builder.Build().Run();

@@ -1,3 +1,4 @@
+using Api.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -8,17 +9,11 @@ namespace Api
     public class WSDOT
     {
 
-        private readonly string _wsdotApiAccessCode = Environment.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE") 
-            ?? "0359523e-015e-4244-9e73-cd932eb44542";
+        public readonly IWSDOTRepository _wsdotRepository;
 
-        private readonly ILogger<WSDOT> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        public WSDOT(ILogger<WSDOT> logger, 
-            IHttpClientFactory httpClientFactory)
+        public WSDOT(IWSDOTRepository wsdotRepository)
         {
-            _logger = logger;
-            _httpClientFactory = httpClientFactory;
+            _wsdotRepository = wsdotRepository;
         }
 
         [Function("WSDOTGetMountainPassCondition")]
@@ -26,30 +21,9 @@ namespace Api
             Route = "WSDOT/GetMountainPassCondition/{id}")] HttpRequestData req, string id,
             FunctionContext executionContext)
         {
-            try
-            {
-                string apiUrl = $"https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode={_wsdotApiAccessCode}&PassConditionID={id}";
 
-                HttpClient? httpClient = _httpClientFactory.CreateClient();
+            return await _wsdotRepository.GetMountainPassConditionAsync(id);
 
-                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string jsonData = await httpClient.GetStringAsync(apiUrl);
-
-                    if (!string.IsNullOrWhiteSpace(jsonData))
-                    {
-                        return new OkObjectResult(jsonData);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message + ex.StackTrace);
-            }
-
-            return new OkObjectResult("Status: Error.");
         }
 
         [Function("WSDOTGetCameras")]
@@ -58,30 +32,9 @@ namespace Api
             string StateRoute, string StartingMilepost, string EndingMilepost,
             FunctionContext executionContext)
         {
-            try
-            {
-                string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={StateRoute}&StartingMilepost={StartingMilepost}&EndingMilepost={EndingMilepost}";
 
-                HttpClient? httpClient = _httpClientFactory.CreateClient();
+            return await _wsdotRepository.GetCamerasAsync(StateRoute, StartingMilepost, EndingMilepost);
 
-                HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string jsonData = await httpClient.GetStringAsync(apiUrl);
-
-                    if (!string.IsNullOrWhiteSpace(jsonData))
-                    {
-                        return new OkObjectResult(jsonData);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message + ex.StackTrace);
-            }
-
-            return new OkObjectResult("Status: Error.");
         }
 
 
