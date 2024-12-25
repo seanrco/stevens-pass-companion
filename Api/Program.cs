@@ -1,8 +1,8 @@
-using Api.Repository;
-using Api.Repository.Interfaces;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SPC.Api.Repository;
+using SPC.Api.Repository.Interfaces;
 
 
 var builder = FunctionsApplication.CreateBuilder(args);
