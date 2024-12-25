@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StevensPassCompanion", "StevensPassCompanion\StevensPassCompanion.csproj", "{AA30751D-EC71-4716-A8D7-C0ABEDC0A2FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPC.Client", "SPC.CLient\SPC.Client.csproj", "{AA30751D-EC71-4716-A8D7-C0ABEDC0A2FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPC.Api", "Api\SPC.Api.csproj", "{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPC.Api", "SPC.Api\SPC.Api.csproj", "{139D8DCA-9DB9-4BD6-99C1-1041D520E3C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

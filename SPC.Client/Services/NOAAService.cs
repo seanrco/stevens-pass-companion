@@ -1,7 +1,7 @@
-﻿using StevensPassCompanion.Models.NOAA;
+﻿using SPC.Client.Models.NOAA;
 using System.Net.Http.Json;
 
-namespace StevensPassCompanion.Services;
+namespace SPC.Client.Services;
 
 public class NOAAService
 {
@@ -9,7 +9,7 @@ public class NOAAService
     private readonly ILogger<NOAAService> _logger;
     private readonly HttpClient _httpClient;
 
-    public NOAAService(ILogger<NOAAService> logger, 
+    public NOAAService(ILogger<NOAAService> logger,
         HttpClient httpClientFactory)
     {
         _logger = logger;
@@ -22,7 +22,7 @@ public class NOAAService
         {
             var result = await _httpClient.GetAsync("/api/NOAA/GetReport");
 
-            if (result.IsSuccessStatusCode) 
+            if (result.IsSuccessStatusCode)
             {
                 return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
             }

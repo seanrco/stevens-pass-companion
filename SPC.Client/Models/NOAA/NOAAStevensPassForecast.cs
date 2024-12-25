@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace StevensPassCompanion.Models.NOAA;
+namespace SPC.Client.Models.NOAA;
 
 public class NOAAStevensPassForecast
 {

@@ -1,4 +1,4 @@
-﻿namespace StevensPassCompanion.Models.WSDOT;
+﻿namespace SPC.Client.Models.WSDOT;
 
 public class WSDOTCamera
 {

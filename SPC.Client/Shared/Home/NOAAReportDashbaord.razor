@@ -1,6 +1,4 @@
-﻿@using System.Diagnostics
-
-@inject ILogger<NOAAReportDashbaord> _logger
+﻿@inject ILogger<NOAAReportDashbaord> _logger
 @inject NOAAService _NOAAService
 
 @* @inject HttpClient _httpClient; *@
@@ -46,9 +44,11 @@
 }
 else if (noaaStevensPassForecast != null)
 {
+    string dateUpdated = noaaStevensPassForecast.properties.updateTime.FormatDateTime() ?? string.Empty;
+
     <MudItem xs="12">
         <MudText Typo="Typo.h5">Stevens Pass Forecast</MudText>
-        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @noaaStevensPassForecast.properties.updateTime</MudText>
+        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
     </MudItem>
 
     Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;

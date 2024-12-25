@@ -29,10 +29,10 @@
     </MudGrid>
 </MudContainer>
 
-<MudContainer Class="mb-12">
-    <MudGrid>
-        @if (noaaStevensPassForecast == null)
-        {
+@if (noaaStevensPassForecast == null)
+{
+    <MudContainer Class="mb-8">
+        <MudGrid>
             <MudItem xs="12">
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
             </MudItem>
@@ -40,15 +40,15 @@
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
             </MudItem>
 
-            for (int i = 0; i < 14; i++)
+            @for (int i = 0; i < 14; i++)
             {
                 <MudItem xs="12">
                     <MudCard>
                         <MudCardHeader>
                             <CardHeaderAvatar>
                                 <MudSkeleton SkeletonType="SkeletonType.Circle"
-                                Animation="MudBlazor.Animation.Wave"
-                                Height="40px" Width="40px" />
+                                             Animation="MudBlazor.Animation.Wave"
+                                             Height="40px" Width="40px" />
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
@@ -59,38 +59,58 @@
                     </MudCard>
                 </MudItem>
             }
+        </MudGrid>
+    </MudContainer>
 
-        }
-        else if (noaaStevensPassForecast != null)
-        {
-            string elevation = UnitUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value ?? null);
-            DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
+}
+else if (noaaStevensPassForecast != null)
+{
+    string elevation = UnitDistanceUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value) ?? string.Empty;
+    DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
+    Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
 
+
+    <MudContainer Class="mb-8">
+        <MudGrid>
             <MudItem xs="12">
                 <MudText Typo="Typo.body1" Align="Align.Left">Elevation: ~ @elevation ft</MudText>
-                <MudText Typo="Typo.body1" Align="Align.Left">Updated: @updated</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Left">Updated: @updated.FormatDateTime()</MudText>
             </MudItem>
+        </MudGrid>
+    </MudContainer>
 
-            Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
+    if (periods != null && periods.Length > 0)
+    {
+        Period[] filteredPeriods;
 
-            if (periods != null && periods.Length > 0)
-            {
+        filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
+            ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.shortForecast))).ToArray()
+            : filteredPeriods = periods.ToArray();
+
+        <MudContainer Class="mb-8">
+            <MudGrid>
+
+
                 <MudItem xs="12" sm="6" md="6">
-                    <MudSelect T="string" Label="Filter by:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
-                        @foreach (var s in periods.Select(p => p.shortForecast).Distinct().ToArray())
-                        {
-                            <MudSelectItem T="string" Value="s">@s</MudSelectItem>
-                        }
-                    </MudSelect>
+                    <MudCard Elevation="0">
+                        <MudCardContent>
+                            <MudSelect T="string" Label="Filter by:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
+                                @foreach (var s in periods.Select(p => p.shortForecast).Distinct().ToArray())
+                                {
+                                    <MudSelectItem T="string" Value="s">@s</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudCardContent>
+                    </MudCard>
+
+
                 </MudItem>
+            </MudGrid>
+        </MudContainer>
 
-                Period[] filteredPeriods;
-
-                filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
-                    ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.shortForecast))).ToArray()
-                    : filteredPeriods = periods.ToArray();
-
-                foreach (Period period in filteredPeriods)
+        <MudContainer Class="mb-8">
+            <MudGrid>
+                @foreach (Period period in filteredPeriods)
                 {
                     if (period != null)
                     {
@@ -126,22 +146,27 @@
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
-
                     }
                 }
-            }
+            </MudGrid>
+        </MudContainer>
+    }
 
-        }
-        else
-        {
+}
+else
+{
+    <MudContainer Class="mb-8">
+        <MudGrid>
             <MudItem xs="12">
                 <MudAlert Severity="Severity.Warning" Elevation="@elevation">
                     <MudText Typo="Typo.body1">@noaaApiAlertText</MudText>
                 </MudAlert>
             </MudItem>
-        }
-    </MudGrid>
-</MudContainer>
+        </MudGrid>
+    </MudContainer>
+}
+
+
 
 
 @code {
