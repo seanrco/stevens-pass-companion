@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 
-namespace StevensPassCompanion.Utilities;
+namespace SPC.Client.Utilities;
 
 public static class DateTimeUtilities
 {
@@ -34,7 +33,7 @@ public static class DateTimeUtilities
             else
             {
                 Console.WriteLine("Invalid date format.");
-            }  
+            }
         }
         catch (Exception ex)
         {
@@ -68,7 +67,7 @@ public static class DateTimeUtilities
                 Console.WriteLine("DateTime was null or invalid. Unable to format.");
             }
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             Console.Error.WriteLine(ex.Message + ex.StackTrace);
         }

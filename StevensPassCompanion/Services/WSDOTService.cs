@@ -1,8 +1,7 @@
-﻿using System.Net.Http.Json;
-using StevensPassCompanion.Models.NOAA;
-using StevensPassCompanion.Models.WSDOT;
+﻿using SPC.Client.Models.WSDOT;
+using System.Net.Http.Json;
 
-namespace StevensPassCompanion.Services;
+namespace SPC.Client.Services;
 
 public class WSDOTService
 {

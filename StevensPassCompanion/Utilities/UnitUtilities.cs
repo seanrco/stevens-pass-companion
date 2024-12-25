@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace StevensPassCompanion.Utilities;
+namespace SPC.Client.Utilities;
 
 public static class UnitUtilities
 {
@@ -10,7 +10,7 @@ public static class UnitUtilities
         {
             if (meters != null && meters > 0)
             {
-  
+
                 double? feet = (double)meters * 3.28;
 
                 if (feet != null && feet > 0)

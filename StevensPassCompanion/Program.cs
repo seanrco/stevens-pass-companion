@@ -2,9 +2,10 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
-using StevensPassCompanion.Services;
+using SPC.Client.Services;
 
-namespace StevensPassCompanion
+
+namespace SPC.Client
 {
     public class Program
     {
