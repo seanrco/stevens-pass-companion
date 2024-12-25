@@ -8,9 +8,6 @@ This is an app I wrote to show off the Azure Static Web Apps functionality over 
 - Azure Static Web App
 - Azure Functions
 
-## Production Site
-- https://yellow-coast-02228261e.4.azurestaticapps.net/
-
 ## Guides & Example Repos
 - https://learn.microsoft.com/en-us/azure/static-web-apps/deploy-blazor
 - https://github.com/MicrosoftDocs/mslearn-staticwebapp-dotnet
