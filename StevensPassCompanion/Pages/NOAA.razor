@@ -75,7 +75,22 @@
 
             if (periods != null && periods.Length > 0)
             {
-                foreach (Period period in periods)
+                <MudItem xs="12" sm="6" md="6">
+                    <MudSelect T="string" Label="Filter by:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
+                        @foreach (var s in periods.Select(p => p.shortForecast).Distinct().ToArray())
+                        {
+                            <MudSelectItem T="string" Value="s">@s</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                Period[] filteredPeriods;
+
+                filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
+                    ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.shortForecast))).ToArray()
+                    : filteredPeriods = periods.ToArray();
+
+                foreach (Period period in filteredPeriods)
                 {
                     if (period != null)
                     {
@@ -150,6 +165,8 @@
     };
 
     private NOAAStevensPassForecast? noaaStevensPassForecast;
+
+    private IEnumerable<string> selectedFilters { get; set; } = new HashSet<string>() { };
 
     protected override async Task OnInitializedAsync()
     {
