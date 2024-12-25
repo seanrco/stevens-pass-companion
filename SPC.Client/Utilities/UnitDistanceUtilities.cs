@@ -1,16 +1,22 @@
-﻿using System.Diagnostics;
+﻿namespace SPC.Client.Utilities;
 
-namespace SPC.Client.Utilities;
-
-public static class UnitUtilities
+/// <summary>
+/// Static class for Unit of Distance related utility methods.
+/// </summary>
+public static class UnitDistanceUtilities
 {
+
+    /// <summary>
+    /// Converts meters to feet.
+    /// </summary>
+    /// <param name="meters">float?</param>
+    /// <returns>string</returns>
     public static string ConvertMetersToFeet(this float? meters)
     {
         try
         {
             if (meters != null && meters > 0)
             {
-
                 double? feet = (double)meters * 3.28;
 
                 if (feet != null && feet > 0)
@@ -21,7 +27,7 @@ public static class UnitUtilities
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("UnitUtilities.ConvertMetersToFeet - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
         }
 
         return "N/A";

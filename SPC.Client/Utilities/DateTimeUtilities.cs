@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace SPC.Client.Utilities;
 
+/// <summary>
+/// Static class for DateTime related utility methods.
+/// </summary>
 public static class DateTimeUtilities
 {
 
@@ -37,22 +39,22 @@ public static class DateTimeUtilities
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("UnitUtilities.ConvertMetersToFeet - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
         }
 
         return dateString;
     }
 
     /// <summary>
-    /// Formats DateTime to specified format.
+    /// Formats DateTime? obj to specified format.
     /// </summary>
     /// <remarks>
-    /// Only specified the default format is MM/dd/yyyy hh:mm tt.
+    /// Default format is MM/dd/yyyy h:mm tt unless specified.
     /// </remarks>
     /// <param name="dateTime">DateTime?</param>
     /// <param name="format">string</param>
     /// <returns>string</returns>
-    public static string FormatDateTime(this DateTime? dateTime, string format = "MM/dd/yyyy hh:mm tt")
+    public static string FormatDateTime(this DateTime? dateTime, string format = "MM/dd/yyyy h:mm tt")
     {
         string dateTimeStr = string.Empty;
 
@@ -64,7 +66,7 @@ public static class DateTimeUtilities
             }
             else
             {
-                Console.WriteLine("DateTime was null or invalid. Unable to format.");
+                Console.Error.WriteLine("DateTime was null or invalid. Unable to format.");
             }
         }
         catch (Exception ex)
@@ -73,6 +75,20 @@ public static class DateTimeUtilities
         }
 
         return dateTimeStr;
+    }
+
+    /// <summary>
+    /// Formats DateTime obj to specified format.
+    /// </summary>
+    /// <remarks>
+    /// Default format is MM/dd/yyyy h:mm tt unless specified.
+    /// </remarks>
+    /// <param name="dateTime">DateTime?</param>
+    /// <param name="format">string</param>
+    /// <returns>string</returns>
+    public static string FormatDateTime(this DateTime dateTime, string format = "MM/dd/yyyy h:mm tt")
+    {
+        return FormatDateTime((DateTime?)dateTime);
     }
 
 

@@ -22,7 +22,7 @@
 else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
 {
     string mountainPassName = wsdotReport?.MountainPassName ?? string.Empty;
-    string dateUpdated = wsdotReport?.DateUpdated?.ConvertWsdotJsonDateTime() ?? string.Empty;
+    string dateUpdated = wsdotReport?.DateUpdated ?? string.Empty;
 
     <MudItem xs="12" sm="12" md="4">
         <MudCard style="height:100%">
