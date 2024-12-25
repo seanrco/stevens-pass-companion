@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using StevensPassCompanion.Models.NOAA;
 using StevensPassCompanion.Models.WSDOT;
 
 namespace StevensPassCompanion.Services;
@@ -35,7 +36,12 @@ public class WSDOTService
                 id = "11";
             }
 
-            return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
+            var result = await _httpClient.GetAsync($"/api/WSDOT/GetMountainPassCondition/{id}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
+            }
         }
         catch (Exception ex)
         {
@@ -73,7 +79,12 @@ public class WSDOTService
                 endingMilepost = "97";
             }
 
-            return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+            var result = await _httpClient.GetAsync($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+            }
         }
         catch (Exception ex)
         {
@@ -82,34 +93,6 @@ public class WSDOTService
         }
 
         return null;
-
-        //try
-        //{
-        //    HttpClient? httpClient = _httpClientFactory.CreateClient();
-
-        //    HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        // TODO - Can we get the json from initial response w/o making a second call below?
-
-        //        string jsonData = await httpClient.GetStringAsync(apiUrl);
-
-        //        if (!string.IsNullOrWhiteSpace(jsonData))
-        //        {
-        //            return cameras = JsonConvert.DeserializeObject<List<WSDOTCamera>>(jsonData);
-        //        }
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Debug.WriteLine("WSDOTService.GetCamerasAsync - Error - " + ex.Message + ex.StackTrace);
-        //}
-
-        // TODO - How can we signl was not successful?
-        //cameras.IsSuccessStatusCode = false;
-
-        //return cameras;
     }
 
 
