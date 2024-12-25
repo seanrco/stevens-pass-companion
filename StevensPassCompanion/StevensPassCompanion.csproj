@@ -26,5 +26,8 @@
 	    <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
     </PropertyGroup>
 
-
+	<PropertyGroup>
+	    <RunAOTCompilation>true</RunAOTCompilation>
+	</PropertyGroup>
+	
 </Project>

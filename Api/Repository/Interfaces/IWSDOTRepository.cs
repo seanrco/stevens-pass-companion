@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Repository.Interfaces;
+namespace SPC.Api.Repository.Interfaces;
 
 public interface IWSDOTRepository
 {

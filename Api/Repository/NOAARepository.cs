@@ -1,8 +1,8 @@
-﻿using Api.Repository.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SPC.Api.Repository.Interfaces;
 
-namespace Api.Repository;
+namespace SPC.Api.Repository;
 
 public class NOAARepository : INOAARepository
 {

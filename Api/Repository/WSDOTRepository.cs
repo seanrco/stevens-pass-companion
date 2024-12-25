@@ -1,8 +1,8 @@
-﻿using Api.Repository.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SPC.Api.Repository.Interfaces;
 
-namespace Api.Repository;
+namespace SPC.Api.Repository;
 
 public class WSDOTRepository : IWSDOTRepository
 {
@@ -50,8 +50,8 @@ public class WSDOTRepository : IWSDOTRepository
     }
 
 
-    public async Task<IActionResult> GetCamerasAsync(string stateRoute, 
-        string startingMilepost, 
+    public async Task<IActionResult> GetCamerasAsync(string stateRoute,
+        string startingMilepost,
         string endingMilepost)
     {
         try

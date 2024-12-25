@@ -1,8 +1,9 @@
-using Api.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-namespace Api;
+using SPC.Api.Repository.Interfaces;
+
+namespace SPC.Api;
 
 public class NOAA
 {
