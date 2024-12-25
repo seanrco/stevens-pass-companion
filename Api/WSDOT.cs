@@ -2,7 +2,6 @@ using Api.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Extensions.Logging;
 
 namespace Api
 {
@@ -29,11 +28,11 @@ namespace Api
         [Function("WSDOTGetCameras")]
         public async Task<IActionResult> GetCamerasAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
             Route = "WSDOT/GetCameras/{StateRoute}/{StartingMilepost}/{EndingMilepost}")] HttpRequestData req, 
-            string StateRoute, string StartingMilepost, string EndingMilepost,
+            string stateRoute, string startingMilepost, string endingMilepost,
             FunctionContext executionContext)
         {
 
-            return await _wsdotRepository.GetCamerasAsync(StateRoute, StartingMilepost, EndingMilepost);
+            return await _wsdotRepository.GetCamerasAsync(stateRoute, startingMilepost, endingMilepost);
 
         }
 
