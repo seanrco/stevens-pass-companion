@@ -4,13 +4,19 @@
 
 <PageTitle>Stevens Pass Companion - WSDOT Stevens Pass Report</PageTitle>
 
-<MudContainer Class="mb-12">
+<MudContainer Class="mt-8 mb-4">
     <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+</MudContainer>
+
+<MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
             <MudText Typo="Typo.h4">@header</MudText>
         </MudItem>
     </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
             <MudFab StartIcon="@Icons.Material.Filled.Outbound"
@@ -19,11 +25,11 @@
                     Href="@wsdotUrl"
                     Target="_blank" />
         </MudItem>
-        <WSDOTReportPartial Value="StevensPass"></WSDOTReportPartial>
-        <WSDOTCamerasPartial Value="StevensPass"></WSDOTCamerasPartial>
     </MudGrid>
 </MudContainer>
 
+<WSDOTReportPartial Value="StevensPass"></WSDOTReportPartial>
+<WSDOTCamerasPartial Value="StevensPass"></WSDOTCamerasPartial>
 
 @code {
 
