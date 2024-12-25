@@ -1,7 +1,5 @@
 ﻿using Api.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
 namespace Api.Repository;
@@ -52,13 +50,13 @@ public class WSDOTRepository : IWSDOTRepository
     }
 
 
-    public async Task<IActionResult> GetCamerasAsync(string StateRoute, 
-        string StartingMilepost, 
-        string EndingMilepost)
+    public async Task<IActionResult> GetCamerasAsync(string stateRoute, 
+        string startingMilepost, 
+        string endingMilepost)
     {
         try
         {
-            string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={StateRoute}&StartingMilepost={StartingMilepost}&EndingMilepost={EndingMilepost}";
+            string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={stateRoute}&StartingMilepost={startingMilepost}&EndingMilepost={endingMilepost}";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
