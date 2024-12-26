@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using TimeZoneConverter;
 
 namespace SPC.Client.Utilities;
 
@@ -13,29 +15,19 @@ public static class DateTimeUtilities
     {
         try
         {
-            // Extract the timestamp and offset
-            var match = System.Text.RegularExpressions.Regex.Match(dateString, @"/Date\((\d+)([+-]\d{4})\)/");
+            // Extract the timestamp and timezone offset
+            var match = System.Text.RegularExpressions.Regex.Match(dateString, @"\/Date\((\d+)([+-]\d{4})\)\/");
 
-            if (match.Success)
-            {
-                long timestampMilliseconds = long.Parse(match.Groups[1].Value);
-                string offsetPart = match.Groups[2].Value;
+            long milliseconds = long.Parse(match.Groups[1].Value);
 
-                // Convert timestamp to UTC DateTime
-                DateTime utcDateTime = DateTimeOffset.FromUnixTimeMilliseconds(timestampMilliseconds).UtcDateTime;
+            // Convert milliseconds to DateTime in UTC
+            DateTime utcDateTime = DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).UtcDateTime;
 
-                // Parse the offset
-                TimeSpan offset = TimeSpan.ParseExact(offsetPart, "hhmm", CultureInfo.InvariantCulture);
+            // Convert to Pacific Time Zone
+            TimeZoneInfo pacificZone = TZConvert.GetTimeZoneInfo("Pacific Standard Time");
+            DateTime pacificDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, pacificZone);
 
-                // Adjust for the offset
-                DateTime localDateTime = utcDateTime.Add(-offset);
-
-                return localDateTime.ToString();
-            }
-            else
-            {
-                Console.WriteLine("Invalid date format.");
-            }
+            return pacificDateTime.FormatDateTime();
         }
         catch (Exception ex)
         {

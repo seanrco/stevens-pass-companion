@@ -38,7 +38,7 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
     <MudContainer Class="mb-8">
         <MudGrid>
             <MudItem xs="12">
-                <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated</MudText>
+                <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated.ConvertWsdotJsonDateTime()</MudText>
             </MudItem>
 
             <MudItem xs="12">
