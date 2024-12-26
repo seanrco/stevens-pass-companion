@@ -47,8 +47,8 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
 
             @if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
             {
-                <MudItem xs="12">
-                    <MudAlert Severity="Severity.Error" Elevation="@elevation">
+                <MudItem xs="12" sm="6" md="6">
+                    <MudAlert Severity="Severity.Error" Elevation="@elevation" style="height:100%">
                         <MudText Typo="Typo.body1">
                             <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
                         </MudText>
@@ -57,8 +57,8 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
             }
             else
             {
-                <MudItem xs="12">
-                    <MudAlert Severity="Severity.Success" Elevation="@elevation">
+                <MudItem xs="12" sm="6" md="6">
+                    <MudAlert Severity="Severity.Success" Elevation="@elevation" style="height:100%">
                         <MudText Typo="Typo.body1">
                             <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
                         </MudText>
@@ -68,8 +68,8 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
 
             @if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
             {
-                <MudItem xs="12">
-                    <MudAlert Severity="Severity.Error" Elevation="@elevation">
+                <MudItem xs="12" sm="6" md="6">
+                    <MudAlert Severity="Severity.Error" Elevation="@elevation" style="height:100%">
                         <MudText Typo="Typo.body1">
                             <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
                         </MudText>
@@ -78,8 +78,8 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
             }
             else
             {
-                <MudItem xs="12">
-                    <MudAlert Severity="Severity.Success" Elevation="@elevation">
+                <MudItem xs="12" sm="6" md="6">
+                    <MudAlert Severity="Severity.Success" Elevation="@elevation" style="height:100%">
                         <MudText Typo="Typo.body1">
                             <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
                         </MudText>
