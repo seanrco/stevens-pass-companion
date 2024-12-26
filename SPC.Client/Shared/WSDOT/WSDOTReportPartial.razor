@@ -3,149 +3,155 @@
 
 @if (wsdotReport == null)
 {
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudCard>
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
-        </MudCard>
-    </MudItem>
-    <MudItem xs="12">
-        <MudCard>
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
-        </MudCard>
-    </MudItem>
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
-    </MudItem>
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
-    </MudItem>
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="25px" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudCard>
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12">
+                <MudCard>
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="50px" />
+                </MudCard>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
 }
 else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
 {
-    // Last Updated Date
-    <MudItem xs="12">
-        <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated</MudText>
-    </MudItem>
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated</MudText>
+            </MudItem>
 
-    // Pass Status
-    <MudItem xs="12">
-        <MudText Typo="Typo.h6">Status</MudText>
-    </MudItem>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6">Status</MudText>
+            </MudItem>
 
-    // Eastboand Restrictions Status
-    if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
-    {
-        <MudItem xs="12">
-            <MudAlert Severity="Severity.Error" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
-                </MudText>
-             </MudAlert>
-        </MudItem>
-    }
-    else
-    {
-        <MudItem xs="12">
-            <MudAlert Severity="Severity.Success" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-    }
+            @if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+            {
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Error" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                </MudItem>
+            }
+            else
+            {
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Success" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport.RestrictionOne.TravelDirection</b> @wsdotReport.RestrictionOne.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                </MudItem>
+            }
 
-    // Westboand Restrictions Status
-    if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
-    {
-        <MudItem xs="12">
-            <MudAlert Severity="Severity.Error" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-    }
-    else
-    {
-        <MudItem xs="12">
-            <MudAlert Severity="Severity.Success" Elevation="@elevation">
-                <MudText Typo="Typo.body1">
-                    <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
-                </MudText>
-            </MudAlert>
-        </MudItem>
-    }
+            @if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+            {
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Error" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                </MudItem>
+            }
+            else
+            {
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Success" Elevation="@elevation">
+                        <MudText Typo="Typo.body1">
+                            <b>@wsdotReport.RestrictionTwo.TravelDirection</b> @wsdotReport.RestrictionTwo.RestrictionText
+                        </MudText>
+                    </MudAlert>
+                </MudItem>
+            }
 
-    // Road Conditions
-    <MudItem xs="12">
-        <MudText Typo="Typo.h6">Conditions</MudText>
-        @if (!string.IsNullOrWhiteSpace(wsdotReport.RoadCondition))
-        {
-            <MudText Typo="Typo.body1">@wsdotReport.RoadCondition</MudText>
-        }
-        else
-        {
-            <MudText Typo="Typo.body1">n/a</MudText>
-        }
-    </MudItem>
+            <MudItem xs="12" sm="12" md="4">
+                <MudText Typo="Typo.h6">Conditions</MudText>
+                @if (!string.IsNullOrWhiteSpace(wsdotReport.RoadCondition))
+                {
+                    <MudText Typo="Typo.body1">@wsdotReport.RoadCondition</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">n/a</MudText>
+                }
+            </MudItem>
 
-    // Weather Conditions
-    <MudItem xs="12">
-        <MudText Typo="Typo.h6">Weather</MudText>
-        @if (!string.IsNullOrWhiteSpace(wsdotReport.WeatherCondition))
-        {
-            <MudText Typo="Typo.body1">@wsdotReport.WeatherCondition</MudText>
-        }
-        else
-        {
-            <MudText Typo="Typo.body1">n/a</MudText>
-        }
-    </MudItem>
+            <MudItem xs="12" sm="12" md="4">
+                <MudText Typo="Typo.h6">Weather</MudText>
+                @if (!string.IsNullOrWhiteSpace(wsdotReport.WeatherCondition))
+                {
+                    <MudText Typo="Typo.body1">@wsdotReport.WeatherCondition</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">n/a</MudText>
+                }
+            </MudItem>
 
-    // Temperture
-    <MudItem xs="12">
-        <MudText Typo="Typo.h6">Temperature</MudText>
-        @if (wsdotReport.TemperatureInFahrenheit != null && wsdotReport.TemperatureInFahrenheit > 0)
-        {
-            <MudText Typo="Typo.body1">@wsdotReport.TemperatureInFahrenheit °F</MudText>
-        }
-        else
-        {
-            <MudText Typo="Typo.body1">n/a</MudText>
-        }  
-    </MudItem>
+            <MudItem xs="12" sm="12" md="4">
+                <MudText Typo="Typo.h6">Temperature</MudText>
+                @if (wsdotReport.TemperatureInFahrenheit != null && wsdotReport.TemperatureInFahrenheit > 0)
+                {
+                    <MudText Typo="Typo.body1">@wsdotReport.TemperatureInFahrenheit °F</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">n/a</MudText>
+                }
+            </MudItem>
 
-    // Elevation
-    <MudItem xs="12">
-        <MudText Typo="Typo.h6">Elevation</MudText>
-        @if (wsdotReport.ElevationInFeet != null && wsdotReport.ElevationInFeet > 0)
-        {
-            <MudText Typo="Typo.body1">@wsdotReport.ElevationInFeet ft</MudText>
-        }
-        else
-        {
-            <MudText Typo="Typo.body1">n/a</MudText>
-        }
-    </MudItem>
+            <MudItem xs="12" sm="12" md="4">
+                <MudText Typo="Typo.h6">Elevation</MudText>
+                @if (wsdotReport.ElevationInFeet != null && wsdotReport.ElevationInFeet > 0)
+                {
+                    <MudText Typo="Typo.body1">@wsdotReport.ElevationInFeet ft</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body1">n/a</MudText>
+                }
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
 }
 else
 {
-    <MudItem xs="12">
-        <MudAlert Severity="Severity.Warning" Elevation="@elevation">
-            <MudText Typo="Typo.body1">
-                @wsdotApiAlertText
-            </MudText>
-        </MudAlert>
-    </MudItem>
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Warning" Elevation="@elevation">
+                    <MudText Typo="Typo.body1">
+                        @wsdotApiAlertText
+                    </MudText>
+                </MudAlert>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
 }
 
 @code {

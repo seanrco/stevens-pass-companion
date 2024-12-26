@@ -1,42 +1,67 @@
 ﻿@inject ILogger<WSDOTCamerasPartial> _logger
 @inject WSDOTService _WSDOTService
 
-<MudItem xs="12">
-    <MudText Typo="Typo.h6">Cameras</MudText>
-</MudItem>
+
+<MudContainer Class="mb-8">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h6">Cameras</MudText>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @if (wsdotCameras == null)
 {
-    <MudItem xs="12">
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px" />
-    </MudItem>
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px" />
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
 }
 else if (wsdotCameras != null && wsdotCameras.Count() > 0)
 {
-    foreach (WSDOTCamera camera in wsdotCameras)
-    {
-        if (camera != null)
-        {
-            string imgUrl = camera?.ImageURL;
-
-            if (!string.IsNullOrWhiteSpace(imgUrl))
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            @foreach (WSDOTCamera camera in wsdotCameras)
             {
-                <MudItem xs="12">
-                    <MudImage Src="@imgUrl" Fluid="true" Alt="SP Cam" Elevation="1"  />
-                </MudItem>
+                if (camera != null)
+                {
+                    string imgUrl = camera?.ImageURL;
+
+                    if (!string.IsNullOrWhiteSpace(imgUrl))
+                    {
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudCard>
+                                <MudCardMedia Image="@imgUrl" />
+@*                                 <MudCardContent>
+                                    <MudImage Src="@imgUrl"  Alt="SP Cam" Elevation="1" Class="rounded-lg" />
+                                </MudCardContent> *@
+                            </MudCard>
+                        </MudItem>
+                    }
+                }
             }
-        }
-    }
+        </MudGrid>
+    </MudContainer>
+
 }
 else
 {
-    <MudItem xs="12">
-        <MudAlert Severity="Severity.Warning" Elevation="@elevation">
-            <MudText Typo="Typo.body1">
-                @wsdotApiAlertText
-            </MudText>
-        </MudAlert>
-    </MudItem>
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Warning" Elevation="@elevation">
+                    <MudText Typo="Typo.body1">
+                        @wsdotApiAlertText
+                    </MudText>
+                </MudAlert>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
 }
 
 @code {
