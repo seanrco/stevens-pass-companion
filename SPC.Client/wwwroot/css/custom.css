@@ -9,3 +9,7 @@
 #app-loader-title {
     text-align: center !important;
 }
+
+.mud-avatar-filled.mud-avatar-filled-secondary {
+    background-color: lightgray !important;
+}
