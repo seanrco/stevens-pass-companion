@@ -69,7 +69,6 @@ else if (noaaStevensPassForecast != null)
     DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
     Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
 
-
     <MudContainer Class="mb-8">
         <MudGrid>
             <MudItem xs="12">
@@ -81,6 +80,14 @@ else if (noaaStevensPassForecast != null)
 
     if (periods != null && periods.Length > 0)
     {
+        var filters = periods.GroupBy(p => p.shortForecast)
+                         .Select(p => new
+                         {
+                             ShortName = p.Key,
+                             Count = p.Count()
+                         })
+                         .OrderBy(n => n.ShortName);
+
         Period[] filteredPeriods;
 
         filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
@@ -89,21 +96,17 @@ else if (noaaStevensPassForecast != null)
 
         <MudContainer Class="mb-8">
             <MudGrid>
-
-
                 <MudItem xs="12" sm="6" md="6">
                     <MudCard Elevation="0">
                         <MudCardContent>
                             <MudSelect T="string" Label="Filter by:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
-                                @foreach (var s in periods.Select(p => p.shortForecast).Distinct().ToArray())
+                                @foreach (var s in filters)
                                 {
-                                    <MudSelectItem T="string" Value="s">@s</MudSelectItem>
+                                    <MudSelectItem T="string" Value="s.ShortName">@s.ShortName (@s.Count)</MudSelectItem>
                                 }
                             </MudSelect>
                         </MudCardContent>
                     </MudCard>
-
-
                 </MudItem>
             </MudGrid>
         </MudContainer>
