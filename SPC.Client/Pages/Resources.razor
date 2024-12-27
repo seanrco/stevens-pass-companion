@@ -1,0 +1,267 @@
+﻿@page "/resources"
+
+@inject ILogger<About> _logger
+
+<PageTitle>Stevens Pass Companion - Resources</PageTitle>
+
+<MudContainer Class="mt-8 mb-4">
+    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Resources</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.body1">Stevens Pass Companion is built in our spare time and donations are appreciated! All dontations will help cover development costs. Thank you for the support!</MudText>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid Class="mb-12">
+        <!-- Donate Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Payment" Title="Donate" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Donate</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">All dentations will help cover development costs, new features, and overhead. Thank you for the support!</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Venmo"
+                               Target="_blank"
+                               Href="https://www.venmo.com/u/StevensPassCompanion">Venmo</MudButton>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Paypal"
+                               Target="_blank"
+                               Href="https://www.paypal.me/StevensPassCompanion">PayPal</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <!-- Contact Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.ContactMail" Title="Contact" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Contact</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Need to report an issue, have a feature idea, want to contribute, or just have a question?</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Contact Us"
+                               Target="_blank"
+                               Href="https://github.com/seanrco/stevens-pass-companion/discussions">Contact Us</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <!-- Release Notes Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Note" Title="Release Notes" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Release Notes</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Check out the release notes to see what is new.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Release Notes"
+                               Target="_blank"
+                               Href="https://github.com/seanrco/stevens-pass-companion/releases">Release Notes</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid Class="mb-12">
+        <!-- Donate Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Payment" Title="Donate" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Donate</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">All dentations will help cover development costs, new features, and overhead. Thank you for the support!</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Venmo"
+                               Target="_blank"
+                               Href="https://www.venmo.com/u/StevensPassCompanion">Venmo</MudButton>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Paypal"
+                               Target="_blank"
+                               Href="https://www.paypal.me/StevensPassCompanion">PayPal</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <!-- Contact Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.ContactMail" Title="Contact" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Contact</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Need to report an issue, have a feature idea, want to contribute, or just have a question?</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Contact Us"
+                               Target="_blank"
+                               Href="https://github.com/seanrco/stevens-pass-companion/discussions">Contact Us</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <!-- Release Notes Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Note" Title="Release Notes" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Release Notes</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Check out the release notes to see what is new.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Release Notes"
+                               Target="_blank"
+                               Href="https://github.com/seanrco/stevens-pass-companion/releases">Release Notes</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid Class="mb-12">
+        <!-- Donate Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Payment" Title="Donate" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Donate</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">All dentations will help cover development costs, new features, and overhead. Thank you for the support!</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Venmo"
+                               Target="_blank"
+                               Href="https://www.venmo.com/u/StevensPassCompanion">Venmo</MudButton>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Paypal"
+                               Target="_blank"
+                               Href="https://www.paypal.me/StevensPassCompanion">PayPal</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <!-- Contact Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.ContactMail" Title="Contact" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Contact</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Need to report an issue, have a feature idea, want to contribute, or just have a question?</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Contact Us"
+                               Target="_blank"
+                               Href="https://github.com/seanrco/stevens-pass-companion/discussions">Contact Us</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <!-- Release Notes Section -->
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIcon Icon="@Icons.Material.Filled.Note" Title="Release Notes" />
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Release Notes</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Check out the release notes to see what is new.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Release Notes"
+                               Target="_blank"
+                               Href="https://github.com/seanrco/stevens-pass-companion/releases">Release Notes</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem("Resources", href: null, disabled: true),
+    };
+
+}
