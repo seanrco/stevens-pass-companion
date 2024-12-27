@@ -1,5 +1,6 @@
 ﻿using SPC.Client.Models.NOAA;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace SPC.Client.Services;
 
@@ -24,7 +25,12 @@ public class NOAAService
 
             if (result.IsSuccessStatusCode)
             {
-                return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport");
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport", options);
             }
         }
         catch (Exception ex)
