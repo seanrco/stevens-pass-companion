@@ -65,9 +65,9 @@
 }
 else if (noaaStevensPassForecast != null)
 {
-    string elevation = UnitDistanceUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value) ?? string.Empty;
-    DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
-    Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
+    string elevation = UnitDistanceUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.Properties?.Elevation?.Value) ?? string.Empty;
+    DateTime? updated = noaaStevensPassForecast?.Properties?.UpdateTime ?? null;
+    Period[] periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
     <MudContainer Class="mb-8">
         <MudGrid>
@@ -80,7 +80,7 @@ else if (noaaStevensPassForecast != null)
 
     if (periods != null && periods.Length > 0)
     {
-        var filters = periods.GroupBy(p => p.shortForecast)
+        var filters = periods.GroupBy(p => p.ShortForecast)
                          .Select(p => new
                          {
                              ShortName = p.Key,
@@ -91,7 +91,7 @@ else if (noaaStevensPassForecast != null)
         Period[] filteredPeriods;
 
         filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
-            ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.shortForecast))).ToArray()
+            ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.ShortForecast))).ToArray()
             : filteredPeriods = periods.ToArray();
 
         <MudContainer Class="mb-8">
@@ -117,15 +117,15 @@ else if (noaaStevensPassForecast != null)
                 {
                     if (period != null)
                     {
-                        string name = period?.name ?? string.Empty;
-                        DateTime? startTime = period?.startTime ?? default;
-                        DateTime? endTime = period?.endTime ?? default;
-                        int? temperature = period?.temperature;
-                        string windDirection = period?.windDirection ?? string.Empty;
-                        string windSpeed = period?.windSpeed ?? string.Empty;
-                        string icon = period?.icon ?? string.Empty;
-                        string shortForecast = period?.shortForecast ?? string.Empty;
-                        string detailedForecast = period?.detailedForecast ?? string.Empty;
+                        string name = period?.Name ?? string.Empty;
+                        DateTime? startTime = period?.StartTime ?? default;
+                        DateTime? endTime = period?.EndTime ?? default;
+                        int? temperature = period?.Temperature;
+                        string windDirection = period?.WindDirection ?? string.Empty;
+                        string windSpeed = period?.WindSpeed ?? string.Empty;
+                        string icon = period?.Icon ?? string.Empty;
+                        string shortForecast = period?.ShortForecast ?? string.Empty;
+                        string detailedForecast = period?.DetailedForecast ?? string.Empty;
 
                         <MudItem xs="12">
                             <MudCard>

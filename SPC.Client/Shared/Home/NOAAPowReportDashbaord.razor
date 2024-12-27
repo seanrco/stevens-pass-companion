@@ -3,16 +3,14 @@
 
 @inject NOAAService _NOAAService
 
-@* @inject HttpClient _httpClient; *@
-
 @if (noaaStevensPassForecast != null)
 {
-    Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
+    Period[] periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
     if (periods != null && periods.Length > 0)
     {
         Period[] powDays = periods
-            .Where(p => p.shortForecast.Equals("Heavy Snow", StringComparison.CurrentCultureIgnoreCase))
+            .Where(p => p.ShortForecast.Equals("Heavy Snow", StringComparison.CurrentCultureIgnoreCase))
             .Take(1)
             .ToArray();
 
@@ -20,15 +18,15 @@
         {
             foreach (Period powDay in powDays)
             {
-                string name = powDay?.name ?? string.Empty;
-                DateTime? startTime = powDay?.startTime ?? default;
-                DateTime? endTime = powDay?.endTime ?? default;
-                int temperature = powDay?.temperature ?? default;
-                string windDirection = powDay?.windDirection ?? string.Empty;
-                string windSpeed = powDay?.windSpeed ?? string.Empty;
-                string icon = powDay?.icon ?? string.Empty;
-                string shortForecast = powDay?.shortForecast ?? string.Empty;
-                string detailedForecast = powDay?.detailedForecast ?? string.Empty;
+                string name = powDay?.Name ?? string.Empty;
+                DateTime? startTime = powDay?.StartTime ?? default;
+                DateTime? endTime = powDay?.EndTime ?? default;
+                int temperature = powDay?.Temperature ?? default;
+                string windDirection = powDay?.WindDirection ?? string.Empty;
+                string windSpeed = powDay?.WindSpeed ?? string.Empty;
+                string icon = powDay?.Icon ?? string.Empty;
+                string shortForecast = powDay?.ShortForecast ?? string.Empty;
+                string detailedForecast = powDay?.DetailedForecast ?? string.Empty;
 
                 <MudDrawer @bind-Open="@_open" Anchor="Anchor.Bottom" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="false">
                     <MudDrawerHeader>
@@ -75,10 +73,6 @@
         try
         {
             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-            // noaaStevensPassForecast = null;
-            // noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-            // _hideDrawer = await localStorage.GetItemAsync<DateTime?>("HideDrawer");
-            // await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {
