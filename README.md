@@ -1,7 +1,7 @@
 ## Stevens Pass Companion
 Stevens Pass Companion is a central hub to help plan your trip to Stevens Pass Ski Resort or travelling over US2.
 
-https://github.com/user-attachments/assets/1bfc666b-6369-44aa-a1cc-84f36913c4f8
+https://github.com/user-attachments/assets/738a54b9-9bc3-498c-8817-0ca38c86e66b
 
 ### Built With
 - [NET 8](https://dotnet.microsoft.com/en-us/)
