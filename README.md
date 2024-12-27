@@ -26,7 +26,7 @@ This project welcomes contributions and suggestions. If you are interested pleas
 Feel free to reach out if you have questions or feedback. Let's build something amazing together with CleanAspire!
 
 ### License
-This project is licensed under the [MIT License](https://github.com/seanrco/stevens-pass-companion?tab=MIT-1-ov-file).
+This project is licensed under the [MIT License](https://github.com/seanrco/stevens-pass-companion?tab=MIT-1-ov-file#readme).
 
 ### ***Disclaimer***
 ***Stevens Pass Companion is not affilated with Stevens Pass Vail Resorts, NOAA, or WSDOT.***
