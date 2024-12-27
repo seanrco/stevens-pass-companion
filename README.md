@@ -17,9 +17,6 @@ Stevens Pass Companion is a central hub to help plan your trip to Stevens Pass S
 ### Contributing
 This project welcomes contributions and suggestions. If you are interested please post in the appropriote [Discusion](https://github.com/seanrco/stevens-pass-companion/discussions) category. 
 
-### License
-This project is licensed under the MIT License.
-
 ### Get Involved
 - Star the Repository: If you like CleanAspire, please give it a star! 🌟
 - Follow the Project: Stay updated with the latest developments by watching the repository.
@@ -27,6 +24,9 @@ This project is licensed under the MIT License.
 
 ### Contact
 Feel free to reach out if you have questions or feedback. Let's build something amazing together with CleanAspire!
+
+### License
+This project is licensed under the [MIT License](https://github.com/seanrco/stevens-pass-companion?tab=MIT-1-ov-file).
 
 ### ***Disclaimer***
 ***Stevens Pass Companion is not affilated with Stevens Pass Vail Resorts, NOAA, or WSDOT.***
