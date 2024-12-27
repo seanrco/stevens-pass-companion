@@ -28,6 +28,6 @@ This project is licensed under the MIT License.
 ### Contact
 Feel free to reach out if you have questions or feedback. Let's build something amazing together with CleanAspire!
 
-### **Disclaimer**
-__Stevens Pass Companion is not affilated with Stevens Pass Vail Resorts, NOAA, or WSDOT.__
+### ***Disclaimer***
+***Stevens Pass Companion is not affilated with Stevens Pass Vail Resorts, NOAA, or WSDOT.***
 
