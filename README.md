@@ -14,12 +14,10 @@ https://github.com/user-attachments/assets/738a54b9-9bc3-498c-8817-0ca38c86e66b
 This project welcomes contributions and suggestions. If you are interested please post in the appropriote [Discusion](https://github.com/seanrco/stevens-pass-companion/discussions) category. 
 
 ### Get Involved
-- Star the Repository: If you like CleanAspire, please give it a star! 🌟
+- Star the Repository: If you like Stevens Pass Companion, please give it a star! 🌟
 - Follow the Project: Stay updated with the latest developments by watching the repository.
-- Join Discussions: Share your thoughts and ideas to make CleanAspire even better.
-
-### Contact
-Feel free to reach out if you have questions or feedback. Let's build something amazing together with CleanAspire!
+- Join Discussions: Share your thoughts and ideas to make Stevens Pass Companion even better in [Discussions](https://github.com/seanrco/stevens-pass-companion/discussions). 
+- Contributing: Are you a developer and interested in helping contribute to the project? [Let us know here](https://github.com/seanrco/stevens-pass-companion/discussions/categories/contribute)
 
 ### License
 This project is licensed under the [MIT License](https://github.com/seanrco/stevens-pass-companion?tab=MIT-1-ov-file#readme).
