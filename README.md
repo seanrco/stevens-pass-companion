@@ -1,11 +1,7 @@
 ## Stevens Pass Companion
 Stevens Pass Companion is a central hub to help plan your trip to Stevens Pass Ski Resort or travelling over US2.
 
-### Features
-- Home NOAA and WDOT Dashboard
-- NOAA Forecast
-- WSDOT Passes Reports
-- Light / Dark theme modes
+https://github.com/user-attachments/assets/1bfc666b-6369-44aa-a1cc-84f36913c4f8
 
 ### Built With
 - [NET 8](https://dotnet.microsoft.com/en-us/)
