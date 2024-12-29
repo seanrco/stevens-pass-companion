@@ -1,15 +1,10 @@
 ﻿@inject ILogger<NavMenu> _logger
 
 <MudNavMenu Bordered="true" Color="Color.Transparent" Class="mud-width-full">
-@*             <MudText Typo="Typo.overline" Class="px-4">Stevens Pass Conpanion</MudText>
-    <MudText Typo="Typo.subtitle1" Class="px-4 mud-text-secondary">For the community bu the community!</MudText> *@
     <MudDivider Class="my-2" />
     <MudNavLink Icon="@Icons.Material.Filled.Home" Href="/" Match="NavLinkMatch.All">
         <MudText Typo="Typo.body1">Home</MudText>
     </MudNavLink>
-@*     <MudNavLink Icon="@Icons.Custom.Brands.Twitter" Href="/tweets" Match="NavLinkMatch.All">
-        <MudText Typo="Typo.body1">Stevens Pass Updates</MudText>
-    </MudNavLink> *@
     <MudNavLink Icon="@Icons.Material.Filled.AcUnit" Href="/noaa" Match="NavLinkMatch.Prefix">
         <MudText Typo="Typo.body1">NOAA Forecast</MudText>
     </MudNavLink>
@@ -24,13 +19,10 @@
             <MudText Typo="Typo.body1">Snoqualmie Pass I-90 Report</MudText>
         </MudNavLink>
     </MudNavGroup>
-    @*     <MudNavLink Icon="@Icons.Filled.Info" Href="/resources" Match="NavLinkMatch.Prefix">Resources</MudNavLink> *@
+    <MudNavLink Icon="@Icons.Material.Filled.LibraryBooks" Href="/resources" Match="NavLinkMatch.Prefix">
+        <MudText Typo="Typo.body1">Resources</MudText>
+    </MudNavLink>
     <MudDivider Style="color: black; min-height: 2px" />
-    @*     <MudNavLink Href="/donate" Match="NavLinkMatch.Prefix" Style="font-weight: bold">Donate!</MudNavLink>
-    <MudNavLink Href="/release-notes" Match="NavLinkMatch.Prefix">Release Notes</MudNavLink> *@
-    @*         <MudNavLink Icon="@Icons.Filled.Settings" Href="/settings" Match="NavLinkMatch.Prefix">
-    <MudText Typo="Typo.body1">Settings</MudText>
-    </MudNavLink> *@
     <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">
         <MudText Typo="Typo.body1">About</MudText>
     </MudNavLink>
