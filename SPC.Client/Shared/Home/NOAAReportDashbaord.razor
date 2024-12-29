@@ -1,7 +1,6 @@
 ﻿@inject ILogger<NOAAReportDashbaord> _logger
 @inject NOAAService _NOAAService
-
-@* @inject HttpClient _httpClient; *@
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
 
 @if(noaaStevensPassForecast == null)
 {
@@ -84,6 +83,12 @@ else if (noaaStevensPassForecast != null)
                                 <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                 <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                             </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
+                                                     ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
+                                                     ToggledChanged="@(args => ToggleSavePeriod(args, c))"
+                                                     Toggled="@c.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
+                            </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>
                             <MudText Typo="Typo.body1">@detailedForecast</MudText>
@@ -112,6 +117,7 @@ else
     </MudItem>
 }
 
+
 @code {
 
     private static string noaaApiAlertText = "Looks like there is an issue with the NOAA API. " + 
@@ -121,16 +127,39 @@ else
 
     private NOAAStevensPassForecast? noaaStevensPassForecast;
 
+    private string _noaaSavedPeriods { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
         }
         catch (Exception ex)
         {
             Debug.WriteLine("NOAAReportDashboard - Error - " + ex.Message + ex.StackTrace);
         }
+    }
+
+    public async Task ToggleSavePeriod(bool toggled, Period period)
+    {
+        if (toggled)
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS",
+                period.NoaaAddSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+        else
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS",
+                period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+
+        _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
     }
 
 }
