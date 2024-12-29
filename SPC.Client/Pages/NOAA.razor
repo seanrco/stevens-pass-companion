@@ -2,6 +2,7 @@
 
 @inject ILogger<NOAA> _logger
 @inject NOAAService _NOAAService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
 
 <PageTitle>Stevens Pass Companion - NOAA</PageTitle>
 
@@ -47,8 +48,8 @@
                         <MudCardHeader>
                             <CardHeaderAvatar>
                                 <MudSkeleton SkeletonType="SkeletonType.Circle"
-                                             Animation="MudBlazor.Animation.Wave"
-                                             Height="40px" Width="40px" />
+                                Animation="MudBlazor.Animation.Wave"
+                                Height="40px" Width="40px" />
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
@@ -140,6 +141,12 @@ else if (noaaStevensPassForecast != null)
                                         <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                         <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                                     </CardHeaderContent>
+                                    <CardHeaderActions>
+                                        <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
+                                                             ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
+                                                             ToggledChanged="@(args => ToggleSavePeriod(args, period))"
+                                                             Toggled="@period.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
+                                    </CardHeaderActions>
                                 </MudCardHeader>
                                 <MudCardContent>
                                     <MudText Typo="Typo.body1">@detailedForecast</MudText>
@@ -170,8 +177,6 @@ else
 }
 
 
-
-
 @code {
 
     private int elevation = 1;
@@ -196,10 +201,13 @@ else
 
     private IEnumerable<string> selectedFilters { get; set; } = new HashSet<string>() { };
 
+    private string _noaaSavedPeriods { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
         }
         catch(Exception ex)
@@ -208,5 +216,26 @@ else
             _logger.LogError(ex.Message + ex.StackTrace);
         }
     }
+
+    public async Task ToggleSavePeriod(bool toggled, Period period)
+    {
+        if (toggled)
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS", 
+                period.NoaaAddSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+        else
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS", 
+                period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+
+        _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+    }
+
 
 }
