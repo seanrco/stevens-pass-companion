@@ -19,10 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Update="Pages\Contact.razor">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </Content>
