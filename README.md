@@ -1,5 +1,5 @@
 ## Stevens Pass Companion
-Stevens Pass Companion is a central hub to help plan your trip to Stevens Pass Ski Resort or travelling over Stevens Pass US 2.
+Stevens Pass Companion is a central hub to help plan your trip to Stevens Pass Ski Resort or just travelling over Stevens Pass US 2. Built by the community for the community, SPKA!
 
 https://github.com/user-attachments/assets/738a54b9-9bc3-498c-8817-0ca38c86e66b
 
