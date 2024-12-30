@@ -1,7 +1,6 @@
 ﻿@inject ILogger<NOAAReportDashbaord> _logger
 @inject NOAAService _NOAAService
-
-@* @inject HttpClient _httpClient; *@
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
 
 @if(noaaStevensPassForecast == null)
 {
@@ -44,14 +43,14 @@
 }
 else if (noaaStevensPassForecast != null)
 {
-    string dateUpdated = noaaStevensPassForecast.properties.updateTime.FormatDateTime() ?? string.Empty;
+    string dateUpdated = noaaStevensPassForecast.Properties.UpdateTime.FormatDateTime() ?? string.Empty;
 
     <MudItem xs="12">
         <MudText Typo="Typo.h5">Stevens Pass Forecast</MudText>
         <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
     </MudItem>
 
-    Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
+    Period[] periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
     if (periods != null && periods.Length > 0)
     {
@@ -61,15 +60,15 @@ else if (noaaStevensPassForecast != null)
         {
             foreach(Period c in current)
             {
-                string name = c?.name ?? string.Empty;
-                DateTime? startTime = c?.startTime ?? default;
-                DateTime? endTime = c?.endTime ?? default;
-                int temperature = c?.temperature ?? default;
-                string windDirection = c?.windDirection ?? string.Empty;
-                string windSpeed = c?.windSpeed ?? string.Empty;
-                string icon = c?.icon ?? string.Empty;
-                string shortForecast = c?.shortForecast ?? string.Empty;
-                string detailedForecast = c?.detailedForecast ?? string.Empty;
+                string name = c?.Name ?? string.Empty;
+                DateTime? startTime = c?.StartTime ?? default;
+                DateTime? endTime = c?.EndTime ?? default;
+                int temperature = c?.Temperature ?? default;
+                string windDirection = c?.WindDirection ?? string.Empty;
+                string windSpeed = c?.WindSpeed ?? string.Empty;
+                string icon = c?.Icon ?? string.Empty;
+                string shortForecast = c?.ShortForecast ?? string.Empty;
+                string detailedForecast = c?.DetailedForecast ?? string.Empty;
 
                 <MudItem xs="12" sm="6" md="6">
                     <MudCard style="height:100%">
@@ -84,6 +83,12 @@ else if (noaaStevensPassForecast != null)
                                 <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                 <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                             </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
+                                                     ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
+                                                     ToggledChanged="@(args => ToggleSavePeriod(args, c))"
+                                                     Toggled="@c.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
+                            </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>
                             <MudText Typo="Typo.body1">@detailedForecast</MudText>
@@ -112,6 +117,7 @@ else
     </MudItem>
 }
 
+
 @code {
 
     private static string noaaApiAlertText = "Looks like there is an issue with the NOAA API. " + 
@@ -121,15 +127,14 @@ else
 
     private NOAAStevensPassForecast? noaaStevensPassForecast;
 
+    private string _noaaSavedPeriods { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-
-            // noaaStevensPassForecast = null;
-            // noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-            // await InvokeAsync(StateHasChanged);
         }
         catch (Exception ex)
         {
@@ -137,32 +142,24 @@ else
         }
     }
 
-    // Timer timer;
+    public async Task ToggleSavePeriod(bool toggled, Period period)
+    {
+        if (toggled)
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS",
+                period.NoaaAddSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+        else
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS",
+                period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
+            );
+        }
 
-    // protected override void OnInitialized()
-    // {
-    //     try
-    //     {
-    //         timer = new System.Threading.Timer(async _ =>  // async void
-    //         {
-    //             noaaStevensPassForecast = null;
-    //             //noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
-    //             noaaStevensPassForecast = await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast?>("/api/NOAA/GetReport");
-
-    //             // we need StateHasChanged() because this is an async void handler
-    //             // we need to Invoke it because we could be on the wrong Thread
-    //             await InvokeAsync(StateHasChanged);
-    //         }, null, 0, 600000);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine("NOAAReportDashboard - Error - " + ex.Message + ex.StackTrace);
-    //     }
-    // }
-
-    // public void Dispose()
-    // {
-    //     timer?.Dispose();
-    // }
+        _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+    }
 
 }

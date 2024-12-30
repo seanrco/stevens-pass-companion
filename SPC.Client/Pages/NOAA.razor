@@ -2,6 +2,7 @@
 
 @inject ILogger<NOAA> _logger
 @inject NOAAService _NOAAService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
 
 <PageTitle>Stevens Pass Companion - NOAA</PageTitle>
 
@@ -47,8 +48,8 @@
                         <MudCardHeader>
                             <CardHeaderAvatar>
                                 <MudSkeleton SkeletonType="SkeletonType.Circle"
-                                             Animation="MudBlazor.Animation.Wave"
-                                             Height="40px" Width="40px" />
+                                Animation="MudBlazor.Animation.Wave"
+                                Height="40px" Width="40px" />
                             </CardHeaderAvatar>
                             <CardHeaderContent>
                                 <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
@@ -65,10 +66,9 @@
 }
 else if (noaaStevensPassForecast != null)
 {
-    string elevation = UnitDistanceUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.properties?.elevation?.value) ?? string.Empty;
-    DateTime? updated = noaaStevensPassForecast?.properties?.updateTime ?? null;
-    Period[] periods = noaaStevensPassForecast?.properties?.periods ?? null;
-
+    string elevation = UnitDistanceUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.Properties?.Elevation?.Value) ?? string.Empty;
+    DateTime? updated = noaaStevensPassForecast?.Properties?.UpdateTime ?? null;
+    Period[] periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
     <MudContainer Class="mb-8">
         <MudGrid>
@@ -81,29 +81,33 @@ else if (noaaStevensPassForecast != null)
 
     if (periods != null && periods.Length > 0)
     {
+        var filters = periods.GroupBy(p => p.ShortForecast)
+                         .Select(p => new
+                         {
+                             ShortName = p.Key,
+                             Count = p.Count()
+                         })
+                         .OrderBy(n => n.ShortName);
+
         Period[] filteredPeriods;
 
         filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
-            ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.shortForecast))).ToArray()
+            ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.ShortForecast))).ToArray()
             : filteredPeriods = periods.ToArray();
 
         <MudContainer Class="mb-8">
             <MudGrid>
-
-
                 <MudItem xs="12" sm="6" md="6">
                     <MudCard Elevation="0">
                         <MudCardContent>
                             <MudSelect T="string" Label="Filter by:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
-                                @foreach (var s in periods.Select(p => p.shortForecast).Distinct().ToArray())
+                                @foreach (var s in filters)
                                 {
-                                    <MudSelectItem T="string" Value="s">@s</MudSelectItem>
+                                    <MudSelectItem T="string" Value="s.ShortName">@s.ShortName (@s.Count)</MudSelectItem>
                                 }
                             </MudSelect>
                         </MudCardContent>
                     </MudCard>
-
-
                 </MudItem>
             </MudGrid>
         </MudContainer>
@@ -114,18 +118,18 @@ else if (noaaStevensPassForecast != null)
                 {
                     if (period != null)
                     {
-                        string name = period?.name ?? string.Empty;
-                        DateTime? startTime = period?.startTime ?? default;
-                        DateTime? endTime = period?.endTime ?? default;
-                        int? temperature = period?.temperature;
-                        string windDirection = period?.windDirection ?? string.Empty;
-                        string windSpeed = period?.windSpeed ?? string.Empty;
-                        string icon = period?.icon ?? string.Empty;
-                        string shortForecast = period?.shortForecast ?? string.Empty;
-                        string detailedForecast = period?.detailedForecast ?? string.Empty;
+                        string name = period?.Name ?? string.Empty;
+                        DateTime? startTime = period?.StartTime ?? default;
+                        DateTime? endTime = period?.EndTime ?? default;
+                        int? temperature = period?.Temperature;
+                        string windDirection = period?.WindDirection ?? string.Empty;
+                        string windSpeed = period?.WindSpeed ?? string.Empty;
+                        string icon = period?.Icon ?? string.Empty;
+                        string shortForecast = period?.ShortForecast ?? string.Empty;
+                        string detailedForecast = period?.DetailedForecast ?? string.Empty;
 
-                        <MudItem xs="12">
-                            <MudCard>
+                        <MudItem xs="12" sm="12" md="6">
+                            <MudCard style="height:100%">
                                 <MudCardHeader>
                                     <CardHeaderAvatar>
                                         <MudAvatar Color="Color.Secondary" Size="Size.Large">
@@ -137,6 +141,12 @@ else if (noaaStevensPassForecast != null)
                                         <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                         <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                                     </CardHeaderContent>
+                                    <CardHeaderActions>
+                                        <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
+                                                             ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
+                                                             ToggledChanged="@(args => ToggleSavePeriod(args, period))"
+                                                             Toggled="@period.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
+                                    </CardHeaderActions>
                                 </MudCardHeader>
                                 <MudCardContent>
                                     <MudText Typo="Typo.body1">@detailedForecast</MudText>
@@ -167,8 +177,6 @@ else
 }
 
 
-
-
 @code {
 
     private int elevation = 1;
@@ -193,10 +201,13 @@ else
 
     private IEnumerable<string> selectedFilters { get; set; } = new HashSet<string>() { };
 
+    private string _noaaSavedPeriods { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
         }
         catch(Exception ex)
@@ -205,5 +216,26 @@ else
             _logger.LogError(ex.Message + ex.StackTrace);
         }
     }
+
+    public async Task ToggleSavePeriod(bool toggled, Period period)
+    {
+        if (toggled)
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS", 
+                period.NoaaAddSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+        else
+        {
+            await _localStorageService.SetItemAsync(
+                "NOAA_SAVED_PERIODS", 
+                period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
+            );
+        }
+
+        _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+    }
+
 
 }

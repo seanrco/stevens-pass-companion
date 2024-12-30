@@ -1,0 +1,204 @@
+﻿@page "/resources"
+
+@inject ILogger<About> _logger
+
+<PageTitle>Stevens Pass Companion - Resources</PageTitle>
+
+<MudContainer Class="mt-8 mb-4">
+    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Resources</MudText>
+        </MudItem>
+@*         <MudItem xs="12">
+            <MudText Typo="Typo.body1">SPC recommends the following resources.</MudText>
+        </MudItem> *@
+    </MudGrid>
+</MudContainer>
+
+<MudContainer Class="mb-12">
+    <MudGrid Class="mb-12">
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/stevens-pass-logo.jpg" Alt="Stevens Pass"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Stevens Pass</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Official site for the Stevens Pass Ski Resort.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Stevens Pass"
+                               Target="_blank"
+                               Href="https://www.stevenspass.com/">stevenspass.com</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/wsdot-logo.png" Alt="WSDOT"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">WSDOT Stevens Pass US 2</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Official WSDOT Stevens Pass US 2 site. Check their full report before travelling US 2.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="WSDOT Stevens Pass US 2"
+                               Target="_blank"
+                               Href="https://wsdot.com/travel/real-time/mountainpasses/stevens">wsdot.com</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/wsdot-logo.png" Alt="WSDOT"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">WSDOT Blewett Pass US 97</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Official WSDOT Blewett Pass US 97 site. Check their full report before travelling US 97.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="WSDOT Blewett Pass US 97"
+                               Target="_blank"
+                               Href="https://wsdot.com/travel/real-time/mountainpasses/blewett">wsdot.com</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/wsdot-logo.png" Alt="WSDOT"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">WSDOT Snoqualmie Pass I-90</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Official WSDOT Snoqualmie Pass I-90 site. Check their full report before travelling I-90.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="WSDOT Snoqualmie Pass I-90"
+                               Target="_blank"
+                               Href="https://wsdot.com/travel/real-time/mountainpasses/snoqualmie">wsdot.com</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/noaa-logo.png" Alt="NOAA"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">NOAA Stevens Pass Forecast</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Offical NOAA site. Great source for reliable 7 day weather forecast. </MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="NOAA"
+                               Target="_blank"
+                               Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ">noaa.us</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/snow-forecast-logo.png" Alt="Snow-Forecast.com"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">Snow-Forecast.com</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Another great source for reliable 7 day weather forecast. Provides a handy bottom, mid, & top report based on elevation.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="Snow-Forecast.com"
+                               Target="_blank"
+                               Href="https://www.snow-forecast.com/resorts/Stevens-Pass/6day/mid">Snow-Forecast.com</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard style="height:100%">
+                <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                            <MudImage Src="images/nwac-logo.png" Alt="NWAC"></MudImage>
+                        </MudAvatar>
+                    </CardHeaderAvatar>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">NWAC</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body1">Travelling in the backcountry? NWAC is the defacto site for avalanche forecasts, education, and data.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Label="NWAC"
+                               Target="_blank"
+                               Href="https://nwac.us/">nwac.us</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+
+@code {
+
+    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem("Resources", href: null, disabled: true),
+    };
+
+}

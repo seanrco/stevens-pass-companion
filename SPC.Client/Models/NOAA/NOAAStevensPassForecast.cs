@@ -1,56 +1,105 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace SPC.Client.Models.NOAA;
 
 public class NOAAStevensPassForecast
 {
-    [JsonProperty("context")]
-    public object[] context { get; set; }
-    [JsonProperty("type")]
-    public string type { get; set; }
-    [JsonProperty("geometry")]
-    public Geometry geometry { get; set; }
-    [JsonProperty("properties")]
-    public Properties properties { get; set; }
+    [JsonPropertyName("contex")]
+    public object[] Context { get; set; }
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
+
+    [JsonPropertyName("geometry")]
+    public Geometry Geometry { get; set; }
+
+    [JsonPropertyName("properties")]
+    public Properties Properties { get; set; }
 }
 
 public class Geometry
 {
-    public string type { get; set; }
-    public float[][][] coordinates { get; set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
+
+    [JsonPropertyName("coordinates")]
+    public float[][][] Coordinates { get; set; }
 }
 
 public class Properties
 {
-    public DateTime updated { get; set; }
-    public string units { get; set; }
-    public string forecastGenerator { get; set; }
-    public DateTime generatedAt { get; set; }
-    public DateTime updateTime { get; set; }
-    public string validTimes { get; set; }
-    public Elevation elevation { get; set; }
-    public Period[] periods { get; set; }
+    [JsonPropertyName("update")]
+    public DateTime Updated { get; set; }
+
+    [JsonPropertyName("units")]
+    public string Units { get; set; }
+
+    [JsonPropertyName("forecastGenerator")]
+    public string ForecastGenerator { get; set; }
+
+    [JsonPropertyName("generatedAt")]
+    public DateTime GeneratedAt { get; set; }
+
+    [JsonPropertyName("updateTime")]
+    public DateTime UpdateTime { get; set; }
+
+    [JsonPropertyName("validTimes")]
+    public string ValidTimes { get; set; }
+
+    [JsonPropertyName("elevation")]
+    public Elevation Elevation { get; set; }
+
+    [JsonPropertyName("periods")]
+    public Period[] Periods { get; set; }
 }
 
 public class Elevation
 {
-    public string unitCode { get; set; }
-    public float value { get; set; }
+    [JsonPropertyName("unitCode")]
+    public string UnitCode { get; set; }
+
+    [JsonPropertyName("value")]
+    public float Value { get; set; }
 }
 
 public class Period
 {
-    public int number { get; set; }
-    public string name { get; set; }
-    public DateTime startTime { get; set; }
-    public DateTime endTime { get; set; }
-    public bool isDaytime { get; set; }
-    public int temperature { get; set; }
-    public string temperatureUnit { get; set; }
-    public string temperatureTrend { get; set; }
-    public string windSpeed { get; set; }
-    public string windDirection { get; set; }
-    public string icon { get; set; }
-    public string shortForecast { get; set; }
-    public string detailedForecast { get; set; }
+    [JsonPropertyName("number")]
+    public int Number { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("startTime")]
+    public DateTime StartTime { get; set; }
+
+    [JsonPropertyName("endTime")]
+    public DateTime EndTime { get; set; }
+
+    [JsonPropertyName("isDaytime")]
+    public bool IsDaytime { get; set; }
+
+    [JsonPropertyName("temperature")]
+    public int Temperature { get; set; }
+
+    [JsonPropertyName("temperatureUnit")]
+    public string TemperatureUnit { get; set; }
+
+    [JsonPropertyName("temperatureTrend")]
+    public string TemperatureTrend { get; set; }
+
+    [JsonPropertyName("windSpeed")]
+    public string WindSpeed { get; set; }
+
+    [JsonPropertyName("windDirection")]
+    public string WindDirection { get; set; }
+
+    [JsonPropertyName("icon")]
+    public string Icon { get; set; }
+
+    [JsonPropertyName("shortForecast")]
+    public string ShortForecast { get; set; }
+
+    [JsonPropertyName("detailedForecast")]
+    public string DetailedForecast { get; set; }
 }

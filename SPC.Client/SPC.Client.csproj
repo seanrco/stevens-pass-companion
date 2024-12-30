@@ -12,13 +12,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.11" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
     <PackageReference Include="MudBlazor" Version="7.15.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Net.Http.Json" Version="9.0.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    <PackageReference Include="TimeZoneConverter" Version="6.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+      <Content Update="Pages\Contact.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
     </ItemGroup>
 
 	<!-- Dev Note - Setting is required to resolve https://github.com/MudBlazor/MudBlazor/discussions/10514 -->

@@ -34,7 +34,7 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
                     }
                     @if (dateUpdated != null)
                     {
-                        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
+                        <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated.ConvertWsdotJsonDateTime()</MudText>
                     }
                 </CardHeaderContent>
             </MudCardHeader>

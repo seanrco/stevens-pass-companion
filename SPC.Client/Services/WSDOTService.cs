@@ -1,5 +1,6 @@
 ﻿using SPC.Client.Models.WSDOT;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace SPC.Client.Services;
 
@@ -39,7 +40,12 @@ public class WSDOTService
 
             if (result.IsSuccessStatusCode)
             {
-                return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}");
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}", options);
             }
         }
         catch (Exception ex)
@@ -82,7 +88,12 @@ public class WSDOTService
 
             if (result.IsSuccessStatusCode)
             {
-                return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}", options);
             }
         }
         catch (Exception ex)
