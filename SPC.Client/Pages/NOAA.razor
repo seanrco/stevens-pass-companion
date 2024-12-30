@@ -141,12 +141,12 @@ else if (noaaStevensPassForecast != null)
                                         <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                         <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                                     </CardHeaderContent>
-                                    <CardHeaderActions>
+@*                                     <CardHeaderActions>
                                         <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
                                                              ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
                                                              ToggledChanged="@(args => ToggleSavePeriod(args, period))"
                                                              Toggled="@period.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
-                                    </CardHeaderActions>
+                                    </CardHeaderActions> *@
                                 </MudCardHeader>
                                 <MudCardContent>
                                     <MudText Typo="Typo.body1">@detailedForecast</MudText>
@@ -201,13 +201,13 @@ else
 
     private IEnumerable<string> selectedFilters { get; set; } = new HashSet<string>() { };
 
-    private string _noaaSavedPeriods { get; set; } = string.Empty;
+    // private string _noaaSavedPeriods { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+            // _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
             noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
         }
         catch(Exception ex)
@@ -217,25 +217,25 @@ else
         }
     }
 
-    public async Task ToggleSavePeriod(bool toggled, Period period)
-    {
-        if (toggled)
-        {
-            await _localStorageService.SetItemAsync(
-                "NOAA_SAVED_PERIODS", 
-                period.NoaaAddSavedPeriod(_noaaSavedPeriods)
-            );
-        }
-        else
-        {
-            await _localStorageService.SetItemAsync(
-                "NOAA_SAVED_PERIODS", 
-                period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
-            );
-        }
+    // public async Task ToggleSavePeriod(bool toggled, Period period)
+    // {
+    //     if (toggled)
+    //     {
+    //         await _localStorageService.SetItemAsync(
+    //             "NOAA_SAVED_PERIODS", 
+    //             period.NoaaAddSavedPeriod(_noaaSavedPeriods)
+    //         );
+    //     }
+    //     else
+    //     {
+    //         await _localStorageService.SetItemAsync(
+    //             "NOAA_SAVED_PERIODS", 
+    //             period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
+    //         );
+    //     }
 
-        _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
-    }
+    //     _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+    // }
 
 
 }
