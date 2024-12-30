@@ -138,7 +138,7 @@ public static class LocalStorageUtilities
 
                 if (periods != null && periods.Count > 0)
                 {
-                    foreach (string period in periods)
+                    foreach (string period in periods.Reverse<string>())
                     {
                         if (DateTime.TryParse(period, out DateTime date))
                         {
