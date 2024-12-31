@@ -19,11 +19,14 @@
 <MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
-            <MudFab StartIcon="@Icons.Material.Filled.Outbound"
-                    Label="@wsdotText"
-                    Size="Size.Small"
-                    Href="@wsdotUrl"
-                    Target="_blank" />
+            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to visit the official full WSDOT Report.</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudButton Variant="Variant.Outlined"
+                       StartIcon="@Icons.Material.Filled.Launch"
+                       Label="@wsdotText"
+                       Target="_blank"
+                       Href="@wsdotUrl">@wsdotText</MudButton>
         </MudItem>
     </MudGrid>
 </MudContainer>
