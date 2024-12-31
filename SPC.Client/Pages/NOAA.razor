@@ -21,11 +21,14 @@
 <MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
-            <MudFab StartIcon="@Icons.Material.Filled.Outbound"
-            Label="@noaaReportButtonText"
-            Size="Size.Small"
-            Href="@noaaReportUrl"
-            Target="_blank" />
+            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to visit the official full NOAA Forecast.</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudButton Variant="Variant.Outlined"
+                       StartIcon="@Icons.Material.Filled.Launch"
+                       Label="NOAA"
+                       Target="_blank"
+                       Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ">Visit noaa.us</MudButton>
         </MudItem>
     </MudGrid>
 </MudContainer>
@@ -70,11 +73,13 @@ else if (noaaStevensPassForecast != null)
     DateTime? updated = noaaStevensPassForecast?.Properties?.UpdateTime ?? null;
     Period[] periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
-    <MudContainer Class="mb-8">
+    <MudContainer Class="mb-4">
         <MudGrid>
             <MudItem xs="12">
-                <MudText Typo="Typo.body1" Align="Align.Left">Elevation: ~ @elevation ft</MudText>
+
                 <MudText Typo="Typo.body1" Align="Align.Left">Updated: @updated.FormatDateTime()</MudText>
+                @* <MudText Typo="Typo.body1" Align="Align.Left">Elevation: ~ @elevation ft</MudText> *@
+               
             </MudItem>
         </MudGrid>
     </MudContainer>
