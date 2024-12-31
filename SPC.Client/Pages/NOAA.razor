@@ -21,7 +21,7 @@
 <MudContainer Class="mb-8">
     <MudGrid>
         <MudItem xs="12">
-            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to visit the official full NOAA Forecast.</MudText>
+            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to also visit the official full NOAA Forecast.</MudText>
         </MudItem>
         <MudItem xs="12">
             <MudButton Variant="Variant.Outlined"
@@ -102,7 +102,7 @@ else if (noaaStevensPassForecast != null)
 
         <MudContainer Class="mb-8">
             <MudGrid>
-                <MudItem xs="12" sm="6" md="6">
+                <MudItem xs="12" sm="12" md="6">
                     <MudCard Elevation="0">
                         <MudCardContent>
                             <MudSelect T="string" Label="Filter by:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
