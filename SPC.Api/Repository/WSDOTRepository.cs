@@ -39,6 +39,10 @@ public class WSDOTRepository : IWSDOTRepository
                 {
                     return new OkObjectResult(jsonData);
                 }
+                else
+                {
+                    return new NoContentResult();
+                }
             }
         }
         catch (Exception ex)
@@ -69,6 +73,10 @@ public class WSDOTRepository : IWSDOTRepository
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {
                     return new OkObjectResult(jsonData);
+                }
+                else
+                {
+                    return new NoContentResult();
                 }
             }
         }
