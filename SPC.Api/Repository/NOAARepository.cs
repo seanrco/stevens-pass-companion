@@ -37,6 +37,10 @@ public class NOAARepository : INOAARepository
                 {
                     return new OkObjectResult(jsonData);
                 }
+                else
+                {
+                    return new NoContentResult();
+                }
             }
         }
         catch (Exception ex)
