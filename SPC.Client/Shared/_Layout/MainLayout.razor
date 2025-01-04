@@ -27,10 +27,14 @@
 
         <MudSpacer />
         <MudToggleIconButton @bind-Toggled="_isDarkMode" @bind-Toggled:after="ThemeToggled"
-        Icon="@Icons.Material.Outlined.DarkMode"
-        Color="@Color.Default"
-        ToggledIcon="@Icons.Material.Outlined.LightMode"
-        ToggledColor="@Color.Default" />
+                             Icon="@Icons.Material.Outlined.DarkMode"
+                             Color="@Color.Default"
+                             ToggledIcon="@Icons.Material.Outlined.LightMode"
+                             ToggledColor="@Color.Default" />
+        <MudToggleIconButton Icon="@Icons.Custom.Brands.GitHub"
+                             Color="@Color.Default"
+                             Href="https://github.com/seanrco/stevens-pass-companion"
+                             Target="_blank" />
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu/>
