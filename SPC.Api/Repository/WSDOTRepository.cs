@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SPC.Api.Repository.Interfaces;
+using SPC.Api.Utilities;
 
 namespace SPC.Api.Repository;
 
 public class WSDOTRepository : IWSDOTRepository
 {
 
-    // TODO - How can we remove access code from code for local dev?
-    private readonly string _wsdotApiAccessCode = Environment.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE")
-    ?? "0359523e-015e-4244-9e73-cd932eb44542";
+
+    private string _wsdotApiAccessCode = AzureUtilities.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE");
 
     private readonly ILogger<WSDOTRepository> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
