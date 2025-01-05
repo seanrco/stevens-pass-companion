@@ -139,7 +139,8 @@ else
         }
         catch (Exception ex)
         {
-            Debug.WriteLine("NOAAReportDashboard - Error - " + ex.Message + ex.StackTrace);
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
         }
     }
 
