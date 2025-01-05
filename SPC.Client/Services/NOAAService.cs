@@ -1,4 +1,5 @@
 ﻿using SPC.Client.Models.NOAA;
+using SPC.Client.Models.NOAA.ActiveAlerts;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -15,6 +16,31 @@ public class NOAAService
     {
         _logger = logger;
         _httpClient = httpClientFactory;
+    }
+
+    public async Task<NOAAActiveAlerts?> GetActiveAlertsAsync()
+    {
+        try
+        {
+            var result = await _httpClient.GetAsync("/api/NOAA/GetActiveAlerts");
+
+            if (result.IsSuccessStatusCode)
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                return await _httpClient.GetFromJsonAsync<NOAAActiveAlerts>("/api/NOAA/GetActiveAlerts", options);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
+
+        return null;
     }
 
     public async Task<NOAAStevensPassForecast?> GetForecastAsync()
