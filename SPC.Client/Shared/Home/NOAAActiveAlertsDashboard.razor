@@ -1,0 +1,79 @@
+﻿@inject ILogger<NOAAActiveAlerts> _logger
+@inject NOAAService _NOAAService
+
+@if (noaaActiveAlerts != null)
+{
+    Feature[]? features = noaaActiveAlerts?.Features?.Length > 0
+        ? noaaActiveAlerts?.Features?.Take(1)?.ToArray()
+        : null;
+
+    if(features != null && features.Length > 0)
+    {
+        foreach(Feature feature in features)
+        {
+            string title = feature?.Properties?.Event ?? string.Empty;
+            string headline = feature?.Properties?.Headline ?? string.Empty;
+            string description = feature?.Properties?.Description ?? string.Empty;
+            string instruction = feature?.Properties?.Instruction ?? string.Empty;
+
+            if(!string.IsNullOrEmpty(title))
+            {
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h5">@title</MudText>
+                </MudItem>
+            }
+
+            <MudItem xs="12" sm="12" md="12">
+                <div class="mx-auto">
+                    <MudExpansionPanels>
+                        <MudExpansionPanel Style="background-color: var(--mud-palette-warning-hover) !important; color: var(--mud-palette-warning-darken) !important;">
+                            <TitleContent>
+                                <div class="d-flex">
+                                    <MudIcon Icon="@Icons.Material.Filled.WarningAmber" class="mr-3"></MudIcon>
+                                    <MudText>@headline</MudText>
+                                </div>
+                            </TitleContent>
+                            <ChildContent>
+                                @if (!string.IsNullOrEmpty(description))
+                                {
+                                    <MudText Class="mb-4">
+                                        @((MarkupString)Regex.Replace(
+                                            HttpUtility.HtmlEncode(description), "\r?\n\n|\r", "<br /><br />"))
+                                    </MudText>
+                                }
+                                @if (!string.IsNullOrEmpty(instruction))
+                                {
+                                    <MudText Class="mb-4">
+                                        @((MarkupString)Regex.Replace(
+                                            HttpUtility.HtmlEncode(instruction), "\r?\n\n|\r", "<br /><br />"))
+                                    </MudText>
+                                }
+                            </ChildContent>
+                        </MudExpansionPanel>
+                    </MudExpansionPanels>
+                </div>
+            </MudItem>
+        }
+    }
+
+}
+
+
+@code {
+
+    private NOAAActiveAlerts? noaaActiveAlerts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            noaaActiveAlerts = await _NOAAService.GetActiveAlertsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
+    }
+
+}

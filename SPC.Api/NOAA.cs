@@ -15,8 +15,17 @@ public class NOAA
         _noaaRepo = noaaRepo;
     }
 
-    [Function("NOAA")]
-    public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
+    [Function("NOAAGetActiveAlerts")]
+    public async Task<IActionResult> GetActiveAlertsAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
+        Route = "NOAA/GetActiveAlerts")] HttpRequest req)
+    {
+
+        return await _noaaRepo.GetActiveAlerts();
+
+    }
+
+    [Function("NOAAGetReport")]
+    public async Task<IActionResult> GetReportAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
         Route = "NOAA/GetReport")] HttpRequest req)
     {
 

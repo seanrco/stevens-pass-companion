@@ -23,6 +23,10 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Shared\NOAA\" />
+    </ItemGroup>
+
 	<!-- Dev Note - Setting is required to resolve https://github.com/MudBlazor/MudBlazor/discussions/10514 -->
     <PropertyGroup>
 	    <NullabilityInfoContextSupport>true</NullabilityInfoContextSupport>
