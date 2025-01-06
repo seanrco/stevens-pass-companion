@@ -1,7 +1,7 @@
-﻿using SPC.Client.Models.NOAA;
-using SPC.Client.Models.NOAA.ActiveAlerts;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
+using SPC.Client.Models.NOAA.ActiveAlerts;
+using SPC.Client.Models.NOAA.Forecast;
 
 namespace SPC.Client.Services;
 
@@ -43,7 +43,7 @@ public class NOAAService
         return null;
     }
 
-    public async Task<NOAAStevensPassForecast?> GetForecastAsync()
+    public async Task<NOAAForecast?> GetForecastAsync()
     {
         try
         {
@@ -56,7 +56,7 @@ public class NOAAService
                     PropertyNameCaseInsensitive = true
                 };
 
-                return await _httpClient.GetFromJsonAsync<NOAAStevensPassForecast>("/api/NOAA/GetReport", options);
+                return await _httpClient.GetFromJsonAsync<NOAAForecast>("/api/NOAA/GetReport", options);
             }
         }
         catch (Exception ex)
