@@ -1,4 +1,4 @@
-﻿using SPC.Client.Models.NOAA;
+﻿using SPC.Client.Models.NOAA.Forecast;
 
 namespace SPC.Client.Utilities;
 
