@@ -47,7 +47,7 @@ public class NOAAService
     {
         try
         {
-            var result = await _httpClient.GetAsync("/api/NOAA/GetReport");
+            var result = await _httpClient.GetAsync("/api/NOAA/GetForecast");
 
             if (result.IsSuccessStatusCode)
             {
@@ -56,7 +56,7 @@ public class NOAAService
                     PropertyNameCaseInsensitive = true
                 };
 
-                return await _httpClient.GetFromJsonAsync<NOAAForecast>("/api/NOAA/GetReport", options);
+                return await _httpClient.GetFromJsonAsync<NOAAForecast>("/api/NOAA/GetForecast", options);
             }
         }
         catch (Exception ex)
