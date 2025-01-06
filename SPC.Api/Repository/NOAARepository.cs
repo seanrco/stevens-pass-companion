@@ -51,7 +51,7 @@ public class NOAARepository : INOAARepository
         return new NoContentResult();
     }
 
-    public async Task<IActionResult> GetReport()
+    public async Task<IActionResult> GetForecast()
     {
         try
         {
