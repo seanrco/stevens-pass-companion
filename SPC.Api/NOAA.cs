@@ -24,12 +24,12 @@ public class NOAA
 
     }
 
-    [Function("NOAAGetReport")]
+    [Function("NOAAGetForecast")]
     public async Task<IActionResult> GetReportAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post",
-        Route = "NOAA/GetReport")] HttpRequest req)
+        Route = "NOAA/GetForecast")] HttpRequest req)
     {
 
-        return await _noaaRepo.GetReport();
+        return await _noaaRepo.GetForecast();
 
     }
 
