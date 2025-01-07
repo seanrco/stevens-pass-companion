@@ -31,7 +31,7 @@ public class NOAARepository : INOAARepository
 
             if (response.IsSuccessStatusCode)
             {
-                string jsonData = await httpClient.GetStringAsync(url);
+                string jsonData = await response.Content.ReadAsStringAsync();
 
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {
@@ -65,7 +65,7 @@ public class NOAARepository : INOAARepository
 
             if (response.IsSuccessStatusCode)
             {
-                string jsonData = await httpClient.GetStringAsync(url);
+                string jsonData = await response.Content.ReadAsStringAsync();
 
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {
