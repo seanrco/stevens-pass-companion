@@ -1,4 +1,5 @@
-﻿using SPC.Client.Models.WSDOT;
+﻿using SPC.Client.Models.NOAA.Forecast;
+using SPC.Client.Models.WSDOT;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -36,16 +37,20 @@ public class WSDOTService
                 id = "11";
             }
 
-            var result = await _httpClient.GetAsync($"/api/WSDOT/GetMountainPassCondition/{id}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/WSDOT/GetMountainPassCondition/{id}");
 
-            if (result.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
+                string jsonData = await response.Content.ReadAsStringAsync();
+
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
 
-                return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}", options);
+                return JsonSerializer.Deserialize<WSDOTReport?>(jsonData, options);
+
+                //return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}", options);
             }
         }
         catch (Exception ex)
@@ -84,16 +89,20 @@ public class WSDOTService
                 endingMilepost = "97";
             }
 
-            var result = await _httpClient.GetAsync($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
 
-            if (result.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
+                string jsonData = await response.Content.ReadAsStringAsync();
+
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
 
-                return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}", options);
+                return JsonSerializer.Deserialize<List<WSDOTCamera>?>(jsonData, options);
+
+                //return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}", options);
             }
         }
         catch (Exception ex)
