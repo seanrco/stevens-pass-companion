@@ -8,7 +8,6 @@ namespace SPC.Api.Repository;
 public class WSDOTRepository : IWSDOTRepository
 {
 
-
     private string _wsdotApiAccessCode = AzureUtilities.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE");
 
     private readonly ILogger<WSDOTRepository> _logger;
@@ -33,7 +32,7 @@ public class WSDOTRepository : IWSDOTRepository
 
             if (response.IsSuccessStatusCode)
             {
-                string jsonData = await httpClient.GetStringAsync(apiUrl);
+                string jsonData = await response.Content.ReadAsStringAsync();
 
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {
@@ -68,7 +67,7 @@ public class WSDOTRepository : IWSDOTRepository
 
             if (response.IsSuccessStatusCode)
             {
-                string jsonData = await httpClient.GetStringAsync(apiUrl);
+                string jsonData = await response.Content.ReadAsStringAsync();
 
                 if (!string.IsNullOrWhiteSpace(jsonData))
                 {

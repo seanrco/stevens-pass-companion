@@ -22,16 +22,20 @@ public class NOAAService
     {
         try
         {
-            var result = await _httpClient.GetAsync("/api/NOAA/GetActiveAlerts");
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/NOAA/GetActiveAlerts");
 
-            if (result.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
+                string jsonData = await response.Content.ReadAsStringAsync();
+
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
 
-                return await _httpClient.GetFromJsonAsync<NOAAActiveAlerts>("/api/NOAA/GetActiveAlerts", options);
+                return JsonSerializer.Deserialize<NOAAActiveAlerts?>(jsonData, options);
+
+                //return await _httpClient.GetFromJsonAsync<NOAAActiveAlerts>("/api/NOAA/GetActiveAlerts", options);
             }
         }
         catch (Exception ex)
@@ -47,16 +51,20 @@ public class NOAAService
     {
         try
         {
-            var result = await _httpClient.GetAsync("/api/NOAA/GetForecast");
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/NOAA/GetForecast");
 
-            if (result.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
+                string jsonData = await response.Content.ReadAsStringAsync();
+
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
 
-                return await _httpClient.GetFromJsonAsync<NOAAForecast>("/api/NOAA/GetForecast", options);
+                return JsonSerializer.Deserialize<NOAAForecast?>(jsonData, options);
+
+                //return await _httpClient.GetFromJsonAsync<NOAAForecast>("/api/NOAA/GetForecast", options);
             }
         }
         catch (Exception ex)
