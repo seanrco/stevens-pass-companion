@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text.Json;
+﻿using System.Text.Json;
 using SPC.Client.Models.NOAA.ActiveAlerts;
 using SPC.Client.Models.NOAA.Forecast;
 
@@ -22,7 +21,8 @@ public class NOAAService
     {
         try
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/NOAA/GetActiveAlerts");
+            HttpResponseMessage response = await _httpClient
+                .GetAsync("/api/NOAA/GetActiveAlerts");
 
             if (response.IsSuccessStatusCode)
             {
@@ -34,8 +34,6 @@ public class NOAAService
                 };
 
                 return JsonSerializer.Deserialize<NOAAActiveAlerts?>(jsonData, options);
-
-                //return await _httpClient.GetFromJsonAsync<NOAAActiveAlerts>("/api/NOAA/GetActiveAlerts", options);
             }
         }
         catch (Exception ex)
@@ -51,7 +49,8 @@ public class NOAAService
     {
         try
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/NOAA/GetForecast");
+            HttpResponseMessage response = await _httpClient
+                .GetAsync("/api/NOAA/GetForecast");
 
             if (response.IsSuccessStatusCode)
             {
@@ -63,8 +62,6 @@ public class NOAAService
                 };
 
                 return JsonSerializer.Deserialize<NOAAForecast?>(jsonData, options);
-
-                //return await _httpClient.GetFromJsonAsync<NOAAForecast>("/api/NOAA/GetForecast", options);
             }
         }
         catch (Exception ex)
