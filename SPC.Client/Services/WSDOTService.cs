@@ -1,6 +1,4 @@
-﻿using SPC.Client.Models.NOAA.Forecast;
-using SPC.Client.Models.WSDOT;
-using System.Net.Http.Json;
+﻿using SPC.Client.Models.WSDOT;
 using System.Text.Json;
 
 namespace SPC.Client.Services;
@@ -37,7 +35,8 @@ public class WSDOTService
                 id = "11";
             }
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"/api/WSDOT/GetMountainPassCondition/{id}");
+            HttpResponseMessage response = await _httpClient
+                .GetAsync($"/api/WSDOT/GetMountainPassCondition/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -49,8 +48,6 @@ public class WSDOTService
                 };
 
                 return JsonSerializer.Deserialize<WSDOTReport?>(jsonData, options);
-
-                //return await _httpClient.GetFromJsonAsync<WSDOTReport?>($"/api/WSDOT/GetMountainPassCondition/{id}", options);
             }
         }
         catch (Exception ex)
@@ -89,7 +86,8 @@ public class WSDOTService
                 endingMilepost = "97";
             }
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
+            HttpResponseMessage response = await _httpClient
+                .GetAsync($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -101,8 +99,6 @@ public class WSDOTService
                 };
 
                 return JsonSerializer.Deserialize<List<WSDOTCamera>?>(jsonData, options);
-
-                //return await _httpClient.GetFromJsonAsync<List<WSDOTCamera>?>($"/api/WSDOT/GetCameras/{stateRoute}/{startingMilepost}/{endingMilepost}", options);
             }
         }
         catch (Exception ex)
