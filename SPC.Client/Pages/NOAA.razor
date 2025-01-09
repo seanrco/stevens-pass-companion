@@ -4,34 +4,17 @@
 @inject NOAAService _NOAAService
 @inject Blazored.LocalStorage.ILocalStorageService _localStorageService
 
-<PageTitle>Stevens Pass Companion - NOAA</PageTitle>
+<PageTitle>Stevens Pass Companion - @title</PageTitle>
 
-<MudContainer Class="mt-8 mb-4">
-    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-</MudContainer>
+<BreadcrumbsComp Value="@breadcrumbs"></BreadcrumbsComp>
 
-<MudContainer Class="mb-8">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4">@header</MudText>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<TitleComp Value="@title"></TitleComp>
 
-<MudContainer Class="mb-8">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to also visit the official full NOAA Forecast.</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudButton Variant="Variant.Outlined"
-            StartIcon="@Icons.Material.Filled.Launch"
-            Label="NOAA"
-            Target="_blank"
-            Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ">Visit noaa.us</MudButton>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<SubtitleComp Value="@subtitle"></SubtitleComp>
+
+<ExternalSiteButtonComp Label="NOAA" 
+    Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ"
+    Name="Visit noaa.us"></ExternalSiteButtonComp>
 
 @if (noaaActiveAlerts != null)
 {
@@ -74,14 +57,14 @@
                                             <MudText Class="mb-4">
 
                                                 @((MarkupString)Regex.Replace(
-                                                    HttpUtility.HtmlEncode(description), "\r?\n\n|\r", "<br /><br />"))
+                                                        HttpUtility.HtmlEncode(description), "\r?\n\n|\r", "<br /><br />"))
                                             </MudText>
                                         }
                                         @if (!string.IsNullOrEmpty(instruction))
                                         {
                                             <MudText Class="mb-4">
                                                 @((MarkupString)Regex.Replace(
-                                                    HttpUtility.HtmlEncode(instruction), "\r?\n\n|\r", "<br /><br />"))
+                                                        HttpUtility.HtmlEncode(instruction), "\r?\n\n|\r", "<br /><br />"))
                                             </MudText>
                                         }
                                     </ChildContent>
@@ -211,7 +194,7 @@ else if (noaaStevensPassForecast != null)
                                         <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
                                         <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
                                     </CardHeaderContent>
-@*                                     <CardHeaderActions>
+                                    @*                                     <CardHeaderActions>
                                         <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
                                                              ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
                                                              ToggledChanged="@(args => ToggleSavePeriod(args, period))"
@@ -251,7 +234,15 @@ else
 
     private int elevation = 1;
 
-    private readonly string header = "NOAA";
+    private static readonly string title = "NOAA Stevens Pass";
+
+    private readonly string subtitle = "Before travelling be sure to also visit the official full NOAA Forecast.";
+
+    private readonly List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem(title, href: null, disabled: true),
+    };
 
     private readonly string noaaApiAlertText = "Looks like there is an issue with the NOAA API. " +
         "Please try reloading the page ." + 
@@ -261,11 +252,7 @@ else
 
     private readonly string noaaReportButtonText = "noaa.com";
 
-    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem("Home", href: "/"),
-        new BreadcrumbItem("NOAA Forecast", href: null, disabled: true),
-    };
+
 
     private NOAAActiveAlerts? noaaActiveAlerts;
     private NOAAForecast? noaaStevensPassForecast;

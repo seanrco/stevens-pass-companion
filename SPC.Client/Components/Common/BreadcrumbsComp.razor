@@ -1,0 +1,12 @@
+﻿@inject ILogger<BreadcrumbsComp> _logger
+
+<MudContainer Class="mt-8 mb-4">
+    <MudBreadcrumbs Items="Value"></MudBreadcrumbs>
+</MudContainer>
+
+@code {
+
+    [Parameter]
+    public List<BreadcrumbItem>? Value { get; set; }
+
+}
