@@ -2,48 +2,35 @@
 
 @inject ILogger<WSDOTSnoqualmiePass> _logger
 
-<PageTitle>Stevens Pass Companion - WSDOT Snoqualmie Pass Report</PageTitle>
+<PageTitle>Stevens Pass Companion - @title</PageTitle>
 
-<MudContainer Class="mt-8 mb-4">
-    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-</MudContainer>
+<BreadcrumbsComp Value="@breadcrumbs"></BreadcrumbsComp>
 
-<MudContainer Class="mb-8">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4">@header</MudText>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<TitleComp Value="@title"></TitleComp>
 
-<MudContainer Class="mb-8">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to also visit the official full WSDOT Report.</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudButton Variant="Variant.Outlined"
-                       StartIcon="@Icons.Material.Filled.Launch"
-                       Label="@wsdotText"
-                       Target="_blank"
-                       Href="@wsdotUrl">@wsdotText</MudButton>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<SubtitleComp Value="@subtitle"></SubtitleComp>
 
-<WSDOTReportPartial Value="SnoqualmiePass"></WSDOTReportPartial>
-<WSDOTCamerasPartial Value="SnoqualmiePass"></WSDOTCamerasPartial>
+<ExternalSiteButtonComp Label="@wsdotText"
+                    Href="@wsdotUrl"
+                    Name="@wsdotText"></ExternalSiteButtonComp>
+
+<WSDOTReportComp Value="SnoqualmiePass"></WSDOTReportComp>
+<WSDOTCamerasComp Value="SnoqualmiePass"></WSDOTCamerasComp>
 
 @code {
 
-    private static string header = "WSDOT Snoqualmie Pass Report";
-    private static string wsdotUrl = "https://wsdot.com/travel/real-time/mountainpasses/Snoqualmie";
-    private static string wsdotText = "wsdot.com";
+    private static readonly string title = "WSDOT Snoqualmie Pass Report";
+
+    private readonly string subtitle = "Before travelling be sure to also visit the official full WSDOT Report.";
+
+    private readonly string wsdotUrl = "https://wsdot.com/travel/real-time/mountainpasses/Snoqualmie";
+
+    private readonly string wsdotText = "wsdot.com";
 
     private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
     {
         new BreadcrumbItem("Home", href: "/"),
-        new BreadcrumbItem(header, href: null, disabled: true),
+        new BreadcrumbItem(title, href: null, disabled: true),
     };
 
 }

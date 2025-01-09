@@ -1,0 +1,26 @@
+﻿@inject ILogger<ExternalSiteButtonComp> _logger
+
+<MudContainer Class="mb-8">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudButton Variant="Variant.Outlined"
+                       StartIcon="@Icons.Material.Filled.Launch"
+                       Label="@Label"
+                       Target="_blank"
+                       Href="@Href">@Name</MudButton>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    [Parameter]
+    public string? Label{ get; set; }
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter]
+    public string? Name { get; set; }
+
+}

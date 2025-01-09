@@ -1,0 +1,52 @@
+﻿@inject ILogger<PeriodCardComp> _logger
+
+<MudCard style="height:100%">
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
+            </MudAvatar>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6"><b>@name</b></MudText>
+            <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
+            <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
+        </CardHeaderContent>
+        @*         <CardHeaderActions>
+            <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
+                                 ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
+                                 ToggledChanged="@(args => ToggleSavePeriod(args, period))"
+                                 Toggled="@period.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
+        </CardHeaderActions> *@
+    </MudCardHeader>
+    <MudCardContent>
+        <MudText Typo="Typo.body1">@detailedForecast</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText>
+    </MudCardActions>
+</MudCard>
+
+@code {
+
+    [Parameter]
+    public Period? Value { get; set; }
+
+    private static Period? _period;
+
+    string name = _period?.Name ?? string.Empty;
+    DateTime? startTime = _period?.StartTime ?? default;
+    DateTime? endTime = _period?.EndTime ?? default;
+    int? temperature = _period?.Temperature;
+    string windDirection = _period?.WindDirection ?? string.Empty;
+    string windSpeed = _period?.WindSpeed ?? string.Empty;
+    string icon = _period?.Icon ?? string.Empty;
+    string shortForecast = _period?.ShortForecast ?? string.Empty;
+    string detailedForecast = _period?.DetailedForecast ?? string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _period = Value;
+    }
+
+}

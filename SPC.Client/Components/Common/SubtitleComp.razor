@@ -1,0 +1,16 @@
+﻿@inject ILogger<SubtitleComp> _logger
+
+<MudContainer Class="mb-8">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h6" Style="font-weight: 350;">@Value</MudText>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    [Parameter]
+    public string? Value{ get; set; }
+
+}

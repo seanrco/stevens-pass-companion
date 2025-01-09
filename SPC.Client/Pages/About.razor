@@ -2,22 +2,13 @@
 
 @inject ILogger<About> _logger
 
-<PageTitle>Stevens Pass Companion - About</PageTitle>
+<PageTitle>Stevens Pass Companion - @title</PageTitle>
 
-<MudContainer Class="mt-8 mb-4">
-    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-</MudContainer>
+<BreadcrumbsComp Value="@breadcrumbs"></BreadcrumbsComp>
 
-<MudContainer Class="mb-12">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4">About</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6" Style="font-weight: 350;">Stevens Pass Companion is a central hub aimed to help streamline your trip to Stevens Pass Ski Resort or when travelling over Stevens Pass US 2. Built by the community for the community, SPKA!</MudText>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<TitleComp Value="@title"></TitleComp>
+
+<SubtitleComp Value="@subtitle"></SubtitleComp>
 
 <MudContainer Class="mb-12">
     <MudGrid Class="mb-12">
@@ -37,15 +28,15 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Label="Venmo"
-                               Target="_blank"
-                               Href="https://www.venmo.com/u/StevensPassCompanion">Venmo</MudButton>
+                    Color="Color.Primary"
+                    Label="Venmo"
+                    Target="_blank"
+                    Href="https://www.venmo.com/u/StevensPassCompanion">Venmo</MudButton>
                     <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Label="Paypal"
-                               Target="_blank"
-                               Href="https://www.paypal.me/StevensPassCompanion">PayPal</MudButton>
+                    Color="Color.Primary"
+                    Label="Paypal"
+                    Target="_blank"
+                    Href="https://www.paypal.me/StevensPassCompanion">PayPal</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -65,10 +56,10 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Label="Contact Us"
-                               Target="_blank"
-                               Href="https://github.com/seanrco/stevens-pass-companion/discussions">Contact Us</MudButton>
+                    Color="Color.Primary"
+                    Label="Contact Us"
+                    Target="_blank"
+                    Href="https://github.com/seanrco/stevens-pass-companion/discussions">Contact Us</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -88,10 +79,10 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Label="Release Notes"
-                               Target="_blank"
-                               Href="https://github.com/seanrco/stevens-pass-companion/releases">Release Notes</MudButton>
+                    Color="Color.Primary"
+                    Label="Release Notes"
+                    Target="_blank"
+                    Href="https://github.com/seanrco/stevens-pass-companion/releases">Release Notes</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -119,10 +110,14 @@
 
 @code {
 
-    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    private static readonly string title = "About";
+
+    private readonly string subtitle = "Stevens Pass Companion is a central hub aimed to help streamline your trip to Stevens Pass Ski Resort or when travelling over Stevens Pass US 2. Built by the community for the community, SPKA!";
+
+    private readonly List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
     {
         new BreadcrumbItem("Home", href: "/"),
-        new BreadcrumbItem("About", href: null, disabled: true),
+        new BreadcrumbItem(title, href: null, disabled: true),
     };
 
 }

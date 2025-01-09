@@ -2,48 +2,35 @@
 
 @inject ILogger<WSDOTBlewettPass> _logger
 
-<PageTitle>Stevens Pass Companion - WSDOT Blewett Pass Report</PageTitle>
+<PageTitle>Stevens Pass Companion - @title</PageTitle>
 
-<MudContainer Class="mt-8 mb-4">
-    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-</MudContainer>
+<BreadcrumbsComp Value="@breadcrumbs"></BreadcrumbsComp>
 
-<MudContainer Class="mb-8">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4">@header</MudText>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<TitleComp Value="@title"></TitleComp>
 
-<MudContainer Class="mb-8">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h6" Style="font-weight: 350;">Before travelling be sure to also visit the official full WSDOT Report.</MudText>
-        </MudItem>
-        <MudItem xs="12">
-            <MudButton Variant="Variant.Outlined"
-                       StartIcon="@Icons.Material.Filled.Launch"
-                       Label="@wsdotText"
-                       Target="_blank"
-                       Href="@wsdotUrl">@wsdotText</MudButton>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+<SubtitleComp Value="@subtitle"></SubtitleComp>
 
-<WSDOTReportPartial Value="BlewettPass"></WSDOTReportPartial>
-<WSDOTCamerasPartial Value="BlewettPass"></WSDOTCamerasPartial>
+<ExternalSiteButtonComp Label="@wsdotText"
+                    Href="@wsdotUrl"
+                    Name="@wsdotText"></ExternalSiteButtonComp>
+
+<WSDOTReportComp Value="BlewettPass"></WSDOTReportComp>
+<WSDOTCamerasComp Value="BlewettPass"></WSDOTCamerasComp>
 
 @code {
 
-    private static string header = "WSDOT Blewett Pass Report";
+    private static readonly string title = "WSDOT Blewett Pass Report";
+
+    private readonly string subtitle = "Before travelling be sure to also visit the official full WSDOT Report.";
+
     private static string wsdotUrl = "https://wsdot.com/travel/real-time/mountainpasses/blewett";
+
     private static string wsdotText = "wsdot.com";
 
-    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    private readonly List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
     {
         new BreadcrumbItem("Home", href: "/"),
-        new BreadcrumbItem(header, href: null, disabled: true),
+        new BreadcrumbItem(title, href: null, disabled: true),
     };
 
 }
