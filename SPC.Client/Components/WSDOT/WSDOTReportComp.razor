@@ -1,4 +1,4 @@
-﻿@inject ILogger<WSDOTReportPartial> _logger
+﻿@inject ILogger<WSDOTReportComp> _logger
 @inject WSDOTService _WSDOTService
 
 @if (wsdotReport == null)
@@ -38,11 +38,8 @@ else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
     <MudContainer Class="mb-8">
         <MudGrid>
             <MudItem xs="12">
-                <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated.ConvertWsdotJsonDateTime()</MudText>
-            </MudItem>
-
-            <MudItem xs="12">
                 <MudText Typo="Typo.h6">Status</MudText>
+                <MudText Typo="Typo.subtitle1">Updated: @wsdotReport.DateUpdated.ConvertWsdotJsonDateTime()</MudText>
             </MudItem>
 
             @if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
@@ -157,7 +154,7 @@ else
 @code {
 
     [Parameter]
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     private int elevation = 1;
 

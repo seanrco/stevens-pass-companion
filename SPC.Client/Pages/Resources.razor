@@ -2,22 +2,11 @@
 
 @inject ILogger<About> _logger
 
-<PageTitle>Stevens Pass Companion - Resources</PageTitle>
+<PageTitle>Stevens Pass Companion - @title</PageTitle>
 
-<MudContainer Class="mt-8 mb-4">
-    <MudBreadcrumbs Items="breadcrumbs"></MudBreadcrumbs>
-</MudContainer>
+<BreadcrumbsComp Value="@breadcrumbs"></BreadcrumbsComp>
 
-<MudContainer Class="mb-12">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4">Resources</MudText>
-        </MudItem>
-@*         <MudItem xs="12">
-            <MudText Typo="Typo.body1">SPC recommends the following resources.</MudText>
-        </MudItem> *@
-    </MudGrid>
-</MudContainer>
+<TitleComp Value="@title"></TitleComp>
 
 <MudContainer Class="mb-12">
     <MudGrid Class="mb-12">
@@ -38,9 +27,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="Stevens Pass"
-                               Target="_blank"
-                               Href="https://www.stevenspass.com/">Visit stevenspass.com</MudButton>
+                    Label="Stevens Pass"
+                    Target="_blank"
+                    Href="https://www.stevenspass.com/">Visit stevenspass.com</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -61,9 +50,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="WSDOT Stevens Pass US 2"
-                               Target="_blank"
-                               Href="https://wsdot.com/travel/real-time/mountainpasses/stevens">Visit wsdot.com</MudButton>
+                    Label="WSDOT Stevens Pass US 2"
+                    Target="_blank"
+                    Href="https://wsdot.com/travel/real-time/mountainpasses/stevens">Visit wsdot.com</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -84,9 +73,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="WSDOT Blewett Pass US 97"
-                               Target="_blank"
-                               Href="https://wsdot.com/travel/real-time/mountainpasses/blewett">Visit wsdot.com</MudButton>
+                    Label="WSDOT Blewett Pass US 97"
+                    Target="_blank"
+                    Href="https://wsdot.com/travel/real-time/mountainpasses/blewett">Visit wsdot.com</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -107,9 +96,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="WSDOT Snoqualmie Pass I-90"
-                               Target="_blank"
-                               Href="https://wsdot.com/travel/real-time/mountainpasses/snoqualmie">Visit wsdot.com</MudButton>
+                    Label="WSDOT Snoqualmie Pass I-90"
+                    Target="_blank"
+                    Href="https://wsdot.com/travel/real-time/mountainpasses/snoqualmie">Visit wsdot.com</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -130,9 +119,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="NOAA"
-                               Target="_blank"
-                               Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ">Visit noaa.us</MudButton>
+                    Label="NOAA"
+                    Target="_blank"
+                    Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ">Visit noaa.us</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -153,9 +142,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="Snow-Forecast.com"
-                               Target="_blank"
-                               Href="https://www.snow-forecast.com/resorts/Stevens-Pass/6day/mid">Visit Snow-Forecast.com</MudButton>
+                    Label="Snow-Forecast.com"
+                    Target="_blank"
+                    Href="https://www.snow-forecast.com/resorts/Stevens-Pass/6day/mid">Visit Snow-Forecast.com</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -176,9 +165,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Text"
-                               Label="NWAC"
-                               Target="_blank"
-                               Href="https://nwac.us/">Visit nwac.us</MudButton>
+                    Label="NWAC"
+                    Target="_blank"
+                    Href="https://nwac.us/">Visit nwac.us</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -188,10 +177,12 @@
 
 @code {
 
-    private List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    private static readonly string title = "Resources";
+
+    private readonly List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
     {
         new BreadcrumbItem("Home", href: "/"),
-        new BreadcrumbItem("Resources", href: null, disabled: true),
+        new BreadcrumbItem(title, href: null, disabled: true),
     };
 
 }
