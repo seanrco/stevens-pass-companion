@@ -1,5 +1,6 @@
-﻿using SPC.Client.Models.WSDOT;
-using System.Text.Json;
+﻿using System.Text.Json;
+using SPC.Domain.Models.WSDOT.Cameras;
+using SPC.Domain.Models.WSDOT.Report;
 
 namespace SPC.Client.Services;
 

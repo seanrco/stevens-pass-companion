@@ -9,6 +9,11 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="_Imports.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="local.settings.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
