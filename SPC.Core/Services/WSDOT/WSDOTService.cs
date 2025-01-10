@@ -1,7 +1,9 @@
-﻿using SPC.Client.Models.WSDOT;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Logging;
+using SPC.Core.Models.WSDOT.Cameras;
+using SPC.Core.Models.WSDOT.Report;
 
-namespace SPC.Client.Services;
+namespace SPC.Core.Services.WSDOT;
 
 public class WSDOTService
 {
