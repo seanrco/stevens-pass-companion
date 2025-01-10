@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SPC.Domain\SPC.Domain.csproj" />
+      <ProjectReference Include="..\SPC.Core\SPC.Core.csproj" />
     </ItemGroup>
 
 	<!-- Dev Note - Setting is required to resolve https://github.com/MudBlazor/MudBlazor/discussions/10514 -->
