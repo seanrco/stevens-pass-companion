@@ -2,7 +2,8 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
-using SPC.Client.Services;
+using SPC.Core.Services.NOAA;
+using SPC.Core.Services.WSDOT;
 
 
 namespace SPC.Client

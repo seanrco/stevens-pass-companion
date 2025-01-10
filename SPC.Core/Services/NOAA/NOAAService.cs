@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
-using SPC.Client.Models.NOAA.ActiveAlerts;
-using SPC.Client.Models.NOAA.Forecast;
+using Microsoft.Extensions.Logging;
+using SPC.Core.Models.NOAA.ActiveAlerts;
+using SPC.Core.Models.NOAA.Forecast;
 
-namespace SPC.Client.Services;
+namespace SPC.Core.Services.NOAA;
 
 public class NOAAService
 {
