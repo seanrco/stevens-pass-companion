@@ -1,4 +1,4 @@
-﻿namespace SPC.Api.Utilities;
+﻿namespace SPC.Infrascructure.Utilities;
 
 public static class AzureUtilities
 {
