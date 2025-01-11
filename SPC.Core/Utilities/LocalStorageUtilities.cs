@@ -1,7 +1,6 @@
 ﻿using SPC.Core.Models.NOAA.Forecast;
 
-namespace SPC.Client.Utilities;
-
+namespace SPC.Core.Utilities;
 public static class LocalStorageUtilities
 {
 
