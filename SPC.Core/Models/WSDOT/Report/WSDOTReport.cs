@@ -1,30 +1,60 @@
-﻿namespace SPC.Core.Models.WSDOT.Report;
+﻿using System.Text.Json.Serialization;
+
+namespace SPC.Core.Models.WSDOT.Report;
 
 public class WSDOTReport
 {
-    public string DateUpdated { get; set; }
-    public int? ElevationInFeet { get; set; }
-    public float? Latitude { get; set; }
-    public float? Longitude { get; set; }
-    public int? MountainPassId { get; set; }
-    public string MountainPassName { get; set; }
-    public WSDOTReportRestrictionOne RestrictionOne { get; set; }
-    public WSDOTReportRestrictionTwo RestrictionTwo { get; set; }
-    public string RoadCondition { get; set; }
-    public int? TemperatureInFahrenheit { get; set; }
+    [JsonPropertyName("DateUpdated")]
+    public string DateUpdated { get; set; } = string.Empty;
+
+    [JsonPropertyName("ElevationInFeet")]
+    public int? ElevationInFeet { get; set; } = null;
+
+    [JsonPropertyName("Latitude")]
+    public float? Latitude { get; set; } = null;
+
+    [JsonPropertyName("Longitude")]
+    public float? Longitude { get; set; } = null;
+
+    [JsonPropertyName("MountainPassId")]
+    public int? MountainPassId { get; set; } = null;
+
+    [JsonPropertyName("MountainPassName")]
+    public string MountainPassName { get; set; } = string.Empty;
+
+    [JsonPropertyName("RestrictionOne")]
+    public WSDOTReportRestrictionOne? RestrictionOne { get; set; } = null;
+
+    [JsonPropertyName("RestrictionTwo")]
+    public WSDOTReportRestrictionTwo? RestrictionTwo { get; set; } = null;
+
+    [JsonPropertyName("RoadCondition")]
+    public string RoadCondition { get; set; } = string.Empty;
+
+    [JsonPropertyName("TemperatureInFahrenheit")]
+    public int? TemperatureInFahrenheit { get; set; } = null;
+
+    [JsonPropertyName("TravelAdvisoryActive")]
     public bool TravelAdvisoryActive { get; set; }
-    public string WeatherCondition { get; set; }
-    public bool IsSuccessStatusCode { get; set; } = true;
+
+    [JsonPropertyName("WeatherCondition")]
+    public string WeatherCondition { get; set; } = string.Empty;
 }
 
 public class WSDOTReportRestrictionOne
 {
-    public string RestrictionText { get; set; }
-    public string TravelDirection { get; set; }
+    [JsonPropertyName("RestrictionText")]
+    public string RestrictionText { get; set; } = string.Empty;
+
+    [JsonPropertyName("TravelDirection")]
+    public string TravelDirection { get; set; } = string.Empty;
 }
 
 public class WSDOTReportRestrictionTwo
 {
-    public string RestrictionText { get; set; }
-    public string TravelDirection { get; set; }
+    [JsonPropertyName("RestrictionText")]
+    public string RestrictionText { get; set; } = string.Empty;
+
+    [JsonPropertyName("TravelDirection")]
+    public string TravelDirection { get; set; } = string.Empty;
 }

@@ -19,7 +19,7 @@
         </MudCard>
     </MudItem>
 }
-else if (wsdotReport != null && wsdotReport.IsSuccessStatusCode)
+else if (wsdotReport != null)
 {
     string mountainPassName = wsdotReport?.MountainPassName ?? string.Empty;
     string dateUpdated = wsdotReport?.DateUpdated ?? string.Empty;
