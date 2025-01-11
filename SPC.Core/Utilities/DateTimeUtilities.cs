@@ -1,6 +1,6 @@
 ﻿using TimeZoneConverter;
 
-namespace SPC.Client.Utilities;
+namespace SPC.Core.Utilities;
 
 /// <summary>
 /// Static class for DateTime related utility methods.

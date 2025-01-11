@@ -1,4 +1,4 @@
-﻿namespace SPC.Client.Utilities;
+﻿namespace SPC.Core.Utilities;
 
 /// <summary>
 /// Static class for Unit of Distance related utility methods.
