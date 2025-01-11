@@ -1,33 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SPC.Api.Repository.Interfaces;
+using SPC.Infrascructure.Repositories.Interfaces;
+using SPC.Infrascructure.Utilities;
 
-namespace SPC.Api.Repository;
+namespace SPC.Infrascructure.Repositories;
 
-public class NOAARepository : INOAARepository
+public class WSDOTRepository : IWSDOTRepository
 {
 
-    private readonly ILogger<NOAARepository> _logger;
+    private string _wsdotApiAccessCode = AzureUtilities.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE");
+
+    private readonly ILogger<WSDOTRepository> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public NOAARepository(ILogger<NOAARepository> logger,
+    public WSDOTRepository(ILogger<WSDOTRepository> logger,
         IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<IActionResult> GetActiveAlerts()
+    public async Task<IActionResult> GetMountainPassConditionAsync(string id)
     {
         try
         {
-            string url = "https://api.weather.gov/alerts/active?point=47.7462%2C-121.0859&limit=5";
+            string apiUrl = $"https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode={_wsdotApiAccessCode}&PassConditionID={id}";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
-
-            HttpResponseMessage? response = await httpClient.GetAsync(url);
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
             {
@@ -51,17 +52,18 @@ public class NOAARepository : INOAARepository
         return new NoContentResult();
     }
 
-    public async Task<IActionResult> GetForecast()
+
+    public async Task<IActionResult> GetCamerasAsync(string stateRoute,
+        string startingMilepost,
+        string endingMilepost)
     {
         try
         {
-            string url = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
+            string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={stateRoute}&StartingMilepost={startingMilepost}&EndingMilepost={endingMilepost}";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
-
-            HttpResponseMessage? response = await httpClient.GetAsync(url);
+            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
             {
@@ -84,6 +86,8 @@ public class NOAARepository : INOAARepository
 
         return new NoContentResult();
     }
+
+
 
 
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using SPC.Api.Repository.Interfaces;
+using SPC.Infrascructure.Repositories.Interfaces;
 
 namespace SPC.Api;
 
