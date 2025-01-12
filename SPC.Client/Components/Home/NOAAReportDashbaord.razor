@@ -43,14 +43,13 @@
 }
 else if (noaaStevensPassForecast != null)
 {
-    string dateUpdated = noaaStevensPassForecast.Properties.UpdateTime.FormatDateTime() ?? string.Empty;
+    string dateUpdated = noaaStevensPassForecast?.Properties?.UpdateTime?.FormatDateTime() ?? string.Empty;
+    Period[]? periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
     <MudItem xs="12">
         <MudText Typo="Typo.h5">Stevens Pass Forecast</MudText>
         <MudText Typo="Typo.body1" Align="Align.Left">Updated: @dateUpdated</MudText>
     </MudItem>
-
-    Period[] periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
 
     if (periods != null && periods.Length > 0)
     {

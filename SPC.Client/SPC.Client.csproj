@@ -16,10 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Home\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\SPC.Core\SPC.Core.csproj" />
     </ItemGroup>
 
