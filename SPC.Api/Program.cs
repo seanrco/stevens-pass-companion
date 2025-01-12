@@ -15,7 +15,7 @@ builder.ConfigureFunctionsWebApplication();
 //     .ConfigureFunctionsApplicationInsights();
 
 builder.Services.AddHttpClient();
-
+builder.Services.AddLogging();
 builder.Services.AddSingleton<INOAARepository, NOAARepository>();
 builder.Services.AddSingleton<IWSDOTRepository, WSDOTRepository>();
 
