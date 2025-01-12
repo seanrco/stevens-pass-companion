@@ -23,6 +23,10 @@ else if (wsdotReport != null)
 {
     string mountainPassName = wsdotReport?.MountainPassName ?? string.Empty;
     string dateUpdated = wsdotReport?.DateUpdated ?? string.Empty;
+    string restrictionOneText = wsdotReport?.RestrictionOne?.RestrictionText ?? string.Empty;
+    string restrictionOneTravelDirection = wsdotReport?.RestrictionOne?.TravelDirection ?? string.Empty;
+    string restrictionTwoText = wsdotReport?.RestrictionTwo?.RestrictionText ?? string.Empty;
+    string restrictionTwoTravelDirection = wsdotReport?.RestrictionTwo?.TravelDirection ?? string.Empty;
 
     <MudItem xs="12" sm="12" md="4">
         <MudCard style="height:100%">
@@ -44,11 +48,11 @@ else if (wsdotReport != null)
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                @if (wsdotReport.RestrictionOne.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                @if (restrictionOneText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
                 {
                     <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation" Class="mt-6" >
                         <MudText Typo="Typo.body1">
-                            <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
+                            <b>@restrictionOneTravelDirection</b> @restrictionOneText
                         </MudText>
                     </MudAlert>
                 }
@@ -56,15 +60,15 @@ else if (wsdotReport != null)
                 {
                     <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation" Class="mt-6">
                         <MudText Typo="Typo.body1">
-                            <b>@wsdotReport?.RestrictionOne?.TravelDirection</b> @wsdotReport?.RestrictionOne?.RestrictionText
+                            <b>@restrictionOneTravelDirection</b> @restrictionOneText
                         </MudText>
                     </MudAlert>
                 }
-                @if (wsdotReport.RestrictionTwo.RestrictionText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                @if (restrictionTwoText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
                 {
                     <MudAlert Typo="Typo.body1" Severity="Severity.Error" Elevation="@elevation" Class="mt-6">
                         <MudText Typo="Typo.body1">
-                            <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
+                            <b>@restrictionTwoTravelDirection</b> @restrictionTwoText
                         </MudText>
                     </MudAlert>
                 }
@@ -72,7 +76,7 @@ else if (wsdotReport != null)
                 {
                     <MudAlert Typo="Typo.body1" Severity="Severity.Success" Elevation="@elevation" Class="mt-6">
                         <MudText Typo="Typo.body1">
-                            <b>@wsdotReport?.RestrictionTwo?.TravelDirection</b> @wsdotReport?.RestrictionTwo?.RestrictionText
+                            <b>@restrictionTwoTravelDirection</b> @restrictionTwoText
                         </MudText>
                     </MudAlert>
                 }
