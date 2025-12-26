@@ -21,7 +21,7 @@ public class NOAARepository : INOAARepository
     {
         try
         {
-            string url = "https://api.weather.gov/alerts/active?point=47.7462%2C-121.0859&limit=5";
+            string url = "https://api.weather.gov/alerts/active?point=47.7462%2C-121.0859";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
