@@ -3,17 +3,7 @@
 @inject ILogger<Home> _logger
 
 <PageTitle>Stevens Pass Companion</PageTitle>
-
 <MudContainer Class="mt-12 mb-12">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudText Typo="Typo.h4">@noaaHeader</MudText>
-        </MudItem>
-        <NOAAActiveAlertsDashboard></NOAAActiveAlertsDashboard>
-        <NOAAReportDashbaord></NOAAReportDashbaord>
-    </MudGrid>
-</MudContainer>
-<MudContainer Class="mb-12">
     <MudGrid>
         <MudItem xs="12">
             <MudText Typo="Typo.h4">@wsdotHeader</MudText>
@@ -21,6 +11,15 @@
         <WSDOTReportDashboard Value="StevensPass"></WSDOTReportDashboard>
         <WSDOTReportDashboard Value="BlewettPass"></WSDOTReportDashboard>
         <WSDOTReportDashboard Value="SnoqualmiePass"></WSDOTReportDashboard>
+    </MudGrid>
+</MudContainer>
+<MudContainer Class="mb-12">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">@noaaHeader</MudText>
+        </MudItem>
+        <NOAAActiveAlertsDashboard></NOAAActiveAlertsDashboard>
+        <NOAAReportDashbaord></NOAAReportDashbaord>
     </MudGrid>
 </MudContainer>
 
