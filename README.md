@@ -4,8 +4,7 @@ Stevens Pass Companion is a central hub to help plan your trip to Stevens Pass S
 https://github.com/user-attachments/assets/738a54b9-9bc3-498c-8817-0ca38c86e66b
 
 ### Built With
-- [NET 8](https://dotnet.microsoft.com/en-us/)
-- [BLazor WASM](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+- [NET](https://dotnet.microsoft.com/en-us/) / [C#](https://dotnet.microsoft.com/en-us/languages/csharp) / [BLazor WASM](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
 - [MudBlazor](https://mudblazor.com)
 - [Azure Static Web App](https://azure.microsoft.com/en-us/products/app-service/static)
 - [Azure Functions](https://azure.microsoft.com/en-us/products/functions)
