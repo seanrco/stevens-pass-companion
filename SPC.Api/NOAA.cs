@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using SPC.Infrascructure.Repositories.Interfaces;
+using SPC.Infrascructure.NOAA.Repositories.Interfaces;
 
 namespace SPC.Api;
 

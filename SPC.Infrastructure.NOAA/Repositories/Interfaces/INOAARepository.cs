@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SPC.Infrascructure.Repositories.Interfaces;
+namespace SPC.Infrascructure.NOAA.Repositories.Interfaces;
 
 public interface INOAARepository
 {

@@ -1,8 +1,10 @@
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SPC.Infrascructure.Repositories;
-using SPC.Infrascructure.Repositories.Interfaces;
+using SPC.Infrascructure.WSDOT.Repositories;
+using SPC.Infrascructure.WSDOT.Repositories.Interfaces;
+using SPC.Infrascructure.NOAA.Repositories;
+using SPC.Infrascructure.NOAA.Repositories.Interfaces;
 
 
 var builder = FunctionsApplication.CreateBuilder(args);

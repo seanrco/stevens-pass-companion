@@ -1,48 +1,48 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using SPC.Infrascructure.Repositories.Interfaces;
-using SPC.Infrascructure.Utilities;
+using SPC.Infrascructure.NOAA.Repositories.Interfaces;
 
-namespace SPC.Infrascructure.Repositories;
+namespace SPC.Infrascructure.NOAA.Repositories;
 
-public class WSDOTRepository : IWSDOTRepository
+public class NOAARepository : INOAARepository
 {
 
-    private string _wsdotApiAccessCode = AzureUtilities.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE");
-
-    private readonly ILogger<WSDOTRepository> _logger;
+    private readonly ILogger<NOAARepository> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IMemoryCache _memoryCache;
 
+    private const string CACHE_KEY_NOAA_FORECAST = "NOAA_Forecast";
+    private const string CACHE_KEY_NOAA_ACTIVE_ALERTS = "NOAA_ActiveAlerts";
     private const int CACHE_DURATION_MINUTES = 5;
 
-    public WSDOTRepository(ILogger<WSDOTRepository> logger,
+    public NOAARepository(ILogger<NOAARepository> logger,
         IHttpClientFactory httpClientFactory,
         IMemoryCache memoryCache)
     {
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _memoryCache = memoryCache;
+
     }
 
-    public async Task<IActionResult> GetMountainPassConditionAsync(string id)
+    public async Task<IActionResult> GetActiveAlerts()
     {
-        string CACHE_KEY = "WSDOT_Pass_Conditions_" + id;
-
         try
         {
-            if (_memoryCache.TryGetValue(CACHE_KEY, out string cachedData))
+            if (_memoryCache.TryGetValue(CACHE_KEY_NOAA_ACTIVE_ALERTS, out string cachedData))
             {
-                _logger.LogInformation("Returning cached WSDOT Mountain Pass conditions.");
+                _logger.LogInformation("Returning cached NOAA alerts");
                 return new OkObjectResult(cachedData);
             }
 
-            string apiUrl = $"https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode={_wsdotApiAccessCode}&PassConditionID={id}";
+            string url = "https://api.weather.gov/alerts/active?point=47.7462%2C-121.0859";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
+
+            HttpResponseMessage? response = await httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -54,9 +54,9 @@ public class WSDOTRepository : IWSDOTRepository
                     var cacheOptions = new MemoryCacheEntryOptions()
                         .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
 
-                    _memoryCache.Set(CACHE_KEY, jsonData, cacheOptions);
+                    _memoryCache.Set(CACHE_KEY_NOAA_ACTIVE_ALERTS, jsonData, cacheOptions);
 
-                    _logger.LogInformation("Fetched and cached WSDOT Mountain Pass conditions.");
+                    _logger.LogInformation("Fetched and cached new NOAA alerts");
 
                     return new OkObjectResult(jsonData);
                 }
@@ -74,26 +74,23 @@ public class WSDOTRepository : IWSDOTRepository
         return new NoContentResult();
     }
 
-
-    public async Task<IActionResult> GetCamerasAsync(string stateRoute,
-        string startingMilepost,
-        string endingMilepost)
+    public async Task<IActionResult> GetForecast()
     {
-        string CACHE_KEY = "WSDOT_Pass_Conditions_" + stateRoute;
-
         try
         {
-            if (_memoryCache.TryGetValue(CACHE_KEY, out string cachedData))
+            if (_memoryCache.TryGetValue(CACHE_KEY_NOAA_FORECAST, out string cachedData))
             {
-                _logger.LogInformation("Returning cached WSDOT Cameras.");
+                _logger.LogInformation("Returning cached NOAA forecast");
                 return new OkObjectResult(cachedData);
             }
 
-            string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={stateRoute}&StartingMilepost={startingMilepost}&EndingMilepost={endingMilepost}";
+            string url = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
+
+            HttpResponseMessage? response = await httpClient.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
@@ -105,9 +102,9 @@ public class WSDOTRepository : IWSDOTRepository
                     var cacheOptions = new MemoryCacheEntryOptions()
                         .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
 
-                    _memoryCache.Set(CACHE_KEY, jsonData, cacheOptions);
+                    _memoryCache.Set(CACHE_KEY_NOAA_FORECAST, jsonData, cacheOptions);
 
-                    _logger.LogInformation("Fetched and cached WSDOT Cameras.");
+                    _logger.LogInformation("Fetched and cached new NOAA forecast");
 
                     return new OkObjectResult(jsonData);
                 }
@@ -124,8 +121,6 @@ public class WSDOTRepository : IWSDOTRepository
 
         return new NoContentResult();
     }
-
-
 
 
 }
