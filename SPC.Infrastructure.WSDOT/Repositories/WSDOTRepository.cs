@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using SPC.Infrascructure.WSDOT.Repositories.Interfaces;
+using Microsoft.Extensions.Options;
 using SPC.Infrascructure.Utilities;
+using SPC.Infrascructure.WSDOT.Repositories.Interfaces;
+using SPC.Infrastructure.WSDOT.Models.Cameras;
+using SPC.Infrastructure.WSDOT.Models.Report;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SPC.Infrascructure.WSDOT.Repositories;
 
@@ -26,16 +31,22 @@ public class WSDOTRepository : IWSDOTRepository
         _memoryCache = memoryCache;
     }
 
-    public async Task<IActionResult> GetMountainPassConditionAsync(string id)
+    public async Task<WSDOTReport> GetMountainPassConditionAsync(string id)
     {
         string CACHE_KEY = "WSDOT_Pass_Conditions_" + id;
 
         try
         {
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                PropertyNameCaseInsensitive = true
+            };
+
             if (_memoryCache.TryGetValue(CACHE_KEY, out string cachedData))
             {
                 _logger.LogInformation("Returning cached WSDOT Mountain Pass conditions.");
-                return new OkObjectResult(cachedData);
+                return JsonSerializer.Deserialize<WSDOTReport>(cachedData, options);
             }
 
             string apiUrl = $"https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode={_wsdotApiAccessCode}&PassConditionID={id}";
@@ -44,38 +55,34 @@ public class WSDOTRepository : IWSDOTRepository
 
             HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                string jsonData = await response.Content.ReadAsStringAsync();
-
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    // Cache the successful response
-                    var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
-
-                    _memoryCache.Set(CACHE_KEY, jsonData, cacheOptions);
-
-                    _logger.LogInformation("Fetched and cached WSDOT Mountain Pass conditions.");
-
-                    return new OkObjectResult(jsonData);
-                }
-                else
-                {
-                    return new NoContentResult();
-                }
+                return null;
             }
+
+            string jsonData = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(jsonData)) return null;
+
+            // Cache the successful response
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+
+            _memoryCache.Set(CACHE_KEY, jsonData, cacheOptions);
+
+            _logger.LogInformation("Fetched and cached WSDOT Mountain Pass conditions.");
+
+            return JsonSerializer.Deserialize<WSDOTReport>(jsonData, options);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message + ex.StackTrace);
+            return null;
         }
-
-        return new NoContentResult();
     }
 
 
-    public async Task<IActionResult> GetCamerasAsync(string stateRoute,
+    public async Task<List<WSDOTCamera>> GetCamerasAsync(string stateRoute,
         string startingMilepost,
         string endingMilepost)
     {
@@ -83,10 +90,16 @@ public class WSDOTRepository : IWSDOTRepository
 
         try
         {
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                PropertyNameCaseInsensitive = true
+            };
+
             if (_memoryCache.TryGetValue(CACHE_KEY, out string cachedData))
             {
                 _logger.LogInformation("Returning cached WSDOT Cameras.");
-                return new OkObjectResult(cachedData);
+                return JsonSerializer.Deserialize<List<WSDOTCamera>>(cachedData, options);
             }
 
             string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={stateRoute}&StartingMilepost={startingMilepost}&EndingMilepost={endingMilepost}";
@@ -95,37 +108,30 @@ public class WSDOTRepository : IWSDOTRepository
 
             HttpResponseMessage response = await httpClient.GetAsync(apiUrl);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                string jsonData = await response.Content.ReadAsStringAsync();
-
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    // Cache the successful response
-                    var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
-
-                    _memoryCache.Set(CACHE_KEY, jsonData, cacheOptions);
-
-                    _logger.LogInformation("Fetched and cached WSDOT Cameras.");
-
-                    return new OkObjectResult(jsonData);
-                }
-                else
-                {
-                    return new NoContentResult();
-                }
+                return null;
             }
+
+            string jsonData = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrWhiteSpace(jsonData)) return null;
+
+            // Cache the successful response
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+
+            _memoryCache.Set(CACHE_KEY, jsonData, cacheOptions);
+
+            _logger.LogInformation("Fetched and cached WSDOT Cameras.");
+
+            return JsonSerializer.Deserialize<List<WSDOTCamera>>(jsonData, options);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message + ex.StackTrace);
+            return null;
         }
-
-        return new NoContentResult();
     }
-
-
-
 
 }
