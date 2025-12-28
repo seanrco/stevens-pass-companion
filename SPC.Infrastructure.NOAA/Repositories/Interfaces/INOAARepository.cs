@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using SPC.Domain.Models.NOAA.ActiveAlerts;
+using SPC.Domain.Models.NOAA.Forecast;
 
 namespace SPC.Infrascructure.NOAA.Repositories.Interfaces;
 
 public interface INOAARepository
 {
-    Task<IActionResult> GetActiveAlerts();
-    Task<IActionResult> GetForecast();
+    Task<NOAAActiveAlerts> GetActiveAlerts();
+    Task<NOAAForecast> GetForecast();
 }

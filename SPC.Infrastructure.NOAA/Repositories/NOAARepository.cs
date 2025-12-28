@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using SPC.Domain.Models.NOAA.ActiveAlerts;
+using SPC.Domain.Models.NOAA.Forecast;
 using SPC.Infrascructure.NOAA.Repositories.Interfaces;
+using SPC.Infrastructure.NOAA.Mappers;
+using SPC.Infrastructure.NOAA.Models.ActiveAlerts;
+using SPC.Infrastructure.NOAA.Models.Forecast;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SPC.Infrascructure.NOAA.Repositories;
 
@@ -12,6 +18,7 @@ public class NOAARepository : INOAARepository
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IMemoryCache _memoryCache;
 
+    private const string USER_AGENT = "StevensPassCompanionApp";
     private const string CACHE_KEY_NOAA_FORECAST = "NOAA_Forecast";
     private const string CACHE_KEY_NOAA_ACTIVE_ALERTS = "NOAA_ActiveAlerts";
     private const int CACHE_DURATION_MINUTES = 5;
@@ -23,103 +30,109 @@ public class NOAARepository : INOAARepository
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _memoryCache = memoryCache;
-
     }
 
-    public async Task<IActionResult> GetActiveAlerts()
+    public async Task<NOAAActiveAlerts> GetActiveAlerts()
     {
         try
         {
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                PropertyNameCaseInsensitive = true
+            };
+
             if (_memoryCache.TryGetValue(CACHE_KEY_NOAA_ACTIVE_ALERTS, out string cachedData))
             {
                 _logger.LogInformation("Returning cached NOAA alerts");
-                return new OkObjectResult(cachedData);
+                var cachedDto = JsonSerializer.Deserialize<NOAAActiveAlertsDto>(cachedData, options);
+                return cachedDto?.ToDomain();
             }
 
             string url = "https://api.weather.gov/alerts/active?point=47.7462%2C-121.0859";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
+            httpClient.DefaultRequestHeaders.Add("User-Agent", USER_AGENT);
 
             HttpResponseMessage? response = await httpClient.GetAsync(url);
 
-            if (response.IsSuccessStatusCode)
-            {
-                string jsonData = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode) return null;
+            
+            string jsonData = await response.Content.ReadAsStringAsync();
 
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    // Cache the successful response
-                    var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+            if (string.IsNullOrWhiteSpace(jsonData)) return null;
 
-                    _memoryCache.Set(CACHE_KEY_NOAA_ACTIVE_ALERTS, jsonData, cacheOptions);
+            // Cache the successful response
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
 
-                    _logger.LogInformation("Fetched and cached new NOAA alerts");
+            _memoryCache.Set(CACHE_KEY_NOAA_ACTIVE_ALERTS, jsonData, cacheOptions);
 
-                    return new OkObjectResult(jsonData);
-                }
-                else
-                {
-                    return new NoContentResult();
-                }
-            }
+            _logger.LogInformation("Fetched and cached new NOAA alerts");
+
+            var dto = JsonSerializer.Deserialize<NOAAActiveAlertsDto>(jsonData, options);
+
+            return dto?.ToDomain();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message + ex.StackTrace);
+            return null;
         }
-
-        return new NoContentResult();
     }
 
-    public async Task<IActionResult> GetForecast()
+    public async Task<NOAAForecast> GetForecast()
     {
         try
         {
+            var options = new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                PropertyNameCaseInsensitive = true
+            };
+
             if (_memoryCache.TryGetValue(CACHE_KEY_NOAA_FORECAST, out string cachedData))
             {
                 _logger.LogInformation("Returning cached NOAA forecast");
-                return new OkObjectResult(cachedData);
+                var cachedDto = JsonSerializer.Deserialize<NOAAForecastDto>(cachedData, options);
+                if (cachedDto == null) return null;
+                return cachedDto?.ToDomain();
             }
 
             string url = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "StevensPassCompanionApp");
+            httpClient.DefaultRequestHeaders.Add("User-Agent", USER_AGENT);
 
             HttpResponseMessage? response = await httpClient.GetAsync(url);
 
-            if (response.IsSuccessStatusCode)
-            {
-                string jsonData = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode) return null;
 
-                if (!string.IsNullOrWhiteSpace(jsonData))
-                {
-                    // Cache the successful response
-                    var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
+            string jsonData = await response.Content.ReadAsStringAsync();
 
-                    _memoryCache.Set(CACHE_KEY_NOAA_FORECAST, jsonData, cacheOptions);
+            if (string.IsNullOrWhiteSpace(jsonData)) return null;
 
-                    _logger.LogInformation("Fetched and cached new NOAA forecast");
+            // Cache the successful response
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(CACHE_DURATION_MINUTES));
 
-                    return new OkObjectResult(jsonData);
-                }
-                else
-                {
-                    return new NoContentResult();
-                }
-            }
+            _memoryCache.Set(CACHE_KEY_NOAA_FORECAST, jsonData, cacheOptions);
+
+            _logger.LogInformation("Fetched and cached new NOAA forecast");
+
+            var dto = JsonSerializer.Deserialize<NOAAForecastDto>(jsonData, options);
+
+            if (dto == null) return null;
+
+            return dto?.ToDomain();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message + ex.StackTrace);
+            return null;
         }
-
-        return new NoContentResult();
     }
 
 
