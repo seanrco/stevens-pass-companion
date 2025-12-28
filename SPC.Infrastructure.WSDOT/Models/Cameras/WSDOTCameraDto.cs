@@ -2,13 +2,13 @@
 
 namespace SPC.Infrastructure.WSDOT.Models.Cameras;
 
-public sealed record WSDOTCamera
+internal sealed record WSDOTCameraDto
 {
     [JsonPropertyName("CameraID")]
     public int? CameraID { get; init; } = null;
 
     [JsonPropertyName("CameraLocation")]
-    public Cameralocation? CameraLocation { get; init; } = null;
+    public CameralocationDto? CameraLocation { get; init; } = null;
 
     [JsonPropertyName("CameraOwner")]
     public object? CameraOwner { get; init; } = null;
@@ -47,7 +47,7 @@ public sealed record WSDOTCamera
     public string Title { get; init; } = string.Empty;
 }
 
-public sealed record Cameralocation
+internal sealed record CameralocationDto
 {
     [JsonPropertyName("Description")]
     public object? Description { get; init; } = null;

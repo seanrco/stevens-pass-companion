@@ -1,7 +1,7 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using SPC.Infrascructure.WSDOT.Repositories.Interfaces;
+using SPC.Application.Services.Interfaces;
 using System.Net;
 
 namespace SPC.Api;
@@ -13,13 +13,14 @@ public class WSDOT
 {
 
     private readonly ILogger<WSDOT> _logger;
-    public readonly IWSDOTRepository _wsdotRepository;
+    public readonly IWSDOTService _wsdotService;
 
-    public WSDOT(ILogger<WSDOT> logger, 
-        IWSDOTRepository wsdotRepository)
+    public WSDOT(
+        ILogger<WSDOT> logger,
+        IWSDOTService wsdotService)
     {
         _logger = logger;
-        _wsdotRepository = wsdotRepository;
+        _wsdotService = wsdotService;
     }
 
 
@@ -32,7 +33,7 @@ public class WSDOT
     {
         try
         {
-            var result = await _wsdotRepository.GetMountainPassConditionAsync(id);
+            var result = await _wsdotService.GetMountainPassConditionAsync(id);
 
             if (result == null)
             {
@@ -65,7 +66,7 @@ public class WSDOT
     {
         try
         {
-            var result = await _wsdotRepository
+            var result = await _wsdotService
                 .GetCamerasAsync(stateRoute, startingMilepost, endingMilepost);
 
             if (result == null || !result.Any())
