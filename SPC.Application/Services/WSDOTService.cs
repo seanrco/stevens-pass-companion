@@ -21,6 +21,12 @@ public class WSDOTService : IWSDOTService
 
     public async Task<WSDOTReport> GetMountainPassConditionAsync(string id)
     {
+        if(string.IsNullOrWhiteSpace(id))
+        {
+            _logger.LogWarning("GetMountainPassConditionAsync called with null or empty id.");
+            return null;
+        }
+
         return await _wsdotRepository.GetMountainPassConditionAsync(id);
     }
 
@@ -29,6 +35,14 @@ public class WSDOTService : IWSDOTService
         string startingMilepost,
         string endingMilepost)
     {
+        if(string.IsNullOrWhiteSpace(stateRoute) || 
+            string.IsNullOrWhiteSpace(startingMilepost) ||
+            string.IsNullOrWhiteSpace(endingMilepost))
+        {
+            _logger.LogWarning("GetCamerasAsync called with null or empty parameters.");
+            return null;
+        }
+
         return await _wsdotRepository.GetCamerasAsync(stateRoute, startingMilepost, endingMilepost);
     }
 
