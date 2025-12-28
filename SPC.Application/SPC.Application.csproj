@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SPC.Application\SPC.Application.csproj" />
     <ProjectReference Include="..\SPC.Domain\SPC.Domain.csproj" />
   </ItemGroup>
 

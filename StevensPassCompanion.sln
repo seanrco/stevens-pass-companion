@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPC.Infrastructure.WSDOT", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPC.Domain", "SPC.Domain\SPC.Domain.csproj", "{B30A9093-5BF6-47B0-BCD3-9A3AEDD15D62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPC.Application", "SPC.Application\SPC.Application.csproj", "{94D4E91A-DB9B-4538-83FD-F37533632377}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B30A9093-5BF6-47B0-BCD3-9A3AEDD15D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B30A9093-5BF6-47B0-BCD3-9A3AEDD15D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B30A9093-5BF6-47B0-BCD3-9A3AEDD15D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94D4E91A-DB9B-4538-83FD-F37533632377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94D4E91A-DB9B-4538-83FD-F37533632377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94D4E91A-DB9B-4538-83FD-F37533632377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94D4E91A-DB9B-4538-83FD-F37533632377}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

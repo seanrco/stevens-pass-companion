@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SPC.Application\SPC.Application.csproj" />
     <ProjectReference Include="..\SPC.Domain\SPC.Domain.csproj" />
     <ProjectReference Include="..\SPC.Infrastructure.NOAA\SPC.Infrastructure.NOAA.csproj" />
     <ProjectReference Include="..\SPC.Infrastructure.WSDOT\SPC.Infrastructure.WSDOT.csproj" />
