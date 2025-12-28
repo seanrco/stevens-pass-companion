@@ -2,7 +2,7 @@
 
 namespace SPC.Infrastructure.WSDOT.Models.Report;
 
-public record WSDOTReport
+internal sealed record WSDOTReportDto
 {
     [JsonPropertyName("DateUpdated")]
     public string DateUpdated { get; init; } = string.Empty;
@@ -23,10 +23,10 @@ public record WSDOTReport
     public string MountainPassName { get; init; } = string.Empty;
 
     [JsonPropertyName("RestrictionOne")]
-    public WSDOTReportRestrictionOne? RestrictionOne { get; init; } = null;
+    public WSDOTReportRestrictionOneDto? RestrictionOne { get; init; } = null;
 
     [JsonPropertyName("RestrictionTwo")]
-    public WSDOTReportRestrictionTwo? RestrictionTwo { get; init; } = null;
+    public WSDOTReportRestrictionTwoDto? RestrictionTwo { get; init; } = null;
 
     [JsonPropertyName("RoadCondition")]
     public string RoadCondition { get; init; } = string.Empty;
@@ -41,7 +41,7 @@ public record WSDOTReport
     public string WeatherCondition { get; init; } = string.Empty;
 }
 
-public record WSDOTReportRestrictionOne
+internal sealed record WSDOTReportRestrictionOneDto
 {
     [JsonPropertyName("RestrictionText")]
     public string RestrictionText { get; init; } = string.Empty;
@@ -50,7 +50,7 @@ public record WSDOTReportRestrictionOne
     public string TravelDirection { get; init; } = string.Empty;
 }
 
-public record WSDOTReportRestrictionTwo
+internal sealed record WSDOTReportRestrictionTwoDto
 {
     [JsonPropertyName("RestrictionText")]
     public string RestrictionText { get; init; } = string.Empty;

@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using SPC.Infrascructure.NOAA.Repositories.Interfaces;
+using SPC.Application.Services.Interfaces;
+
 using System.Net;
 
 namespace SPC.Api;
@@ -14,14 +15,16 @@ public class NOAA
 {
 
     private readonly ILogger<NOAA> _logger;
-    private readonly INOAARepository _noaaRepo;
+    private readonly INOAAService _noaaService;
 
-    public NOAA(ILogger<NOAA> logger,
-        INOAARepository noaaRepo)
+    public NOAA(
+        ILogger<NOAA> logger,
+        INOAAService noaaService)
     {
         _logger = logger;
-        _noaaRepo = noaaRepo;
+        _noaaService = noaaService;
     }
+
 
     [Function("NOAAGetActiveAlerts")]
     public async Task<HttpResponseData> GetActiveAlertsAsync(
@@ -30,7 +33,7 @@ public class NOAA
     {
         try
         {
-            var result = await _noaaRepo.GetActiveAlerts();
+            var result = await _noaaService.GetActiveAlerts();
 
             if (result == null)
             {
@@ -59,7 +62,7 @@ public class NOAA
     {
         try
         {
-            var result = await _noaaRepo.GetForecast();
+            var result = await _noaaService.GetForecast();
 
             if (result == null)
             {

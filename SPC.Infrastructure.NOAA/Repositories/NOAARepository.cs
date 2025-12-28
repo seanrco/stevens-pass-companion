@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using SPC.Application.Repositories.Interfaces;
 using SPC.Domain.Models.NOAA.ActiveAlerts;
 using SPC.Domain.Models.NOAA.Forecast;
-using SPC.Infrascructure.NOAA.Repositories.Interfaces;
 using SPC.Infrastructure.NOAA.Mappers;
 using SPC.Infrastructure.NOAA.Models.ActiveAlerts;
 using SPC.Infrastructure.NOAA.Models.Forecast;
@@ -46,6 +46,7 @@ public class NOAARepository : INOAARepository
             {
                 _logger.LogInformation("Returning cached NOAA alerts");
                 var cachedDto = JsonSerializer.Deserialize<NOAAActiveAlertsDto>(cachedData, options);
+                if (cachedDto == null) return null;
                 return cachedDto?.ToDomain();
             }
 
@@ -72,6 +73,8 @@ public class NOAARepository : INOAARepository
             _logger.LogInformation("Fetched and cached new NOAA alerts");
 
             var dto = JsonSerializer.Deserialize<NOAAActiveAlertsDto>(jsonData, options);
+
+            if (dto == null) return null;
 
             return dto?.ToDomain();
         }

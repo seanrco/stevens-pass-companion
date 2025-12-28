@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
+    <ProjectReference Include="..\SPC.Application\SPC.Application.csproj" />
+    <ProjectReference Include="..\SPC.Domain\SPC.Domain.csproj" />
   </ItemGroup>
 
 </Project>

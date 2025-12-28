@@ -11,10 +11,10 @@ public static class AzureUtilities
     /// </remarks>
     /// <param name="name">string</param>
     /// <returns>string</returns>
-    public static string GetEnvironmentVariable(string name)
-    {
-        return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process) ?? string.Empty;
-    }
+    //public static string GetEnvironmentVariable(string name)
+    //{
+    //    return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process) ?? string.Empty;
+    //}
 
 
 }

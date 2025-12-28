@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SPC.Infrastructure.WSDOT.Models.Cameras;
-using SPC.Infrastructure.WSDOT.Models.Report;
+﻿using SPC.Domain.Models.WSDOT.Cameras;
+using SPC.Domain.Models.WSDOT.Report;
 
-namespace SPC.Infrascructure.WSDOT.Repositories.Interfaces;
+namespace SPC.Application.Repositories.Interfaces;
 
 public interface IWSDOTRepository
 {

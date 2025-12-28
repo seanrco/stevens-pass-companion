@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using SPC.Application.Repositories.Interfaces;
+using SPC.Domain.Models.WSDOT.Cameras;
+using SPC.Domain.Models.WSDOT.Report;
 using SPC.Infrascructure.Utilities;
-using SPC.Infrascructure.WSDOT.Repositories.Interfaces;
+using SPC.Infrastructure.WSDOT.Mappers;
 using SPC.Infrastructure.WSDOT.Models.Cameras;
 using SPC.Infrastructure.WSDOT.Models.Report;
 using System.Text.Json;
@@ -13,7 +14,7 @@ namespace SPC.Infrascructure.WSDOT.Repositories;
 
 public class WSDOTRepository : IWSDOTRepository
 {
-
+    // TODO: Move to Key Vault or Azure App Configuration
     private string _wsdotApiAccessCode = AzureUtilities.GetEnvironmentVariable("WSDOT_API_ACCESS_CODE");
 
     private readonly ILogger<WSDOTRepository> _logger;
@@ -46,7 +47,9 @@ public class WSDOTRepository : IWSDOTRepository
             if (_memoryCache.TryGetValue(CACHE_KEY, out string cachedData))
             {
                 _logger.LogInformation("Returning cached WSDOT Mountain Pass conditions.");
-                return JsonSerializer.Deserialize<WSDOTReport>(cachedData, options);
+                var cachedDto = JsonSerializer.Deserialize<WSDOTReportDto>(cachedData, options);
+                if (cachedDto is null) return null;
+                return cachedDto.ToDomain();
             }
 
             string apiUrl = $"https://wsdot.wa.gov/Traffic/api/MountainPassConditions/MountainPassConditionsREST.svc/GetMountainPassConditionAsJon?AccessCode={_wsdotApiAccessCode}&PassConditionID={id}";
@@ -72,7 +75,11 @@ public class WSDOTRepository : IWSDOTRepository
 
             _logger.LogInformation("Fetched and cached WSDOT Mountain Pass conditions.");
 
-            return JsonSerializer.Deserialize<WSDOTReport>(jsonData, options);
+            var dto = JsonSerializer.Deserialize<WSDOTReportDto>(jsonData, options);
+
+            if (dto is null) return null;
+
+            return dto.ToDomain();
         }
         catch (Exception ex)
         {
@@ -82,7 +89,8 @@ public class WSDOTRepository : IWSDOTRepository
     }
 
 
-    public async Task<List<WSDOTCamera>> GetCamerasAsync(string stateRoute,
+    public async Task<List<WSDOTCamera>> GetCamerasAsync(
+        string stateRoute,
         string startingMilepost,
         string endingMilepost)
     {
@@ -99,7 +107,9 @@ public class WSDOTRepository : IWSDOTRepository
             if (_memoryCache.TryGetValue(CACHE_KEY, out string cachedData))
             {
                 _logger.LogInformation("Returning cached WSDOT Cameras.");
-                return JsonSerializer.Deserialize<List<WSDOTCamera>>(cachedData, options);
+                var cachedDto = JsonSerializer.Deserialize<List<WSDOTCameraDto>>(cachedData, options);
+                if (cachedDto is null) return null;
+                return cachedDto.ToDomain().ToList();
             }
 
             string apiUrl = $"https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/SearchCamerasAsJson?AccessCode={_wsdotApiAccessCode}&StateRoute={stateRoute}&StartingMilepost={startingMilepost}&EndingMilepost={endingMilepost}";
@@ -125,7 +135,11 @@ public class WSDOTRepository : IWSDOTRepository
 
             _logger.LogInformation("Fetched and cached WSDOT Cameras.");
 
-            return JsonSerializer.Deserialize<List<WSDOTCamera>>(jsonData, options);
+            var dto = JsonSerializer.Deserialize<List<WSDOTCameraDto>>(jsonData, options);
+
+            if (dto is null) return null;
+
+            return dto.ToDomain().ToList();
         }
         catch (Exception ex)
         {

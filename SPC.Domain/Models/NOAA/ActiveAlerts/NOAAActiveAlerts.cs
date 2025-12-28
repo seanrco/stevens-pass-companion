@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SPC.Domain.Models.NOAA.ActiveAlerts;
+﻿namespace SPC.Domain.Models.NOAA.ActiveAlerts;
 
 public class NOAAActiveAlerts
 {
