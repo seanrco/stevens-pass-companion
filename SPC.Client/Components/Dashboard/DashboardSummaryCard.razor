@@ -111,7 +111,6 @@ else
                     </MudStack>
                     <MudText Typo="Typo.body2" Class="mt-2">@detailedForecast</MudText>
                     @*<MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText> *@
-                    <MudDivider Class="my-3" />
                 }
             }
             <!-- Divider -->
@@ -147,7 +146,7 @@ else
         {
             if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
             {
-                avatarImageUrl = "images/stevens-pass-logo.jpg";
+                avatarImageUrl = "images/stevens-pass-logo.ico";
                 title = "Stevens Pass";
                 wsdotPassId = "10";
             }
@@ -161,13 +160,19 @@ else
             {
                 avatarImageUrl = "images/snoqualmie-pass-logo.jpg";
                 title = "Snoqualmie Pass";
-                wsdotPassId = "10";
+                wsdotPassId = "11";
             }
             else if (Value.Equals("MtBaker", StringComparison.InvariantCultureIgnoreCase))
             {
                 avatarImageUrl = "images/mt-baker-logo.jpg";
                 title = "Mt. Baker";
-                wsdotPassId = "10";
+                wsdotPassId = "6";
+            }
+            else if (Value.Equals("WhitePass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                avatarImageUrl = "images/white-pass-logo.ico";
+                title = "White Pass Ski Area";
+                wsdotPassId = "12";
             }
 
             dashboardSummary = await _DashboardService.GetSummaryAsync(wsdotPassId);
