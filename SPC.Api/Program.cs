@@ -22,6 +22,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddLogging();
 builder.Services.AddSingleton<INOAAService, NOAAService>();
 builder.Services.AddSingleton<IWSDOTService, WSDOTService>();
+builder.Services.AddSingleton<IDashboardService, DashboardService>();
 builder.Services.AddSingleton<INOAARepository, NOAARepository>();
 builder.Services.AddSingleton<IWSDOTRepository, WSDOTRepository>();
 

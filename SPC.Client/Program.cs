@@ -2,9 +2,7 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
-using SPC.Core.Services.NOAA;
-using SPC.Core.Services.WSDOT;
-
+using SPC.Core.Services;
 
 namespace SPC.Client
 {
@@ -21,6 +19,7 @@ namespace SPC.Client
             builder.Services.AddLogging();
             builder.Services.AddSingleton<WSDOTService>();
             builder.Services.AddSingleton<NOAAService>();
+            builder.Services.AddSingleton<DashboardService>();
 
             builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["BaseAddress"] ?? builder.HostEnvironment.BaseAddress) });
 

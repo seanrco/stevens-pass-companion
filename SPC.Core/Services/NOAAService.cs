@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using SPC.Core.Models.NOAA.ActiveAlerts;
 using SPC.Core.Models.NOAA.Forecast;
 
-namespace SPC.Core.Services.NOAA;
+namespace SPC.Core.Services;
 
 public class NOAAService
 {

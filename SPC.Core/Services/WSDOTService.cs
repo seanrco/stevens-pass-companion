@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using SPC.Core.Models.WSDOT.Cameras;
 using SPC.Core.Models.WSDOT.Report;
 
-namespace SPC.Core.Services.WSDOT;
+namespace SPC.Core.Services;
 
 public class WSDOTService
 {

@@ -1,0 +1,183 @@
+﻿@inject ILogger<DashboardSummaryCard> _logger
+@inject DashboardService _DashboardService
+
+@if(dashboardSummary == null)
+{
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard Class="pa-4" Elevation="@elevation">
+            <MudStack JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Style="height:200px;">
+                <MudProgressCircular Indeterminate Color="Color.Primary" Size="Size.Large" />
+            </MudStack>
+        </MudCard>
+    </MudItem>
+}
+else
+{
+    var noaa = dashboardSummary.NOAASummary;
+    var wsdot = dashboardSummary.WSDOTSummary;
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard Class="pa-4" Elevation="2">
+            <!-- Header -->
+            <MudStack Row AlignItems="AlignItems.Center" Spacing="2">
+                <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                    <MudImage Src="@avatarImageUrl" Alt="@title"></MudImage>
+                </MudAvatar>
+                <MudStack>
+                    <MudText Typo="Typo.h6">@title</MudText>
+@*                     <MudText Typo="Typo.caption" Color="Color.Secondary">
+                        Updated: 12/28/2025 2:14 PM
+                    </MudText> *@
+                </MudStack>
+            </MudStack>
+            <!-- Divider -->
+            <MudDivider Class="my-3" />
+            <!-- WSDOT -->
+            @if(wsdot is not null)
+            {
+                string mountainPassName = wsdot?.MountainPassName ?? string.Empty;
+                string restrictionOneText = wsdot?.RestrictionOneText ?? string.Empty;
+                string restrictionOneTravelDirection = wsdot?.RestrictionOneTravelDirection ?? string.Empty;
+                string restrictionTwoText = wsdot?.RestrictionTwoText ?? string.Empty;
+                string restrictionTwoTravelDirection = wsdot?.RestrictionTwoTravelDirection ?? string.Empty;
+
+                <MudText Typo="Typo.subtitle1" Class="mb-2">@mountainPassName</MudText>
+                <MudStack Spacing="2">
+                    @if (restrictionOneText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        <MudAlert Severity="Severity.Error" Dense>
+                            <MudText>
+                                @restrictionOneTravelDirection
+                            </MudText>
+                        </MudAlert>
+                    }
+                    else
+                    {
+                        <MudAlert Severity="Severity.Success" Dense>
+                            <MudText>
+                                @restrictionOneTravelDirection
+                            </MudText>
+                        </MudAlert>
+                    }
+                    @if (restrictionTwoText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        <MudAlert Severity="Severity.Error" Dense>
+                            <MudText>
+                                @restrictionTwoTravelDirection
+                            </MudText>
+                        </MudAlert>
+                    }
+                    else
+                    {
+                        <MudAlert Severity="Severity.Success" Dense>
+                            <MudText Typo="Typo.body1">
+                                @restrictionTwoTravelDirection
+                            </MudText>
+                        </MudAlert>
+                    }
+                </MudStack>
+            }
+            <!-- Divider -->
+            <MudDivider Class="my-3" />
+            <!-- NOAA -->
+            @if(noaa is not null)
+            {
+                string dateUpdated = noaa?.DateUpdated?.FormatDateTime() ?? string.Empty;
+                Period? period = noaa?.Period ?? null;
+
+                if(period is not null)
+                {
+                    string name = period?.Name ?? string.Empty;
+                    DateTime? startTime = period?.StartTime ?? default;
+                    DateTime? endTime = period?.EndTime ?? default;
+                    int temperature = period?.Temperature ?? default;
+                    string windDirection = period?.WindDirection ?? string.Empty;
+                    string windSpeed = period?.WindSpeed ?? string.Empty;
+                    string icon = period?.Icon ?? string.Empty;
+                    string shortForecast = period?.ShortForecast ?? string.Empty;
+                    string detailedForecast = period?.DetailedForecast ?? string.Empty;
+
+                    <MudStack Row AlignItems="AlignItems.Center" Spacing="2">
+                        <MudAvatar Variant="Variant.Filled" Color="Color.Info">
+                            <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
+                        </MudAvatar>
+
+                        <MudStack>
+                            <MudText Typo="Typo.subtitle1">@name</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                @shortForecast · @temperature F · @windSpeed @windDirection
+                            </MudText>
+                        </MudStack>
+                    </MudStack>
+                    <MudText Typo="Typo.body2" Class="mt-2">@detailedForecast</MudText>
+                    @*<MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText> *@
+                    <MudDivider Class="my-3" />
+                }
+            }
+            <!-- Divider -->
+            <MudDivider Class="my-3" />
+            <!-- Footer -->
+            <MudButton Variant="Variant.Text" Color="Color.Primary">
+                See Full Report
+            </MudButton>
+        </MudCard>
+    </MudItem>
+}
+
+
+@code {
+
+    [Parameter]
+    public string Value { get; set; }
+
+    private string wsdotApiAlertText = "Looks like there was an issue with the WSDOT API. " + 
+        "Please try checking the full report using the link below.";
+
+    private int elevation = 1;
+    private DashboardSummary? dashboardSummary;
+
+    private string avatarImageUrl = string.Empty;
+    private string title = string.Empty;
+    private string id = string.Empty;
+    private string wsdotPassId = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (Value.Equals("StevensPass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                avatarImageUrl = "images/stevens-pass-logo.jpg";
+                title = "Stevens Pass";
+                wsdotPassId = "10";
+            }
+            else if (Value.Equals("Crystal", StringComparison.InvariantCultureIgnoreCase))
+            {
+                avatarImageUrl = "images/crystal-mountain-logo.png";
+                title = "Crystal Mountain";
+                wsdotPassId = "5";
+            }
+            else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
+            {
+                avatarImageUrl = "images/snoqualmie-pass-logo.jpg";
+                title = "Snoqualmie Pass";
+                wsdotPassId = "10";
+            }
+            else if (Value.Equals("MtBaker", StringComparison.InvariantCultureIgnoreCase))
+            {
+                avatarImageUrl = "images/mt-baker-logo.jpg";
+                title = "Mt. Baker";
+                wsdotPassId = "10";
+            }
+
+            dashboardSummary = await _DashboardService.GetSummaryAsync(wsdotPassId);
+
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
+    }
+
+}
