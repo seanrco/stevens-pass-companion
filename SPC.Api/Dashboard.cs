@@ -21,13 +21,15 @@ public class Dashboard
 
     [Function("DashboardSummary")]
     public async Task<HttpResponseData> GetSummaryAsync(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "Dashboard/GetSummary/{id}")] HttpRequestData req,
-        string id,
+        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "Dashboard/GetSummary/{wsdotId}/{latitude}/{longitude}")] HttpRequestData req,
+        string wsdotId,
+        string latitude, 
+        string longitude,
         FunctionContext executionContext)
     {
         try
         {
-            var result = await _dashboardService.GetDashboardSummaryAsync(id);
+            var result = await _dashboardService.GetDashboardSummaryAsync(wsdotId, latitude, longitude);
 
             if (result == null)
             {

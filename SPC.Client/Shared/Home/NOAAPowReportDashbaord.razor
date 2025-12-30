@@ -72,7 +72,7 @@
     {
         try
         {
-            noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+            noaaStevensPassForecast = await _NOAAService.GetForecastAsync("25", "115");
         }
         catch (Exception ex)
         {

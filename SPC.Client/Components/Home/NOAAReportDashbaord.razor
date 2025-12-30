@@ -134,7 +134,7 @@ else
         try
         {
             // _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
-            noaaStevensPassForecast = await _NOAAService.GetForecastAsync();
+            noaaStevensPassForecast = await _NOAAService.GetForecastAsync("25", "115");
         }
         catch (Exception ex)
         {

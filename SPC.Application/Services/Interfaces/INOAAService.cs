@@ -6,5 +6,5 @@ namespace SPC.Application.Services.Interfaces;
 public interface INOAAService
 {
     Task<NOAAActiveAlerts> GetActiveAlerts();
-    Task<NOAAForecast> GetForecast();
+    Task<NOAAForecast> GetForecast(string latitude, string longitude);
 }

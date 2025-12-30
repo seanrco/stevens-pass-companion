@@ -20,17 +20,21 @@ public class DashboardService : IDashboardService
         _noaaRepository = noaaRepository;
     }
 
-    public async Task<DashboardSummary> GetDashboardSummaryAsync(string id)
+    public async Task<DashboardSummary> GetDashboardSummaryAsync(string wsdotId,
+        string latitude,
+        string longitude)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(wsdotId) ||
+                string.IsNullOrWhiteSpace(latitude) ||
+                string.IsNullOrWhiteSpace(longitude))
             {
                 return null;
             }
 
-            var wsdotReport = _wsdotRepository.GetMountainPassConditionAsync(id);
-            var noaaForecast = _noaaRepository.GetForecast();
+            var wsdotReport = _wsdotRepository.GetMountainPassConditionAsync(wsdotId);
+            var noaaForecast = _noaaRepository.GetForecast(latitude, longitude);
 
             if (wsdotReport == null || noaaForecast == null)
             {

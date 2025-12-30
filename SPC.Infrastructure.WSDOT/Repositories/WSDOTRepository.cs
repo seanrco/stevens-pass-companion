@@ -34,7 +34,7 @@ public class WSDOTRepository : IWSDOTRepository
 
     public async Task<WSDOTReport> GetMountainPassConditionAsync(string id)
     {
-        string CACHE_KEY = "WSDOT_Pass_Conditions_" + id;
+        string CACHE_KEY = $"WSDOT_Pass_Conditions_{id}";
 
         try
         {
@@ -94,7 +94,7 @@ public class WSDOTRepository : IWSDOTRepository
         string startingMilepost,
         string endingMilepost)
     {
-        string CACHE_KEY = "WSDOT_Pass_Conditions_" + stateRoute;
+        string CACHE_KEY = $"WSDOT_Pass_Conditions_{stateRoute}_{startingMilepost}_{endingMilepost}";
 
         try
         {

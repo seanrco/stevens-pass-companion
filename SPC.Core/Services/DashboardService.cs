@@ -16,12 +16,12 @@ public class DashboardService
         _httpClient = httpClient;
     }
 
-    public async Task<DashboardSummary?> GetSummaryAsync(string id)
+    public async Task<DashboardSummary?> GetSummaryAsync(string wsdotId, string latitude, string longitude)
     {
         try
         {
             HttpResponseMessage response = await _httpClient
-                .GetAsync($"/api/Dashboard/GetSummary/{id}");
+                .GetAsync($"/api/Dashboard/GetSummary/{wsdotId}/{latitude}/{longitude}");
 
             if (response.IsSuccessStatusCode)
             {

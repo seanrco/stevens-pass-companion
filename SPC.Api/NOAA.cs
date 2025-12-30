@@ -58,11 +58,13 @@ public class NOAA
     [Function("NOAAGetForecast")]
     public async Task<HttpResponseData> GetReportAsync(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post",
-        Route = "NOAA/GetForecast")] HttpRequestData req)
+        Route = "NOAA/GetForecast/{latitude}/{longitude}")] HttpRequestData req,
+        string latitude, 
+        string longitude)
     {
         try
         {
-            var result = await _noaaService.GetForecast();
+            var result = await _noaaService.GetForecast(latitude, longitude);
 
             if (result == null)
             {

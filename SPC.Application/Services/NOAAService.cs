@@ -24,9 +24,9 @@ public class NOAAService : INOAAService
         return await _noaaRepository.GetActiveAlerts();
     }
 
-    public async Task<NOAAForecast> GetForecast()
+    public async Task<NOAAForecast> GetForecast(string latitude, string longitude)
     {
-        return await _noaaRepository.GetForecast();
+        return await _noaaRepository.GetForecast(latitude, longitude);
     }
 
 }

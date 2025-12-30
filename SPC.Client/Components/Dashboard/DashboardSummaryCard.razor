@@ -24,7 +24,7 @@ else
                     <MudImage Src="@avatarImageUrl" Alt="@title"></MudImage>
                 </MudAvatar>
                 <MudStack>
-                    <MudText Typo="Typo.h6">@title</MudText>
+                    <MudText Typo="Typo.h5">@title</MudText>
 @*                     <MudText Typo="Typo.caption" Color="Color.Secondary">
                         Updated: 12/28/2025 2:14 PM
                     </MudText> *@
@@ -139,6 +139,8 @@ else
     private string title = string.Empty;
     private string id = string.Empty;
     private string wsdotPassId = string.Empty;
+    private string latitude = string.Empty;
+    private string longitude = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -149,33 +151,43 @@ else
                 avatarImageUrl = "images/stevens-pass-logo.ico";
                 title = "Stevens Pass";
                 wsdotPassId = "10";
+                latitude = "25";
+                longitude = "115";
             }
             else if (Value.Equals("Crystal", StringComparison.InvariantCultureIgnoreCase))
             {
                 avatarImageUrl = "images/crystal-mountain-logo.png";
                 title = "Crystal Mountain";
                 wsdotPassId = "5";
+                latitude = "144";
+                longitude = "30";
             }
             else if (Value.Equals("SnoqualmiePass", StringComparison.InvariantCultureIgnoreCase))
             {
                 avatarImageUrl = "images/snoqualmie-pass-logo.jpg";
                 title = "Snoqualmie Pass";
                 wsdotPassId = "11";
+                latitude = "25";
+                longitude = "115";
             }
             else if (Value.Equals("MtBaker", StringComparison.InvariantCultureIgnoreCase))
             {
                 avatarImageUrl = "images/mt-baker-logo.jpg";
                 title = "Mt. Baker";
                 wsdotPassId = "6";
+                latitude = "152";
+                longitude = "120";
             }
             else if (Value.Equals("WhitePass", StringComparison.InvariantCultureIgnoreCase))
             {
                 avatarImageUrl = "images/white-pass-logo.ico";
                 title = "White Pass Ski Area";
                 wsdotPassId = "12";
+                latitude = "25";
+                longitude = "115";
             }
 
-            dashboardSummary = await _DashboardService.GetSummaryAsync(wsdotPassId);
+            dashboardSummary = await _DashboardService.GetSummaryAsync(wsdotPassId, latitude, longitude);
 
         }
         catch (Exception ex)

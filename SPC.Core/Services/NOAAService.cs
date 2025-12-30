@@ -46,12 +46,12 @@ public class NOAAService
         return null;
     }
 
-    public async Task<NOAAForecast?> GetForecastAsync()
+    public async Task<NOAAForecast?> GetForecastAsync(string latitude, string longitude)
     {
         try
         {
             HttpResponseMessage response = await _httpClient
-                .GetAsync("/api/NOAA/GetForecast");
+                .GetAsync($"/api/NOAA/GetForecast/{latitude}/{longitude}");
 
             if (response.IsSuccessStatusCode)
             {

@@ -6,5 +6,5 @@ namespace SPC.Application.Repositories.Interfaces;
 public interface INOAARepository
 {
     Task<NOAAActiveAlerts> GetActiveAlerts();
-    Task<NOAAForecast> GetForecast();
+    Task<NOAAForecast> GetForecast(string latitude, string longitude);
 }

@@ -19,7 +19,6 @@ public class NOAARepository : INOAARepository
     private readonly IMemoryCache _memoryCache;
 
     private const string USER_AGENT = "StevensPassCompanionApp";
-    private const string CACHE_KEY_NOAA_FORECAST = "NOAA_Forecast";
     private const string CACHE_KEY_NOAA_ACTIVE_ALERTS = "NOAA_ActiveAlerts";
     private const int CACHE_DURATION_MINUTES = 5;
 
@@ -85,10 +84,12 @@ public class NOAARepository : INOAARepository
         }
     }
 
-    public async Task<NOAAForecast> GetForecast()
+    public async Task<NOAAForecast> GetForecast(string latitude, string longitude)
     {
         try
         {
+            string CACHE_KEY_NOAA_FORECAST = $"NOAA_Forecast_{latitude}_{longitude}";
+
             var options = new JsonSerializerOptions
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -103,7 +104,7 @@ public class NOAARepository : INOAARepository
                 return cachedDto?.ToDomain();
             }
 
-            string url = "https://api.weather.gov/gridpoints/OTX/25,115/forecast";
+            string url = $"https://api.weather.gov/gridpoints/OTX/{latitude},{longitude}/forecast";
 
             HttpClient? httpClient = _httpClientFactory.CreateClient();
 
