@@ -1,6 +1,6 @@
-﻿using SPC.Domain.Models.NOAA.Forecast;
+﻿using SPC.Core.Models.NOAA.Forecast;
 
-namespace SPC.Domain.Models.Dashboard;
+namespace SPC.Core.Models.Dashboard;
 
 public class DashboardSummary
 {

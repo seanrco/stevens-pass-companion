@@ -1,0 +1,300 @@
+﻿@page "/mtn/stevens-pass"
+
+@inject ILogger<NOAA> _logger
+@inject NOAAService _NOAAService
+@inject Blazored.LocalStorage.ILocalStorageService _localStorageService
+
+<PageTitle>Stevens Pass Companion - @title</PageTitle>
+
+<BreadcrumbsComp Value="@breadcrumbs"></BreadcrumbsComp>
+
+<TitleComp Value="@title"></TitleComp>
+
+@* <SubtitleComp Value="@subtitle"></SubtitleComp> *@
+
+<WSDOTReportComp Value="StevensPass"></WSDOTReportComp>
+<WSDOTCamerasComp Value="StevensPass"></WSDOTCamerasComp>
+
+<ExternalSiteButtonComp Label="NOAA" 
+    Href="https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y777lBaIbVZ"
+    Name="Visit noaa.us"></ExternalSiteButtonComp>
+
+@if (noaaActiveAlerts != null)
+{
+    Feature[]? features = noaaActiveAlerts?.Features?.Length > 0 
+        ? noaaActiveAlerts?.Features?.Take(1)?.ToArray() 
+        : null;
+
+    if (features != null && features.Length > 0)
+    {
+        <MudContainer Class="mb-8">
+            <MudGrid>
+                @foreach (Feature feature in features)
+                {
+                    string title = feature?.Properties?.Event ?? string.Empty;
+                    string headline = feature?.Properties?.Headline ?? string.Empty;
+                    string description = feature?.Properties?.Description ?? string.Empty;
+                    string instruction = feature?.Properties?.Instruction ?? string.Empty;
+
+
+                    if (!string.IsNullOrEmpty(title))
+                    {
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.h5">@title</MudText>
+                        </MudItem>
+                    }
+
+                    <MudItem xs="12" sm="12" md="12">
+                        <div class="mx-auto">
+                            <MudExpansionPanels>
+                                <MudExpansionPanel Style="background-color: var(--mud-palette-warning-hover) !important; color: var(--mud-palette-warning-darken) !important;">
+                                    <TitleContent>
+                                        <div class="d-flex">
+                                            <MudIcon Icon="@Icons.Material.Filled.WarningAmber" class="mr-3"></MudIcon>
+                                            <MudText>@headline</MudText>
+                                        </div>
+                                    </TitleContent>
+                                    <ChildContent>
+                                        @if (!string.IsNullOrEmpty(description))
+                                        {
+                                            <MudText Class="mb-4">
+
+                                                @((MarkupString)Regex.Replace(
+                                                        HttpUtility.HtmlEncode(description), "\r?\n\n|\r", "<br /><br />"))
+                                            </MudText>
+                                        }
+                                        @if (!string.IsNullOrEmpty(instruction))
+                                        {
+                                            <MudText Class="mb-4">
+                                                @((MarkupString)Regex.Replace(
+                                                        HttpUtility.HtmlEncode(instruction), "\r?\n\n|\r", "<br /><br />"))
+                                            </MudText>
+                                        }
+                                    </ChildContent>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+                        </div>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudContainer>
+
+    }
+
+}
+
+@if (noaaStevensPassForecast == null)
+{
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="25px" />
+            </MudItem>
+
+            @for (int i = 0; i < 14; i++)
+            {
+                <MudItem xs="12">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudSkeleton SkeletonType="SkeletonType.Circle"
+                                Animation="MudBlazor.Animation.Wave"
+                                Height="40px" Width="40px" />
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="40%" />
+                                <MudSkeleton Animation="MudBlazor.Animation.Wave" Width="60%" />
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Animation="MudBlazor.Animation.Wave" Height="150px" />
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudContainer>
+
+}
+else if (noaaStevensPassForecast != null)
+{
+    string elevation = UnitDistanceUtilities.ConvertMetersToFeet(noaaStevensPassForecast?.Properties?.Elevation?.Value) ?? string.Empty;
+    DateTime? updated = noaaStevensPassForecast?.Properties?.UpdateTime ?? null;
+    Period[]? periods = noaaStevensPassForecast?.Properties?.Periods ?? null;
+
+    <MudContainer Class="mb-4">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h5">Stevens Pass Forecast</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Left">Updated: @updated.FormatDateTime()</MudText>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
+    if (periods != null && periods.Length > 0)
+    {
+        var filters = periods.GroupBy(p => p.ShortForecast)
+                         .Select(p => new
+                         {
+                             ShortName = p.Key,
+                             Count = p.Count()
+                         })
+                         .OrderBy(n => n.ShortName);
+
+        Period[] filteredPeriods;
+
+        filteredPeriods = selectedFilters != null && selectedFilters.Count() > 0
+            ? filteredPeriods = periods.Where(p => selectedFilters.Any(s => s.Equals(p.ShortForecast))).ToArray()
+            : filteredPeriods = periods.ToArray();
+
+        <MudContainer Class="mb-8">
+            <MudGrid>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudCard Elevation="0">
+                        <MudCardContent>
+                            <MudSelect T="string" Label="Filter by conditions:" MultiSelection="true" @bind-SelectedValues="selectedFilters" Clearable>
+                                @foreach (var s in filters)
+                                {
+                                    <MudSelectItem T="string" Value="s.ShortName">@s.ShortName (@s.Count)</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+
+        <MudContainer Class="mb-8">
+            <MudGrid>
+                @foreach (Period period in filteredPeriods)
+                {
+                    if (period != null)
+                    {
+                        string name = period?.Name ?? string.Empty;
+                        DateTime? startTime = period?.StartTime ?? default;
+                        DateTime? endTime = period?.EndTime ?? default;
+                        int? temperature = period?.Temperature;
+                        string windDirection = period?.WindDirection ?? string.Empty;
+                        string windSpeed = period?.WindSpeed ?? string.Empty;
+                        string icon = period?.Icon ?? string.Empty;
+                        string shortForecast = period?.ShortForecast ?? string.Empty;
+                        string detailedForecast = period?.DetailedForecast ?? string.Empty;
+
+                        <MudItem xs="12" sm="12" md="6">
+                            <MudCard style="height:100%">
+                                <MudCardHeader>
+                                    <CardHeaderAvatar>
+                                        <MudAvatar Color="Color.Secondary" Size="Size.Large">
+                                            <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
+                                        </MudAvatar>
+                                    </CardHeaderAvatar>
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.h6"><b>@name</b></MudText>
+                                        <MudText Typo="Typo.subtitle1">@shortForecast</MudText>
+                                        <MudText Typo="Typo.subtitle2">@temperature F / @windSpeed @windDirection</MudText>
+                                    </CardHeaderContent>
+                                    @*                                     <CardHeaderActions>
+                                        <MudToggleIconButton Icon="@Icons.Material.Filled.StarBorder" Title="Save"
+                                                             ToggledIcon="@Icons.Material.Filled.Star" ToggledTitle="Saved"
+                                                             ToggledChanged="@(args => ToggleSavePeriod(args, period))"
+                                                             Toggled="@period.NoaaCheckSavedPeriod(_noaaSavedPeriods)" />
+                                    </CardHeaderActions> *@
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body1">@detailedForecast</MudText>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText>
+                                </MudCardActions>
+                            </MudCard>
+                        </MudItem>
+                    }
+                }
+            </MudGrid>
+        </MudContainer>
+    }
+
+}
+else
+{
+    <MudContainer Class="mb-8">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudAlert Severity="Severity.Warning" Elevation="@elevation">
+                    <MudText Typo="Typo.body1">@noaaApiAlertText</MudText>
+                </MudAlert>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+}
+
+
+@code {
+
+    private int elevation = 1;
+
+    private static readonly string title = "Stevens Pass";
+
+    private readonly string subtitle = "Before travelling be sure to also visit the official full NOAA Forecast.";
+
+    private readonly List<BreadcrumbItem> breadcrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/"),
+        new BreadcrumbItem(title, href: null, disabled: true),
+    };
+
+    private readonly string noaaApiAlertText = "Looks like there is an issue with the NOAA API. " +
+        "Please try reloading the page ." + 
+        "If still not working please reference the NOAA site for the current forecast using link above.";
+
+    private readonly string noaaReportUrl = "https://forecast.weather.gov/MapClick.php?lat=47.7462&lon=-121.0859#.Y6a2wNXMK38s";
+
+    private readonly string noaaReportButtonText = "noaa.com";
+
+
+
+    private NOAAActiveAlerts? noaaActiveAlerts;
+    private NOAAForecast? noaaStevensPassForecast;
+
+    private IEnumerable<string> selectedFilters { get; set; } = new HashSet<string>() { };
+
+    // private string _noaaSavedPeriods { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+            noaaActiveAlerts = await _NOAAService.GetActiveAlertsAsync();
+            noaaStevensPassForecast = await _NOAAService.GetForecastAsync("25", "115");
+        }
+        catch(Exception ex)
+        {
+            Console.Error.WriteLine(ex.Message + ex.StackTrace);
+            _logger.LogError(ex.Message + ex.StackTrace);
+        }
+    }
+
+    // public async Task ToggleSavePeriod(bool toggled, Period period)
+    // {
+    //     if (toggled)
+    //     {
+    //         await _localStorageService.SetItemAsync(
+    //             "NOAA_SAVED_PERIODS", 
+    //             period.NoaaAddSavedPeriod(_noaaSavedPeriods)
+    //         );
+    //     }
+    //     else
+    //     {
+    //         await _localStorageService.SetItemAsync(
+    //             "NOAA_SAVED_PERIODS", 
+    //             period.NoaaRemoveSavedPeriod(_noaaSavedPeriods)
+    //         );
+    //     }
+
+    //     _noaaSavedPeriods = await _localStorageService.GetItemAsync<string>("NOAA_SAVED_PERIODS") ?? string.Empty;
+    // }
+
+
+}

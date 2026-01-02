@@ -13,3 +13,7 @@
 .mud-avatar-filled.mud-avatar-filled-secondary {
     background-color: lightgray !important;
 }
+
+.mud-underline-text {
+    text-decoration: underline;
+}

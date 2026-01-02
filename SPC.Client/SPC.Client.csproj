@@ -13,10 +13,11 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.1" />
     <PackageReference Include="MudBlazor" Version="8.15.0" />
     <PackageReference Include="System.Text.Json" Version="10.0.1" />
+    <PackageReference Include="TimeZoneConverter" Version="7.2.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SPC.Core\SPC.Core.csproj" />
+      <ProjectReference Include="..\SPC.Domain\SPC.Domain.csproj" />
     </ItemGroup>
 
 	<!-- Dev Note - Setting is required to resolve https://github.com/MudBlazor/MudBlazor/discussions/10514 -->

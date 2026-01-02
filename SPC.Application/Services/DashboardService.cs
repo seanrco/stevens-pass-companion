@@ -54,7 +54,7 @@ public class DashboardService : IDashboardService
             var noaaSummary = new NOAASummary()
             {
                 DateUpdated = noaaForecast?.Result?.Properties?.Updated ?? null,
-                Period = noaaForecast?.Result?.Properties?.Periods?.FirstOrDefault() ?? null
+                Periods = noaaForecast?.Result?.Properties?.Periods?.Take(2).ToArray() ?? null
             };
 
             var dashboardSummary = new DashboardSummary()

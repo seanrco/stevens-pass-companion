@@ -41,7 +41,48 @@ else
                 string restrictionTwoText = wsdot?.RestrictionTwoText ?? string.Empty;
                 string restrictionTwoTravelDirection = wsdot?.RestrictionTwoTravelDirection ?? string.Empty;
 
-                <MudText Typo="Typo.subtitle1" Class="mb-2">@mountainPassName</MudText>
+                <MudText Typo="Typo.subtitle2" Class="mb-2">@mountainPassName</MudText>
+@* 
+                <MudGrid Spacing="2">
+                    <MudItem xs="6">
+                        @if (restrictionOneText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            <MudAlert Severity="Severity.Error" Dense>
+                                <MudText>
+                                    @restrictionOneTravelDirection
+                                </MudText>
+                            </MudAlert>
+                        }
+                        else
+                        {
+                            <MudAlert Severity="Severity.Success" Dense>
+                                <MudText>
+                                    @restrictionOneTravelDirection
+                                </MudText>
+                            </MudAlert>
+                        }
+                    </MudItem>
+                    <MudItem xs="6">
+                        @if (restrictionTwoText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            <MudAlert Severity="Severity.Error" Dense>
+                                <MudText>
+                                    @restrictionTwoTravelDirection
+                                </MudText>
+                            </MudAlert>
+                        }
+                        else
+                        {
+                            <MudAlert Severity="Severity.Success" Dense>
+                                <MudText Typo="Typo.body1">
+                                    @restrictionTwoTravelDirection
+                                </MudText>
+                            </MudAlert>
+                        }
+                    </MudItem>
+                </MudGrid> *@
+
+
                 <MudStack Spacing="2">
                     @if (restrictionOneText.Contains("closed", StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -82,41 +123,48 @@ else
             <!-- NOAA -->
             @if(noaa is not null)
             {
+                <MudText Typo="Typo.subtitle2" Class="mb-2">NOAA Forecast</MudText>
+
                 string dateUpdated = noaa?.DateUpdated?.FormatDateTime() ?? string.Empty;
-                Period? period = noaa?.Period ?? null;
+                Period[]? periods = noaa?.Periods ?? null;
 
-                if(period is not null)
+                if (periods != null && periods.Length > 0)
                 {
-                    string name = period?.Name ?? string.Empty;
-                    DateTime? startTime = period?.StartTime ?? default;
-                    DateTime? endTime = period?.EndTime ?? default;
-                    int temperature = period?.Temperature ?? default;
-                    string windDirection = period?.WindDirection ?? string.Empty;
-                    string windSpeed = period?.WindSpeed ?? string.Empty;
-                    string icon = period?.Icon ?? string.Empty;
-                    string shortForecast = period?.ShortForecast ?? string.Empty;
-                    string detailedForecast = period?.DetailedForecast ?? string.Empty;
+                    @foreach (var period in periods)
+                    {
+                        string name = period?.Name ?? string.Empty;
+                        DateTime? startTime = period?.StartTime ?? default;
+                        DateTime? endTime = period?.EndTime ?? default;
+                        int temperature = period?.Temperature ?? default;
+                        string windDirection = period?.WindDirection ?? string.Empty;
+                        string windSpeed = period?.WindSpeed ?? string.Empty;
+                        string icon = period?.Icon ?? string.Empty;
+                        string shortForecast = period?.ShortForecast ?? string.Empty;
+                        string detailedForecast = period?.DetailedForecast ?? string.Empty;
 
-                    <MudStack Row AlignItems="AlignItems.Center" Spacing="2">
-                        <MudAvatar Variant="Variant.Filled" Color="Color.Info">
-                            <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
-                        </MudAvatar>
-
-                        <MudStack>
-                            <MudText Typo="Typo.subtitle1">@name</MudText>
-                            <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @shortForecast · @temperature F · @windSpeed @windDirection
-                            </MudText>
+                        <MudStack Row AlignItems="AlignItems.Center" Spacing="3" Class="mb-3"> 
+                            <MudAvatar Variant="Variant.Filled" Color="Color.Info">
+                                <MudImage Src="@icon" Alt="@shortForecast"></MudImage>
+                            </MudAvatar>
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.body1">@name</MudText>
+                                <MudText Typo="Typo.body2">
+                                    @shortForecast - @temperature F - @windSpeed @windDirection
+                                </MudText>
+@*                                 <MudText Typo="Typo.body2">
+                                    @temperature F - @windSpeed @windDirection
+                                </MudText> *@
+                            </MudStack>
                         </MudStack>
-                    </MudStack>
-                    <MudText Typo="Typo.body2" Class="mt-2">@detailedForecast</MudText>
-                    @*<MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText> *@
+                        @* <MudText Typo="Typo.caption" Class="mt-2">@detailedForecast</MudText> *@
+                        @*<MudText Typo="Typo.caption">@startTime.FormatDateTime() to @endTime.FormatDateTime()</MudText> *@
+                    }
                 }
             }
             <!-- Divider -->
             <MudDivider Class="my-3" />
             <!-- Footer -->
-            <MudButton Variant="Variant.Text" Color="Color.Primary">
+            <MudButton Variant="Variant.Text" Href="@mtnUrl" Label="See Full Report">
                 See Full Report
             </MudButton>
         </MudCard>
@@ -141,6 +189,7 @@ else
     private string wsdotPassId = string.Empty;
     private string latitude = string.Empty;
     private string longitude = string.Empty;
+    private string mtnUrl = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -153,6 +202,7 @@ else
                 wsdotPassId = "10";
                 latitude = "25";
                 longitude = "115";
+                mtnUrl = "/mtn/stevens-pass";
             }
             else if (Value.Equals("Crystal", StringComparison.InvariantCultureIgnoreCase))
             {

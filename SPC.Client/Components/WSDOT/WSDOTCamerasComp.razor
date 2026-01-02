@@ -23,28 +23,35 @@
 }
 else if (wsdotCameras != null && wsdotCameras.Count() > 0)
 {
-    <MudContainer Class="mb-8">
-        <MudGrid>
-            @foreach (WSDOTCamera camera in wsdotCameras)
-            {
-                if (camera != null)
-                {
-                    string imgUrl = camera?.ImageURL;
 
-                    if (!string.IsNullOrWhiteSpace(imgUrl))
+
+    <MudContainer Class="mb-8">
+        <MudExpansionPanels>
+            <MudExpansionPanel Text="Cameras">
+                <MudGrid>
+                    @foreach (WSDOTCamera camera in wsdotCameras)
                     {
-                        <MudItem xs="12" sm="6" md="4">
-                            <MudCard>
-                                <MudCardMedia Image="@imgUrl" />
-@*                                 <MudCardContent>
+                        if (camera != null)
+                        {
+                            string imgUrl = camera?.ImageURL;
+
+                            if (!string.IsNullOrWhiteSpace(imgUrl))
+                            {
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudCard>
+                                        <MudCardMedia Image="@imgUrl" />
+                                        @*                                 <MudCardContent>
                                     <MudImage Src="@imgUrl"  Alt="SP Cam" Elevation="1" Class="rounded-lg" />
                                 </MudCardContent> *@
-                            </MudCard>
-                        </MudItem>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        }
                     }
-                }
-            }
-        </MudGrid>
+                </MudGrid>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+
     </MudContainer>
 
 }
@@ -92,4 +99,6 @@ else
         }
     }
 
+
+    private MudCarousel<string> _carousel;
 }
